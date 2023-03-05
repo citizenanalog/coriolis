@@ -51,13 +51,11 @@ pub fn read_with_timeout(
     context: &mut client::Context,
     timeout: Duration,
 ) -> impl Future<Item = Temperature, Error = Error> {
-    read_temperature(context).timeout(timeout)
+    read_temperature(context)
+        .timeout(timeout)
         .map_err(move |err| {
             err.into_inner().unwrap_or_else(|| {
-                Error::new(
-                    ErrorKind::TimedOut,
-                    String::from("reading timed out"),
-                )
+                Error::new(ErrorKind::TimedOut, String::from("reading timed out"))
             })
         })
 }
@@ -84,7 +82,8 @@ pub fn read_temperature_with_timeout(
     context: &mut client::Context,
     timeout: Duration,
 ) -> impl Future<Item = Temperature, Error = Error> {
-    read_temperature(context).timeout(timeout)
+    read_temperature(context)
+        .timeout(timeout)
         .map_err(move |err| {
             err.into_inner().unwrap_or_else(|| {
                 Error::new(
@@ -289,7 +288,10 @@ impl SlaveProxy {
         }
     }
 
-    pub fn read_raw_counts(&self, timeout: Option<Duration>) -> impl Future<Item = RawCounts, Error = Error> {
+    pub fn read_raw_counts(
+        &self,
+        timeout: Option<Duration>,
+    ) -> impl Future<Item = RawCounts, Error = Error> {
         match self.shared_context() {
             Ok(shared_context) => {
                 let mut context = shared_context.borrow_mut();
@@ -327,7 +329,10 @@ impl Capabilities for SlaveProxy {
         Box::new(self.read_permittivity(timeout))
     }
 
-    fn read_raw_counts(&self, timeout: Option<Duration>) -> Box<dyn Future<Item = RawCounts, Error = Error>> {
+    fn read_raw_counts(
+        &self,
+        timeout: Option<Duration>,
+    ) -> Box<dyn Future<Item = RawCounts, Error = Error>> {
         Box::new(self.read_raw_counts(timeout))
     }
 }

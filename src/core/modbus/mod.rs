@@ -3,7 +3,7 @@ use super::*;
 #[cfg(feature = "rtu")]
 pub mod rtu;
 
-use core::{fmt, mem, convert::TryInto};
+use core::{convert::TryInto, fmt, mem};
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum DecodeError {
@@ -20,7 +20,6 @@ impl fmt::Display for DecodeError {
             InvalidInput => write!(f, "Invalid input"),
             InvalidData => write!(f, "Invalid data"),
         }
-
     }
 }
 
@@ -42,7 +41,7 @@ fn decode_be_u16_from_bytes(input: &[u8]) -> DecodeResult<(u16, &[u8])> {
 }
 
 pub const TEMPERATURE_REG_START: u16 = 0x017E; //d382
-pub const TEMPERATURE_REG_COUNT: u16 = 0x0002; 
+pub const TEMPERATURE_REG_COUNT: u16 = 0x0002;
 
 /*pub fn decode_temperature_from_u16(input: u16) -> DecodeResult<Temperature> {
     let degree_celsius = f64::from(i32::from(input) - 10000i32) / 100f64;
@@ -62,11 +61,10 @@ pub fn decode_f32_reg(read_bytes: Vec<u16>) -> DecodeResult<Temperature> {
     let float_value: f32 = f32::from_be_bytes(new_bytes);
     Ok(Temperature::from_degree_celsius(float_value))
 }
-/* 
+/*
 pub fn decode_temperature_from_bytes(input: &[u8]) -> DecodeResult<(Temperature, &[u8])> {
     decode_be_u16_from_bytes(input).and_then(|(val, rest)| Ok((decode_temperature_from_u16(val)?, rest)))
 }*/
-
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct VolumetricWaterContentRaw(pub u16);
@@ -91,8 +89,11 @@ pub fn decode_water_content_from_u16(input: u16) -> DecodeResult<VolumetricWater
     }
 }
 
-pub fn decode_water_content_from_bytes(input: &[u8]) -> DecodeResult<(VolumetricWaterContent, &[u8])> {
-    decode_be_u16_from_bytes(input).and_then(|(val, rest)| Ok((decode_water_content_from_u16(val)?, rest)))
+pub fn decode_water_content_from_bytes(
+    input: &[u8],
+) -> DecodeResult<(VolumetricWaterContent, &[u8])> {
+    decode_be_u16_from_bytes(input)
+        .and_then(|(val, rest)| Ok((decode_water_content_from_u16(val)?, rest)))
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -119,7 +120,8 @@ pub fn decode_permittivity_from_u16(input: u16) -> DecodeResult<RelativePermitti
 }
 
 pub fn decode_permittivity_from_bytes(input: &[u8]) -> DecodeResult<(RelativePermittivity, &[u8])> {
-    decode_be_u16_from_bytes(input).and_then(|(val, rest)| Ok((decode_permittivity_from_u16(val)?, rest)))
+    decode_be_u16_from_bytes(input)
+        .and_then(|(val, rest)| Ok((decode_permittivity_from_u16(val)?, rest)))
 }
 
 pub const RAW_COUNTS_REG_START: u16 = 0x0003;
@@ -132,10 +134,11 @@ pub fn decode_raw_counts_from_u16(input: u16) -> DecodeResult<RawCounts> {
 
 #[inline]
 pub fn decode_raw_counts_from_bytes(input: &[u8]) -> DecodeResult<(RawCounts, &[u8])> {
-    decode_be_u16_from_bytes(input).and_then(|(val, rest)| Ok((decode_raw_counts_from_u16(val)?, rest)))
+    decode_be_u16_from_bytes(input)
+        .and_then(|(val, rest)| Ok((decode_raw_counts_from_u16(val)?, rest)))
 }
 
-pub const BROADCAST_SLAVE_ADDR: u8 = 0x6F;  //d111
+pub const BROADCAST_SLAVE_ADDR: u8 = 0x6F; //d111
 pub const BROADCAST_REG_ADDR: u16 = 0x0138; //d312
 
 #[cfg(test)]

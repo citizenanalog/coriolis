@@ -1,7 +1,11 @@
 use super::*;
 
 use futures::{future, Future};
-use std::{cell::Cell, io::{Error, ErrorKind}, time::{Duration, Instant}};
+use std::{
+    cell::Cell,
+    io::{Error, ErrorKind},
+    time::{Duration, Instant},
+};
 
 use tokio::timer::Delay;
 use tokio::util::FutureExt;
@@ -42,7 +46,7 @@ impl Proxy {
         RelativePermittivity::min()
     }
 
-    pub /*const*/ fn default_raw_counts() -> RawCounts {
+    pub fn default_raw_counts() -> RawCounts {
         Default::default()
     }
 
@@ -105,7 +109,10 @@ impl Proxy {
     }
 
     /// Implementation of Capabilities::read_raw_counts()
-    pub fn read_raw_counts(&self, timeout: Option<Duration>) -> impl Future<Item = RawCounts, Error = Error> {
+    pub fn read_raw_counts(
+        &self,
+        timeout: Option<Duration>,
+    ) -> impl Future<Item = RawCounts, Error = Error> {
         if let Some(timeout) = timeout {
             future::Either::A(self.delay_value(self.raw_counts, timeout))
         } else {
@@ -175,7 +182,10 @@ impl Capabilities for Proxy {
         Box::new(self.read_permittivity(timeout))
     }
 
-    fn read_raw_counts(&self, timeout: Option<Duration>) -> Box<dyn Future<Item = RawCounts, Error = Error>> {
+    fn read_raw_counts(
+        &self,
+        timeout: Option<Duration>,
+    ) -> Box<dyn Future<Item = RawCounts, Error = Error>> {
         Box::new(self.read_raw_counts(timeout))
     }
 }

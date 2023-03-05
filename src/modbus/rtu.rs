@@ -30,7 +30,7 @@ pub fn connect_path(
     path: impl AsRef<Path>,
 ) -> Box<dyn Future<Item = ClientContext, Error = Error>> {
     log::info!("Connecting to serial port {}", path.as_ref().display());
-    match Serial::from_path_with_handle(path, &SERIAL_PORT_SETTINGS, &handle.new_tokio_handle()) {
+    match Serial::from_path_with_handle(path, &SERIAL_PORT_SETTINGS, handle.new_tokio_handle()) {
         Ok(serial) => Box::new(connect(handle, serial)),
         Err(err) => Box::new(future::err(err)),
     }

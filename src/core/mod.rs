@@ -1,7 +1,7 @@
 #[cfg(feature = "modbus")]
 pub mod modbus;
 
-use core::{fmt, time::Duration, result::Result};
+use core::{fmt, result::Result, time::Duration};
 
 /// (Thermodynamic) Temperature.
 #[derive(Clone, Copy, Debug, PartialEq, PartialOrd)]
@@ -18,7 +18,6 @@ impl Temperature {
         self.0
     }
     //convert u16 words from xmttr to float
-    
 }
 
 impl fmt::Display for Temperature {
@@ -26,7 +25,6 @@ impl fmt::Display for Temperature {
         write!(f, "{} °C", self.to_degree_celsius())
     }
 }
-
 
 /// Volumetric water content (VWC).
 #[derive(Clone, Copy, Debug, PartialEq, PartialOrd)]

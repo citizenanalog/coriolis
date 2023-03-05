@@ -7,10 +7,17 @@ pub fn main() {
     use stream_cancel::{StreamExt, Tripwire};
     use tokio::timer::Interval;
     use tokio_core::reactor::{Core, Handle};
-    use tokio_modbus::prelude::{*, client::util::*};
+    use tokio_modbus::prelude::{client::util::*, *};
 
     use coriolis::{modbus, *};
-    
+
+    use csv::{Reader, Writer, WriterBuilder};
+
+    use std::fs::File;
+    use std::fs::OpenOptions;
+    // Open a file to write the CSV data to
+    let file = File::create("data.csv").expect("hay problemo");
+
     let mut logger_builder = LoggerBuilder::new();
     logger_builder.filter_level(log::LevelFilter::Info);
     if env::var("RUST_LOG").is_ok() {
@@ -44,7 +51,7 @@ pub fn main() {
     // TODO: Parse parameters and options from command-line arguments
     let context_config = ContextConfig {
         handle: core.handle(),
-        tty_path: "COM9".to_owned(),
+        tty_path: "/dev/ttyACM0".to_owned(),
     };
     let slave_config = SlaveConfig {
         slave: Slave::min_device(),
@@ -107,56 +114,49 @@ pub fn main() {
         }
 
         pub fn measure_temperature(mut self) -> impl Future<Item = Self, Error = (Error, Self)> {
-            self
-                .proxy
+            self.proxy
                 .read_temperature(Some(self.config.timeout))
                 .then(move |res| match res {
                     Ok(val) => {
                         self.measurements.temperature = Some(Measurement::new(val));
-                      
+
                         Ok(self)
                     }
                     Err(err) => Err((err, self)),
                 })
         }
 
-/* 
-        pub fn measure_water_content(mut self) -> impl Future<Item = Self, Error = (Error, Self)> {
-            self
-                .proxy
-                .read_water_content(Some(self.config.timeout))
-                .then(move |res| match res {
-                    Ok(val) => {
-                        self.measurements.water_content = Some(Measurement::new(val));
-                        Ok(self)
-                    }
-                    Err(err) => Err((err, self)),
-                })
-        }
+        /*
+                pub fn measure_water_content(mut self) -> impl Future<Item = Self, Error = (Error, Self)> {
+                    self
+                        .proxy
+                        .read_water_content(Some(self.config.timeout))
+                        .then(move |res| match res {
+                            Ok(val) => {
+                                self.measurements.water_content = Some(Measurement::new(val));
+                                Ok(self)
+                            }
+                            Err(err) => Err((err, self)),
+                        })
+                }
 
-        pub fn measure_permittivity(mut self) -> impl Future<Item = Self, Error = (Error, Self)> {
-            self
-                .proxy
-                .read_permittivity(Some(self.config.timeout))
-                .then(move |res| match res {
-                    Ok(val) => {
-                        self.measurements.permittivity = Some(Measurement::new(val));
-                        Ok(self)
-                    }
-                    Err(err) => Err((err, self)),
-                })
-        }
-*/
+                pub fn measure_permittivity(mut self) -> impl Future<Item = Self, Error = (Error, Self)> {
+                    self
+                        .proxy
+                        .read_permittivity(Some(self.config.timeout))
+                        .then(move |res| match res {
+                            Ok(val) => {
+                                self.measurements.permittivity = Some(Measurement::new(val));
+                                Ok(self)
+                            }
+                            Err(err) => Err((err, self)),
+                        })
+                }
+        */
         pub fn recover_after_error(&self, err: &Error) -> impl Future<Item = (), Error = ()> {
-            log::warn!(
-                "Reconnecting after error: {}",
-                err
-            );
+            log::warn!("Reconnecting after error: {}", err);
             self.reconnect().or_else(|err| {
-                log::error!(
-                    "Failed to reconnect: {}",
-                    err
-                );
+                log::error!("Failed to reconnect: {}", err);
                 // Continue and don't leave/terminate the control loop!
                 Ok(())
             })
@@ -179,6 +179,23 @@ pub fn main() {
         );
         core.run(ctrl_loop.broadcast_slave()).unwrap();
     }
+    fn write_to_csv(data: Measurements) -> std::result::Result<(), Box<dyn std::error::Error>> {
+        let file = OpenOptions::new()
+            .append(true)
+            .create(true)
+            .open(String::from("data.csv"))?;
+        let mut wtr: Writer<File> = csv::WriterBuilder::new()
+            .has_headers(true)
+            .from_writer(file);
+        let temp = vec![
+            data.temperature.unwrap().ts.to_string(),
+            data.temperature.unwrap().val.to_string(),
+        ];
+        wtr.write_record(temp)?;
+
+        wtr.flush()?;
+        Ok(())
+    }
 
     let (_trigger, tripwire) = Tripwire::new();
     let cycle_interval = Interval::new_interval(ctrl_loop.config.cycle_time);
@@ -197,6 +214,7 @@ pub fn main() {
                 //.and_then(ControlLoop::measure_permittivity)
                 .then(|res| match res {
                     Ok(ctrl_loop) => {
+                        write_to_csv(ctrl_loop.measurements);
                         log::info!("{:?}", ctrl_loop.measurements);
                         Either::A(futures::future::ok(ctrl_loop))
                     }
