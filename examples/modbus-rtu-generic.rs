@@ -33,7 +33,7 @@ pub fn main() {
     struct ContextConfig {
         handle: Handle,
         tty_path: String,
-    };
+    }
 
     impl NewContext for ContextConfig {
         fn new_context(&self) -> Box<dyn Future<Item = client::Context, Error = Error>> {
@@ -46,7 +46,9 @@ pub fn main() {
         slave: Slave,
         cycle_time: Duration,
         timeout: Duration,
-    };
+        reg_start: u16,
+        reg_count: u16,
+    }
 
     // TODO: Parse parameters and options from command-line arguments
     let context_config = ContextConfig {
@@ -58,6 +60,8 @@ pub fn main() {
         slave: Slave::min_device(),
         cycle_time: Duration::from_millis(1000),
         timeout: Duration::from_millis(500),
+        reg_start: 0x67,
+        reg_count: 0x12,
     };
 
     #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -80,8 +84,7 @@ pub fn main() {
     struct Measurements {
         temperature: Option<Measurement<Temperature>>,
         generic: Option<Measurement<Generic>>,
-        //water_content: Option<Measurement<VolumetricWaterContent>>,
-        //permittivity: Option<Measurement<RelativePermittivity>>,
+
     }
 
     // Only a single slave sensor is used for demonstration purposes here.
@@ -98,7 +101,7 @@ pub fn main() {
         config: SlaveConfig,
         proxy: modbus::SlaveProxy,
         measurements: Measurements,
-    };
+    }
 
     impl ControlLoop {
         pub fn new(config: SlaveConfig, new_context: Box<dyn NewContext>) -> Self {
@@ -142,9 +145,9 @@ pub fn main() {
                 })
         }
 
-        pub fn read_any(mut self) -> impl Future<Item = Self, Error = (Error, Self)> {
+        pub fn measure_any(mut self) -> impl Future<Item = Self, Error = (Error, Self)> {
             self.proxy
-                .read_generic(Some(self.config.timeout))
+                .read_any(Some(self.config.timeout), self.config.reg_start, self.config.reg_count)
                 .then(move |res| match res {
                     Ok(val) => {
                         self.measurements.generic = Some(Measurement::new(val));
@@ -155,33 +158,6 @@ pub fn main() {
                 })
         }
 
-        /*
-                pub fn measure_water_content(mut self) -> impl Future<Item = Self, Error = (Error, Self)> {
-                    self
-                        .proxy
-                        .read_water_content(Some(self.config.timeout))
-                        .then(move |res| match res {
-                            Ok(val) => {
-                                self.measurements.water_content = Some(Measurement::new(val));
-                                Ok(self)
-                            }
-                            Err(err) => Err((err, self)),
-                        })
-                }
-
-                pub fn measure_permittivity(mut self) -> impl Future<Item = Self, Error = (Error, Self)> {
-                    self
-                        .proxy
-                        .read_permittivity(Some(self.config.timeout))
-                        .then(move |res| match res {
-                            Ok(val) => {
-                                self.measurements.permittivity = Some(Measurement::new(val));
-                                Ok(self)
-                            }
-                            Err(err) => Err((err, self)),
-                        })
-                }
-        */
         pub fn recover_after_error(&self, err: &Error) -> impl Future<Item = (), Error = ()> {
             log::warn!("Reconnecting after error: {}", err);
             self.reconnect().or_else(|err| {
@@ -197,7 +173,9 @@ pub fn main() {
     }
 
     log::info!("Connecting: {:?}", context_config);
-    let ctrl_loop = ControlLoop::new(slave_config, Box::new(context_config));
+    let mut ctrl_loop = ControlLoop::new(slave_config, Box::new(context_config));
+    //ctrl_loop.config.reg_start = 0xf6;
+    //ctrl_loop.config.reg_count = 0x02;
     core.run(ctrl_loop.reconnect()).unwrap();
 
     let broadcast_slave = false;
@@ -218,14 +196,17 @@ pub fn main() {
             .from_writer(file);
         //nn to modify for all measurement types
         let temp = vec![
-            data.temperature.unwrap().ts.to_string(),
-            data.temperature.unwrap().val.to_string(),
+            data.generic.as_ref().unwrap().ts.to_string(),
+            data.generic.as_ref().unwrap().val.to_string(),
         ];
         wtr.write_record(temp)?;
 
         wtr.flush()?;
         Ok(())
     }
+
+    let reg_start: u16 = 0x67; //d103
+    let reg_count: u16 = 0x12;  
 
     let (_trigger, tripwire) = Tripwire::new();
     let cycle_interval = Interval::new_interval(ctrl_loop.config.cycle_time);
@@ -239,10 +220,9 @@ pub fn main() {
             // is consumed and returned upon each step to update the
             // measurement after reading a new value asynchronously.
             futures::future::ok(ctrl_loop)
-                //.and_then(ControlLoop::measure_temperature)
-                .and_then(ControlLoop::measure_generic)
-                //.and_then(ControlLoop::measure_water_content)
-                //.and_then(ControlLoop::measure_permittivity)
+            //had to bury reg_start and reg_count in slave config data 
+            //because .and_then takes a single arg.
+                .and_then(ControlLoop::measure_any)
                 .then(|res| match res {
                     Ok(ctrl_loop) => {
                         //write_to_csv(ctrl_loop.measurements.clone());
