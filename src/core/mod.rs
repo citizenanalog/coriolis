@@ -6,7 +6,6 @@ use core::{fmt, result::Result, time::Duration};
 /// (Thermodynamic) Temperature.
 #[derive(Clone, Copy, Debug, PartialEq, PartialOrd)]
 #[repr(transparent)]
-
 pub struct Temperature(f32);
 
 impl Temperature {
@@ -23,6 +22,21 @@ impl Temperature {
 impl fmt::Display for Temperature {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{} °C", self.to_degree_celsius())
+    }
+}
+/// (Ascii Strings).
+#[derive(Clone, Debug, PartialEq, PartialOrd)]
+#[repr(transparent)]
+pub struct Generic(String);
+
+impl Generic {
+    pub const fn from_generic(read_val: String) -> Self {
+        Self(read_val)
+    }
+}
+impl fmt::Display for Generic {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}", self.to_string())
     }
 }
 

@@ -51,7 +51,8 @@ pub fn main() {
     // TODO: Parse parameters and options from command-line arguments
     let context_config = ContextConfig {
         handle: core.handle(),
-        tty_path: "/dev/ttyACM0".to_owned(),
+        //tty_path: "/dev/ttyACM0".to_owned(),
+        tty_path: "COM9".to_owned(),
     };
     let slave_config = SlaveConfig {
         slave: Slave::min_device(),
@@ -73,10 +74,12 @@ pub fn main() {
             }
         }
     }
-
-    #[derive(Debug, Default, Clone, Copy, PartialEq)]
+    //removed Copy to accomodate generic<String>,
+    //should these be reg names? or reg types? (Coil/Reg/Long/Float/Ascii)
+    #[derive(Debug, Default, Clone, PartialEq)]
     struct Measurements {
         temperature: Option<Measurement<Temperature>>,
+        generic: Option<Measurement<Generic>>,
         //water_content: Option<Measurement<VolumetricWaterContent>>,
         //permittivity: Option<Measurement<RelativePermittivity>>,
     }
@@ -119,6 +122,19 @@ pub fn main() {
                 .then(move |res| match res {
                     Ok(val) => {
                         self.measurements.temperature = Some(Measurement::new(val));
+
+                        Ok(self)
+                    }
+                    Err(err) => Err((err, self)),
+                })
+        }
+
+        pub fn measure_generic(mut self) -> impl Future<Item = Self, Error = (Error, Self)> {
+            self.proxy
+                .read_generic(Some(self.config.timeout))
+                .then(move |res| match res {
+                    Ok(val) => {
+                        self.measurements.generic = Some(Measurement::new(val));
 
                         Ok(self)
                     }
@@ -187,6 +203,7 @@ pub fn main() {
         let mut wtr: Writer<File> = csv::WriterBuilder::new()
             .has_headers(true)
             .from_writer(file);
+        //nn to modify for all measurement types
         let temp = vec![
             data.temperature.unwrap().ts.to_string(),
             data.temperature.unwrap().val.to_string(),
@@ -209,17 +226,18 @@ pub fn main() {
             // is consumed and returned upon each step to update the
             // measurement after reading a new value asynchronously.
             futures::future::ok(ctrl_loop)
-                .and_then(ControlLoop::measure_temperature)
+                //.and_then(ControlLoop::measure_temperature)
+                .and_then(ControlLoop::measure_generic)
                 //.and_then(ControlLoop::measure_water_content)
                 //.and_then(ControlLoop::measure_permittivity)
                 .then(|res| match res {
                     Ok(ctrl_loop) => {
-                        write_to_csv(ctrl_loop.measurements);
-                        log::info!("{:?}", ctrl_loop.measurements);
+                        //write_to_csv(ctrl_loop.measurements.clone());
+                        log::info!("{:?}", ctrl_loop.measurements.generic.clone());
                         Either::A(futures::future::ok(ctrl_loop))
                     }
                     Err((err, ctrl_loop)) => {
-                        log::info!("{:?}", ctrl_loop.measurements);
+                        log::info!("{:?}", ctrl_loop.measurements.generic.clone());
                         Either::B(ctrl_loop.recover_after_error(&err).map(|()| ctrl_loop))
                     }
                 })
