@@ -1,3 +1,5 @@
+use coriolis::core::modbus::FW_REG_COUNT;
+
 //#[cfg(feature = "modbus-rtu")]
 pub fn main() {
     use chrono::{DateTime, Utc};
@@ -46,10 +48,14 @@ pub fn main() {
         slave: Slave,
         cycle_time: Duration,
         timeout: Duration,
-        reg_start: u16,
-        reg_count: u16,
+        read_index: usize,
+        regs: [u16;2], //nn to make this a vec for growable
     }
-
+    impl SlaveConfig {
+        fn next(&mut self) {
+            self.read_index = (self.read_index + 1) % self.regs.len();
+        }
+    }
     // TODO: Parse parameters and options from command-line arguments
     let context_config = ContextConfig {
         handle: core.handle(),
@@ -60,8 +66,8 @@ pub fn main() {
         slave: Slave::min_device(),
         cycle_time: Duration::from_millis(1000),
         timeout: Duration::from_millis(500),
-        reg_start: 0x67,
-        reg_count: 0x12,
+        read_index: 0,
+        regs: [103, 95],
     };
 
     #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -146,8 +152,11 @@ pub fn main() {
         }
 
         pub fn measure_any(mut self) -> impl Future<Item = Self, Error = (Error, Self)> {
+            //use self.config.read_index to return reg_start and reg_count
+            let reg_start = self.config.regs[self.config.read_index];
+            let reg_count = 12;
             self.proxy
-                .read_any(Some(self.config.timeout), self.config.reg_start, self.config.reg_count)
+                .read_any(Some(self.config.timeout), reg_start, reg_count)
                 .then(move |res| match res {
                     Ok(val) => {
                         self.measurements.generic = Some(Measurement::new(val));
@@ -203,10 +212,7 @@ pub fn main() {
 
         wtr.flush()?;
         Ok(())
-    }
-
-    let reg_start: u16 = 0x67; //d103
-    let reg_count: u16 = 0x12;  
+    } 
 
     let (_trigger, tripwire) = Tripwire::new();
     let cycle_interval = Interval::new_interval(ctrl_loop.config.cycle_time);
@@ -220,22 +226,22 @@ pub fn main() {
             // is consumed and returned upon each step to update the
             // measurement after reading a new value asynchronously.
             futures::future::ok(ctrl_loop)
-            //had to bury reg_start and reg_count in slave config data 
-            //because .and_then takes a single arg.
                 .and_then(ControlLoop::measure_any)
                 .then(|res| match res {
-                    Ok(ctrl_loop) => {
+                    Ok(mut ctrl_loop) => {
                         //write_to_csv(ctrl_loop.measurements.clone());
                         log::info!("{:?}", ctrl_loop.measurements.generic.clone());
+                        ctrl_loop.config.next();
                         Either::A(futures::future::ok(ctrl_loop))
                     }
-                    Err((err, ctrl_loop)) => {
+                    Err((err, mut ctrl_loop)) => {
                         log::info!("{:?}", ctrl_loop.measurements.generic.clone());
+                        ctrl_loop.config.next();
                         Either::B(ctrl_loop.recover_after_error(&err).map(|()| ctrl_loop))
                     }
                 })
         });
-
+    
     core.run(ctrl_loop_task).unwrap();
 }
 
