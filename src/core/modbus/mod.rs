@@ -96,6 +96,51 @@ pub fn decode_generic_reg(read_bytes: Vec<u16>) -> DecodeResult<Generic> {
     Ok(Generic::from_generic(s[0].to_string()))
 }
 
+pub fn decode_f_reg(read_bytes: Vec<u16>) -> DecodeResult<Generic> {
+    let msb_word: u16 = read_bytes[0];
+    let first_byte: u8 = (msb_word >> 8) as u8;
+    let second_byte: u8 = msb_word as u8;
+    let lsb_word: u16 = read_bytes[1];
+    let third_byte: u8 = (lsb_word >> 8) as u8;
+    let fourth_byte: u8 = lsb_word as u8;
+    //byte order is (3-4-1-2)
+    let new_bytes: [u8; 4] = [third_byte, fourth_byte, first_byte, second_byte];
+    //convert be_bytes to float
+    let float_value: f32 = f32::from_be_bytes(new_bytes);
+    //TODO: this is ugly
+    Ok(Generic::from_generic(float_value.to_string()))
+}
+//u8 to u32
+pub fn decode_u_reg(read_bytes: Vec<u16>) -> DecodeResult<Generic> {
+    println!("read_bytes.len(): {:?}",read_bytes.len());
+    // change this to a if len <= 8
+    match read_bytes.len() {
+        8 => {
+            let msb_word: u16 = read_bytes[0];
+            let first_byte: u8 = (msb_word >> 8) as u8;
+            let second_byte: u8 = msb_word as u8;
+
+            //swap bytes 1-2
+            let new_bytes: [u8; 2] = [second_byte, first_byte];
+            let string_val = str::from_utf8(&new_bytes).unwrap().to_string();
+            Ok(Generic::from_generic(string_val))
+        }
+        _ => {
+            //this works for len 2
+            let msb_word: u16 = read_bytes[0];
+            let first_byte: u8 = (msb_word >> 8) as u8;
+            let second_byte: u8 = msb_word as u8;
+            let lsb_word: u16 = read_bytes[1];
+            let third_byte: u8 = (lsb_word >> 8) as u8;
+            let fourth_byte: u8 = lsb_word as u8;
+            //byte order is (3-4-1-2)
+            let new_bytes: [u8; 4] = [third_byte, fourth_byte, first_byte, second_byte];
+            let string_val = str::from_utf8(&new_bytes).unwrap().to_string();
+            Ok(Generic::from_generic(string_val))
+        }
+    }
+}
+
 /// decode Any register
 pub fn decode_any_reg(read_bytes: Vec<u16>) -> DecodeResult<Generic> {
     //setup the new u8 vec

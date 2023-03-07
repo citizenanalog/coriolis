@@ -81,7 +81,7 @@ pub fn main() {
         hmap: build_hashmap(&path),
     };
     // TODO: Get these regs from user input
-    let regs: Vec<u16> = vec![103, 95];
+    let regs: Vec<u16> = vec![103, 95, 154, 119];
     slave_config.add_regs(regs);
 
     #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -165,19 +165,12 @@ pub fn main() {
         }
 
         pub fn measure_any(mut self) -> impl Future<Item = Self, Error = (Error, Self)> {
-            //use self.config.read_index to return reg_start and reg_count
             let reg_start = self.config.regs[self.config.read_index];
-            let plus_one = reg_start + 1;
-            //use HashMap lookup to get reg_count and reg_type
-println!("reg_start: {:?}", reg_start);
-            //let map_value = String::from(self.config.hmap.get(&reg_start).unwrap());
+            let plus_one = reg_start + 1; //reg offset by 1
+                                          //use HashMap lookup to get reg_count and reg_type
             let map_value = self.config.hmap.get(&plus_one).unwrap().as_str();
-            println!("map_value: {:?}", map_value);
             let reg_type: char = map_value.chars().nth(0).unwrap();
-            println!("char: {:?}", reg_type);
             let reg_count = map_value[1..].parse::<u16>().unwrap();
-            
-            println!("count: {:?}", reg_count);
             self.proxy
                 .read_any(Some(self.config.timeout), reg_start, reg_count, reg_type)
                 .then(move |res| match res {

@@ -137,8 +137,10 @@ pub fn read_any(
     // match on reg_type and decode accordingly
     context
         .read_holding_registers(reg_start, reg_count)
-        .and_then(|rsp| match rsp {
-            raw => decode_generic_reg(raw).map_err(Into::into),
+        .and_then(move |rsp| match reg_type {
+            'A' => decode_generic_reg(rsp).map_err(Into::into),
+            'U' => decode_u_reg(rsp).map_err(Into::into),
+            'F' => decode_f_reg(rsp).map_err(Into::into),
             _ => Err(Error::new(
                 ErrorKind::InvalidData,
                 format!("unexpected any data: {:?}", rsp),

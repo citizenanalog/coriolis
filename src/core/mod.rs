@@ -33,6 +33,7 @@ impl Generic {
     pub const fn from_generic(read_val: String) -> Self {
         Self(read_val)
     }
+    
 }
 impl fmt::Display for Generic {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
