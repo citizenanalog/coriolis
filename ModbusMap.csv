@@ -1,0 +1,3236 @@
+﻿Type,Addr,Register Description
+U16,1,Bit #0 – (E)EPROM checksum failure
+U16,2,Mass flow rate (Scaled Int)
+U16,3,Density (Scaled Int)
+U16,4,Temperature (Scaled Int)
+U16,5,Volume flow rate (Scaled Int)
+U16,6,Viscosity (Scaled Int)
+U16,7,Pressure (Scaled Int)
+U16,8,Mass total (Scaled Int)  (Writing to this register clears this total) (Read only for RFT9739)
+U16,9,Volume total (Scaled Int) (Writing to this register clears this total)  (Read only for RFT9739)
+U16,10,Mass inventory (Scaled Int) (Writing to this register clears all inventories)  (Read only for RFT9739)
+U16,11,Volume inventory (Scaled Int)  (Writing to this register clears all inventories)  (Read only for RFT9739)
+U16,12,Primary milliamp output variable (PV)
+U16,13,Secondary milliamp output variable (SV)
+U16,14,Frequency/pulse #1 output variable (TV)
+U16,15,Quaternary variable (QV)
+U16,15,RFT9739 control output variable
+U16,16,"Transmitter software revision – (xxxx.x format, e.g.,  141 means rev 14.1)"
+U16,17,"Flow direction  (see flow direction codes)  Gen5- Write Only, if written will attempt to initialize all the Gen5 specific direction registers accordingly"
+U16,18,Maximum integer
+U16,19,Mass flow offset
+U16,20,Density offset
+U16,21,Temperature offset
+U16,22,Volume flow offset
+U16,23,Viscosity offset
+U16,24,Pressure Offset
+U16,25,Mass total offset
+U16,26,Volume total offset
+U16,27,Mass inventory offset
+U16,28,Volume inventory offset
+U16,29,Mass flow scale factor
+U16,30,Density scale factor
+U16,31,Temperature scale factor
+U16,32,Volume flow scale factor
+U16,33,Viscosity scale factor
+U16,34,Pressure Scale Factor
+U16,35,Mass total scale factor
+U16,36,Volume total scale factor
+U16,37,Mass inventory scale factor
+U16,38,Volume inventory scale factor
+U16,39,Standard or special mass flow rate unit
+U16,40,Density unit
+U16,41,Temperature unit
+U16,42,Standard or special volume flow rate unit
+U16,43,Viscosity unit
+U16,44,Pressure unit
+U16,45,Standard or special mass total/inv unit (derived from the mass rate unit)
+U16,46,Standard or special volume total/inv unit (derived from the vol. rate unit)
+U16,47,Hart Slave Address
+U32,48,Final assembly number       NOTE: HART supports only the lower three bytes and
+U8,50,Fixed Date Low order byte: day
+U16,51,Fixed Date High order byte: month
+A8,52,Special mass flow unit string
+A8,56,Special mass total (or inventory) unit string
+A8,60,Special volume flow unit string
+A8,64,Special volume total (or inventory) unit string
+A8,68,Tag
+A16,72,Flow calibration factor
+A16,80,Temperature calibration slope
+A16,88,Viscosity calibration factor
+A16,96,Description
+A18,104,User message
+U16,120,Device type code
+U16,121,Manufacturer I.D.
+U24,122,HART device I.D. number
+U16,124,Digital Communication Fault Action code (See dig. comm.. Fault action table)
+U16,124,RFT9739 fault code
+U16,125,Bit #0 – Primary mA output saturated (420 bit 0)
+U16,126,Bit #0 – Burst mode enabled (421 bit 0)
+U32,127,Sensor serial number       NOTE: HART supports only the lower three bytes and
+U16,129,Flange type
+U16,130,Sensor material
+U16,131,Liner material
+U16,132,Base mass unit for special mass unit
+U16,133,Base time unit for special mass unit
+U16,134,Base volume unit for special volume unit
+U16,135,Base time unit for special volume unit
+U16,136,"Maximum zeroing time (unlike the 9739, in units of seconds)"
+U16,137,Event 1 variable assignment
+U16,138,Event 2 variable assignment
+U16,139,Event 1 type (high=1/low=2)
+U16,140,Event 2 type (high=1/low=2)
+F32,141,Slug duration (seconds) – How long flow stays at LMV before going to 0
+F32,143,Primary mA output fixed current (milliamps)
+F32,145,Secondary mA output fixed current (milliamps)
+F32,147,Fixed frequency (Hertz) (Survives a power cycle on 700 only)
+F32,149,Low Density Cutoff (High Density Cutoff for Orion Gas Density)
+F32,151,"Value of Temperature (degC) associated with Slope/Offset cals (coils 15,16)"
+F32,153,Line-condition viscosity of fluid used for viscosity calibration
+F32,155,Density 1 (g/cc)
+F32,157,Density 2 (g/cc)
+F32,157,RFT9739 density for third-point density calibration (g/cc)
+F32,159,Density calibration constant 1 (msec)
+F32,161,Density calibration constant 2 (msec)
+F32,163,Density temperature coefficient
+F32,165,High mass flow limit of sensor
+F32,167,High temperature limit of sensor
+F32,169,High density limit of sensor
+F32,171,High volume flow limit of sensor
+F32,173,Low mass flow limit of sensor
+F32,175,Low temperature limit of sensor
+F32,177,Low density limit of sensor
+F32,179,Low volume flow limit of sensor
+F32,181,Mass flow minimum range
+F32,183,Temperature minimum range
+F32,185,Density minimum range
+F32,187,Volume flow minimum range
+F32,189,Flow rate internal damping (seconds)
+F32,191,Temperature internal damping (seconds)
+F32,193,Density internal damping (seconds)
+F32,195,Mass flow cutoff for digital outputs and internal totals
+F32,197,Volume flow cutoff for digital outputs and internal totals
+F32,199,High density limit (g/cc)
+F32,201,Low density limit (g/cc)
+F32,203,Primary mA output present current (milliamps)
+F32,205,Added damping on primary mA output (seconds)
+F32,207,"Flow cutoff for primary mA output -- Mass and Volume Flow, Velocity for Orion Tube Density, Standard Volume Flow, Net Mass Flow, and Net Volume Flow for any transmitter with these variables available, and gas standard volume flow whenver it is enabled."
+F32,209,Primary variable at 20 mA
+F32,211,Primary variable at 4 mA  (12mA for 2200)
+F32,213,Secondary mA output present current (milliamps)
+F32,215,Added damping on secondary mA output (seconds) 
+F32,217,"Flow cutoff for secondary mA output   -- Mass and Volume Flow, Velocity for Orion Tube Density, Standard Volume Flow, Net Mass Flow, and Net Volume Flow for any transmitter with these variables available, and gas standard volume flow whenver it is enabled."
+F32,219,Secondary variable at 20 mA 
+F32,221,Secondary variable at 4 mA (or 0 mA for RFT9639)
+F32,223,Frequency Output frequency (Hz) or number of pulses
+F32,225,Frequency Output flow rate or total
+F32,227,"Frequency output maximum pulse width (milliseconds, 0=square wave)"
+F32,229,Present output frequency (Hertz)
+F32,231,Standard deviation of auto zero  (units of uSec)
+F32,233,Present flow signal offset at zero flow (mechanical zero)  (units of uSec)
+F32,235,Failed DensCal/TempCal/ZeroCal Value (valid only if last Cal failed)
+F32,235,Flow meter zeroing standard deviation limit
+F32,237,Special mass unit conversion factor
+F32,239,Special volume unit conversion factor
+F32,241,Event 1 set-point (units follow event variable assignment)
+F32,243,Event 2 set-point (units follow event variable assignment)
+F32,245,"1 – (E)EPROM checksum failure (including Core, if applicable) (reg. 1 bit 1)"
+F32,247,Mass flow rate
+F32,249,Density
+F32,251,Temperature
+F32,253,Volume flow rate
+F32,255,Viscosity
+F32,255,Undefined
+F32,257,Differential Pressure
+F32,257,(Internally Derived) Pressure
+F32,259,Mass total
+F32,261,Volume total
+F32,263,Mass inventory
+F32,265,Volume inventory
+F32,267,Pressure correction factor for flow
+F32,269,Pressure correction factor for density
+F32,271,Flow calibration pressure
+F32,273,maI Source value at 4 mA
+F32,275,maI Source value at 20 mA
+F32,277,Density Value for FD calibration 
+F32,277,Constant for third-point density calibration (Version 2 to 3.5 RFT9739)
+F32,279,Mass Rate Factor
+F32,281,Volume Rate Factor
+F32,283,Density Factor
+F32,285,Raw Tube Frequency (Hz) 
+F32,287,Left Pickoff Voltage (Volts) (Single piezo for Orion forks)
+F32,289,Right Pickoff Voltage (Volts)
+F32,291,"Drive Gain  (Volts for 9739 and 3000 v5.x and prior, Percent for all others)"
+F32,293,Live Zero (MassFlow)
+U16,295,Security event configuration register  [Gen5 Sdcard diagnostic register]
+U16,296,Security event calibration register
+U16,297,Mass Flow Live Zero Flow
+A8,298,Polling Tag #1 (pressure input host for 9739)
+U16,302,Polling Control Code #1 (refer to polling control code table)
+U16,302,Pressure value receiving method (refer to pressure input codes table)
+F32,303,Density “FD” calibration
+F64,305,Most significant word for binary mass total
+F64,309,Most significant word for binary volume total
+U16,313,"MODBUS Slave address (limited to 1-15,32-47,64-79, or 96-110 unless ASCII disabled for 700 and Pegasus products)"
+U16,314,Last Measured Value Fault Timeout (seconds)
+U32,315,Core Processor Firmware Checksum
+F32,317,Flow Rate Switch Hysteresis 
+F32,319,API Reference Temp 
+F32,323,"API Thermal Expansion Coeff (TEC, used for even tables)"
+F32,325,Temperature/Pressure-corrected density
+F32,327,Vapor pressure at reference temperature
+F32,329,Combined Temperature and Pressure Correction Factor (CTPL)
+F32,331,Temperature/Pressure‑corrected volumetric flow
+F32,333,Temperature/Pressure‑corrected volumetric total
+F32,335,Temperature/Pressure‑corrected volumetric inventory
+F32,337,Weighted Average Batch Observed Density
+F32,339,Weighted Average Batch Observed Temperature
+F32,341,Weighted Average Batch Temp-Corrected Density (Bunkering)
+F32,343,2nd Mass total
+F32,345,2nd Volume total
+F32,347,2nd GSV  total
+U16,349,2nd Flow direction  (see flow direction codes)
+F32,343,GVF Hi/Lo Threshold
+F32,345,Line Density (Net) Oil -- fixed SGU units
+F32,347,Line Density (Net) Oil -- fixed API units
+F32,349,Volume Total - Line - No TBR
+U16,351,API 2540 CTL Table Type (see CTL Code Table)
+U16,352,"Configuration Change Counter incremented for all config writes through any interface (i.e. HART, Modbus, Local Display, etc).  Only 0 can be written (to clear it)"
+U16,353,Host Locked Status - 1 indicates that host cannot write to configuration data
+U16,354,User-Volume-Total Units
+F32,355,mAI Actual current being measured
+F32,357,"Primary mAO Lower Point ( 0 for 0-20 mA operation, 4 for 4-20 )"
+F32,359,"Secondary mAO Lower Point ( 0 for 0-20 mA operation, 4 for 4-20 )"
+U16,361,Sensor Index (Service Port)
+U16,362,Sensor Index (RS485 Port)
+U16,363,Switch Status register-Four numbers for two switches all status 
+U16,364,Drive Switch 
+U16,365,"TimeStamp  (200 uSec, rolls over every 13.1072 Sec)"
+U16,366,"DSP Basic Calculation Update Rate (Hz, 20 or 100 Hz)"
+F32,367,DeltaT  (Secs)
+F32,369,Tube Period  (Secs)
+F32,371,Temperature – “Line RTD” (Std RTD on all sensors)  (degC)
+F32,373,Temperature – “Case/Meter RTD” (Extra RTD on T-Series)   (degC)
+F32,375,Drive target ( D/A Counts 0..1023 (lo) or 16384-17405 (hi) )
+F32,377,Drive DAC counts ( D/A Counts 0..1023 (lo) or 16384-17405 (hi)  )
+F32,379,LPO filtered amplitude  (Volts)
+F32,381,RPO filtered amplitude  (Volts)
+F32,383,Board Temperature (degC)
+F32,385,Input Voltage  (Volts)
+F32,387,Drive P coefficient
+F32,387,Actual Drive P coefficient
+F32,389,Drive I coefficient
+F32,389,Actual Drive I coefficient
+U16,391,"MDAC Gain Override  (D/A Counts, put @ 0xFFFF to disable)"
+U16,392,"PGA Gain Override (put @ 0xFFFF to disable, 30h=0db)"
+F32,393,"Actual Target Frequency  (Hz) (Pre 700 2.1, Actual & Override) "
+F32,395,"Actual Target Amplitude  (mV/Hz) (Pre 700 2.1, Actual & Override) "
+F32,397,Reciprocal of Actual Codec Gain (Gen5: Xmtr Board Temp)
+U16,399,Sensor Failure Timeout Time (1/16 Sec Units)
+U16,400,Sensor Failure Status Bits
+F32,401,Drive Current (mA)
+F32,403,Override Target Freq (Hz) (set to 0 to disable)
+F32,405,Override Target Amplitude (mV/Hz) (set to 0 to disable)
+F32,407,Altus-Compatibility Flow calibration factor (FCF)
+F32,409,Altus-Compatibility Temperature coefficient for flow  (FT)
+F32,411,Altus-Compatibility Tempcal Slope (Read Only for CDM)
+F32,413,Altus-Compatibility Tempcal Offset
+F32,415,Altus-Compatibility Viscal Slope
+F32,417,Altus-Compatibility Viscal Intercept
+U16,419,"Bit #0 – Core EEPROM Checksum Error (Config, Powerdown, Program)"
+U16,420,Bit #0 – Primary mA Output Saturated (A100)
+U16,421,Bit #0 – Burst Mode Enabled (A106) (AI Simulate enabled on 2700 PA v2.2)
+U16,422,Bit #0 – API.VCF:  Temperature Outside Standard Range (A116)
+U16,423,Bit #0 – Core Protected Boot Sector Fault (invalid/corrupt application) (A25)
+U16,424,"Bit #0 – Discrete Input 1 Status (0=OFF, 1=ON)"
+A16,425,Sensor Type
+U16,433,Bit #0 – K1/FCF Combination Unrecognized
+U16,434,Bit #0 – Attached core data loss possible
+F32,435,Sensor Maximum Recorded Temperature
+F32,437,Sensor Minimum Recorded Temperature
+F32,439,Sensor Average Recorded Temperature
+F32,441,"Electronics Flow Offset Compensation for Mass Flow  (uSec, nom 0)"
+F32,443,Electronics Maximum Recorded Temperature (non-resetable)
+F32,445,Electronics Minimum Recorded Temperature (non-resetable)
+F32,447,Electronics Average Recorded Temperature (non-resetable)
+F32,449,External Temperature Input
+F32,451,External Pressure Input
+F32,453,External Differential Pressure Input
+F32,453,Gas Density used to calculate Reference Volume Gas Flow & Totals
+F32,455,Reference Volume Gas Flow Rate (not valid when API or ED is enabled)
+F32,457,Reference Volume Gas Total (not valid when API or ED is enabled)
+F32,459,Reference Volume Gas Inventory (not valid when API or ED is enabled)
+F32,461,Gas Standard Volume Low Flow Cutoff
+F32,463,Electronics Maximum Recorded Temperature (Resetable)
+F32,465,Electronics Minimum Recorded Temperature (Resetable)
+F32,467,Electronics Average Recorded Temperature (Resetable)
+F32,469,Wire (cable) RTD Resistance (ohms)
+F32,471,On-Board Thermistor Resistance (ohms)
+F32,473,Case/Meter RTD Resistance (ohms)
+F32,475,Line RTD Resistance (ohms)
+U32,477,Raw A/D Chan 1 (FET off) 
+U32,479,Raw A/D Chan 2 (FET off) 
+U32,481,Raw A/D Chan 3 (FET off)
+U32,483,Raw A/D Chan 4 (FET off)
+U32,485,Raw A/D Chan 5 (FET off)
+U32,487,Raw A/D Chan 1 (FET on)
+U32,489,Raw A/D Chan 2 (FET on)
+U32,491,Raw A/D Chan 3 (FET on)
+U32,493,Raw A/D Chan 4 (FET on)
+U32,495,Raw A/D Chan 5 (FET on)
+U16,497,Core Power Cycle Count (Set to 0 on master reset) 
+U16,498,Core EEPROM Configuration “A” Copy Bad on power-up (Count) (Set to 0 on master reset)
+U16,499,Core EEPROM Power-Down “A” Copy Bad on power-up (Count) (Set to 0 on master reset)
+U16,500,Core Power On Time (Set to 0 on master reset)  (units of 2 hours)
+U16,501,Core Count of ungraceful powerdowns (without going through PDI)
+U16,502,Transmitter Power Cycle Count
+F32,503,T-Series: K3
+F32,505,T-Series: Flow tgco (FTG)
+F32,507,T-Series: Flow fqco (FFQ)
+F32,509,T-Series: D3
+F32,511,T-Series: D4
+F32,513,T-Series: Dens tgco  (DTG)
+F32,515,T-Series: Dens fqco1 (DFQ1)
+F32,517,T-Series: Dens fqco2 (DFQ2)
+F32,519,T-Series: K4
+U16,521,(Enumerated) Floating Point Byte Ordering Type for Modbus “F” Registers
+U16,522,"Additional Delay to Modbus Response (0-255).  Units: 200uS for 38,400 baud; 400uS/19.2; 800uS/9600; 1.6mS/4800; 3.2mS/2400; 6.4mS/1200"
+U16,523,"Active Calculation Curve (a=0,1,2,3,4,5) For SGM not applicable when calibrated for SG or MW for version 2.0 and greater."
+U16,524,Requested Enhanced Density Mode (See codes table in back)
+U16,527,"Curve Configuration Index ( n =0,1,2,3,4,5)"
+U16,528,"Curven Temperature Isotherm Index ( x =0,1,2,3,4,5)"
+U16,529,"Curven Concentration Index ( y =0,1,2,3,4,5)"
+F32,531,Curven (5x5) Temperature Isothermx Value (x-axis)
+F32,533,"Curven (5x5) Density @ Temp. IsothermX, ConcentrationY"
+F32,535,"Curven (5x5) Coeff @ Temperature IsothermX, ConcentrationY"
+F32,537,Curven (5x5) ConcentrationY  Value (Label for y-axis)
+F32,539,Curven (5x1) Density at ConcentrationY (at Ref Temp)
+F32,541,Curven (5x1) Coeff at ConcentrationY (at Ref Temp)
+F32,543,Curven (5x1) ConcentrationY  Value (y-axis)
+F32,545,Curven Reference Temperature
+F32,547,Curven SG Water Reference Temperature
+F32,549,Curven SG Water Reference Density
+F32,551,Curven Slope Trim
+F32,553,Curven Offset Trim
+F32,555,Curven Extrapolation Alarm Limit:  %
+A12,557,Curven Name of Curve
+U16,563,"Curven Using Coeffs Direct (1=Yes, 0=No) "
+U16,564,"Maximum Fit Order for 5x5 curve (order=2,3,4,5)"
+U16,569,"Curven Curve Fit Result (0=Good, 1=Poor, 2=Failed, 3=Empty)"
+U16,570,Curven Concentration Units Code
+F32,571,Curven Curve Fit Expected Accuracy
+A8,573,Curven Concentration Units
+F32,577,IS400 Density Threshold
+F32,579,IS400 Gas Drive Target (mV/Hz)
+F32,581,IS400 Liq Drive Target (mV/Hz)
+F32,583,IS400 Gas Fixed PGA  (% of ADC input)
+F32,585,IS400 Liq Fixed PGA  (% of ADC input)
+F32,587,IS400 Gas Min Drive Current ( Units of 72 uA)
+F32,589,IS400 Liq Min Drive Current ( Units of 72 uA)
+F32,591,Pre-Demodulation Frequency
+F32,579,“New” Log of  K1  (Indexed to 577)
+F32,581,“New” Log of FCF  (Indexed to 577)
+A8,583,“New” Sensor Type Text ASCII
+U16,587,“New” Sensor Slot Number (Indexed to 577)
+U16,588,“New” Sensor Category (Indexed to 577)
+U16,591,Slot Override ( 0xFFFF = No Override )
+U16,592,NV Category Type Index
+U32,593,
+F32,595,The first registers (593/4) holds a series of flags which
+F32,597,"Some flags have associated data, and the presence of "
+F32,599,follows in registers (595-606).
+F32,601,
+F32,603,
+F32,605,
+F32,607,Pre-Demodulation Frequency
+U16,609,"Discrete Event Index  ( x = 0, 1, 2, 3, 4 )"
+U16,610,Discrete Event x Action [2D Array in Neptune]
+F32,611,Discrete Event x Set-point A [2D Array in Neptune]
+F32,613,Discrete Event x Set-point B [2D Array in Neptune]
+U16,615,Discrete Event x Process Variable Code [2D Array in Neptune]
+U16,616,"Bit 0 = Discrete Event 1 Status (1=on, 0=off) [Array in Neptune]"
+F32,617,MVD TBR Threshold (units of %)   Gen5 - Writes APM DGT Override
+U16,619,MVD TBR Timeout (seconds)  Gen5 - TMR Pre-Event Time (sec)
+U16,620,MVD TBR LMV Sample Pos. (# of samples)   Gen5 - TMR Post Event Time (sec)
+U16,621,Value of Error/Status (equivalent to register 433) 
+U16,622,Value of Error/Status (equivalent to register 434)
+U16,625,Meter Fingerprint in SI (0) or English (1) units
+U16,626,Meter Fingerprint Transmitter Variable Index
+U16,627,Fingerprint Type
+F32,629,"Transmitter Variable, Instantaneous"
+F32,631,"Transmitter Variable, Average (1-min rolling)"
+F32,633,"Transmitter Variable, Std Dev (1-min rolling)"
+F32,635,"Transmitter Variable, Maximum"
+F32,637,"Transmitter Variable, Minimum"
+F32,639,Value of Fixed Mass Flow (g/s)
+F32,641,Value of Fixed Density (g/cc)
+F32,643,Value of Fixed Line Temperature (deg C)
+F32,645,Value of Fixed Meter Temperature (deg C)
+U16,647,Value of Error/Status (equivalent to register 419)
+U16,648,Value of Error/Status (equivalent to register 420)
+U16,649,Value of Error/Status (equivalent to register 421)
+U16,650,Value of Error/Status (equivalent to register 422)
+U16,651,Value of Error/Status (equivalent to register 423)
+U16,652,Value of Error/Status (equivalent to register 424)
+F32,653,Value of Fixed Drive Gain (percent)
+U16,655,Slot 0 Configuration Index
+U16,656,Slot 1 Configuration Index
+U16,657,Slot 2 Configuration Index
+U16,658,Slot 3 Configuration Index
+U16,659,Slot 4 Configuration Index
+U16,660,Slot 5 Configuration Index
+U16,661,Slot 6 Configuration Index
+U16,662,Slot 7 Configuration Index
+U16,663,Slot 8 Configuration Index
+U16,664,Slot 9 Configuration Index
+U16,665,Slot 10 Configuration Index
+U16,666,Slot 11 Configuration Index
+U16,667,Slot 12 Configuration Index
+U16,668,Slot 13 Configuration Index
+U16,669,Slot 14 Configuration Index
+U16,670,Slot 15 Configuration Index
+U16,671,Slot 16 Configuration Index
+U16,672,Slot 17 Configuration Index
+U16,673,Slot 18 Configuration Index
+U16,674,Slot 19 Configuration Index
+U16,675,Slot 20 Configuration Index
+U16,676,Slot 21 Configuration Index
+U16,677,Slot 22 Configuration Index
+U16,678,Slot 23 Configuration Index
+U16,679,Slot 24 Configuration Index
+U16,680,Slot 25 Configuration Index
+U16,681,Slot 26 Configuration Index
+U16,682,Slot 27 Configuration Index
+U16,683,Slot 28 Configuration Index
+U16,684,Slot 29 Configuration Index
+U16,685,Slot 30 Configuration Index
+U16,686,Slot 31 Configuration Index
+U16,751,Slot 0 Transmitter Variable Index
+U16,752,Slot 1 Transmitter Variable Index
+U16,753,Slot 2 Transmitter Variable Index
+U16,754,Slot 3 Transmitter Variable Index
+U16,755,Slot 4 Transmitter Variable Index
+U16,756,Slot 5 Transmitter Variable Index
+U16,757,Slot 6 Transmitter Variable Index
+U16,758,Slot 7 Transmitter Variable Index
+U16,759,Slot 8 Transmitter Variable Index
+U16,760,Slot 9 Transmitter Variable Index
+U16,761,Slot 10 Transmitter Variable Index
+U16,762,Slot 11 Transmitter Variable Index
+U16,763,Slot 12 Transmitter Variable Index
+U16,764,Slot 13 Transmitter Variable Index
+U16,765,Slot 14 Transmitter Variable Index
+U16,766,Slot 15 Transmitter Variable Index
+U16,767,Slot 16 Transmitter Variable Index
+U16,768,Slot 17 Transmitter Variable Index
+U16,769,Slot 18 Transmitter Variable Index
+U16,770,Slot 19 Transmitter Variable Index
+U16,771,Slot 20 Transmitter Variable Index
+U16,772,Slot 21 Transmitter Variable Index
+U16,773,Slot 22 Transmitter Variable Index
+U16,774,Slot 23 Transmitter Variable Index
+U16,775,Slot 24 Transmitter Variable Index
+U16,776,Slot 25 Transmitter Variable Index
+U16,777,Slot 26 Transmitter Variable Index
+U16,778,Slot 27 Transmitter Variable Index
+U16,779,Slot 28 Transmitter Variable Index
+U16,780,Slot 29 Transmitter Variable Index
+U16,781,Slot 30 Transmitter Variable Index
+U16,782,Slot 31 Transmitter Variable Index
+U16,847,Direct Memory Access Index
+U16,912,TV# (defines following parameters)
+F32,913,[TV #] Upper Sensor Limit
+F32,915,[TV #] Lower Sensor Limit
+F32,917,[TV #] Minimum Span
+U16,919,[TV #] Assignability
+U16,923,[TV #] Unit Code
+U16,912,Sensor Category Type Code
+F32,913,Drive “P” Value
+F32,915,Drive “I” Value
+F32,917,Nominal Tube Drive Target (mV/Hz)
+F32,919,Fixed PGA Level (% of ADC input)
+F32,921,Min Drive Level (Units of 72 uA)
+F32,923,Drive Threshold Level (Units of mA)
+F32,925,Denscal Flow Rate Limit (Units of uS)
+F32,927,Gas Density Flow Compensation Factor (Multiplier)
+U16,929,"K1/FCF Resolver Likelyhood (%, >80% is “good”)"
+U16,912,Sensor Category Type Code(Obsolete)
+F32,913,Drive “P” Value
+F32,915,Drive “I” Value
+F32,917,Nominal Tube Drive Target (mV/Hz)
+F32,919,Unused
+F32,921,Special A33 Threshold Level
+F32,923,Drive Overshoot Value
+F32,925,Denscal Flow Rate Limit (Units of uS)
+F32,927,Gas Density Flow Compensation Factor (Multiplier)
+U16,929,"K1/FCF Resolver Likelyhood (%, >80% is “good”)"
+U16,930,TV Index #
+U16,947,Modbus Map Address ( per this document less 1 )
+U16,948,[MMA] MMA Rule Set
+U16,949,[MMA] Info –
+F32,963,Enhanced Density: Density At Reference
+F32,965,Enhanced Density: Density (Fixed SG Units)
+F32,967,Enhanced Density: Standard Volume Flow Rate
+F32,969,Enhanced Density: Standard Volume Total
+F32,971,Enhanced Density: Standard Volume Inventory
+F32,973,Enhanced Density: Net Mass Flow Rate
+F32,975,Enhanced Density: Net Mass Total
+F32,977,Enhanced Density: Net Mass Inventory
+F32,979,Enhanced Density: Net Volume Flow Rate
+F32,981,Enhanced Density: Net Volume Total
+F32,983,Enhanced Density: Net Volume Inventory
+F32,985,Enhanced Density: Concentration
+F32,987,Enhanced Density: Density (Fixed Baume Units)
+U32,989,TBR Active Time (Seconds)   Gen5:  TMR Active Time (Seconds)
+F32,991,Current pressure comp effect (%) on flow
+F32,993,Current pressure comp effect (g/cc) on dens
+F32,995,Adaptive Smoothing Filter Integral Coef
+F32,997,Adaptive Smoothing Filter Const
+U16,999,Adaptive Smoothing Filter Damp
+U16,1000,"Adaptive Smoothing Enable [0 = off, 2 = On]"
+F32,1001,Actual Minimum Amplitude
+F32,1003,Override Minimum Amplitude (0 = No Override)
+F32,1005,Actual Peak Detect Count
+F32,1007,Override Peak Detect Count (0 = No Override)
+F32,1009,Actual Overshoot Limit
+F32,1013,Actual Drive Phase Adjustment
+F32,1017,Actual Drive Phase Offset
+F32,1021,Actual Low Frequency Sweep
+F32,1023,Override Low Frequency Sweep (0 = No Override)
+F32,1025,Actual High Frequency Sweep
+F32,1027,Override High Frequency Sweep (0 = No Override)
+F32,1029,Override output current in mA (only if Drive Override (R1033) = 1)
+U16,1031,"Actual Amplitude Mode (0=Peak Detect, 1=Magnitude)"
+U16,1033,"Drive Override (0=Closed loop mode, 1 or greater=Open loop mode)"
+U16,1034,"Drive Type (Only if Drive Override > 1: 0=Square, 1=Sine, 2=Fixed Current) Note: Fixed Current not valid for Orion."
+F32,1035,Actual Magnitude Filter Coefficient
+F32,1037,Override Magnitude Filter Coefficient (0 = No Override)
+F32,1039,Actual Drive Current Filter Coefficient
+F32,1041,Peak Magnitude Difference
+F32,1043,Override Drive P Coefficient (0 = No Override)
+F32,1045,Override Drive I Coefficient (0 = No Override)
+U16,1047,Drive Status
+F32,1049,Drive current calibration constant
+U16,1051,Wire Diagnostic Status
+U16,1052,Wire Diagnostic State
+F32,1053,2200S Shunt Reg Current (mA)
+U32,1055,Core processor final assembly number
+F32,1057,SNS_DD_MaxCurrentAllowed
+U16,1060,"DSP Mode:                             [For Gen5 w/700, only ""3"" is allowed]"
+F32,1061,Chain Frequency Filter
+F32,1063,Chain Phase Filter
+F32,1065,Magnitude Scale Factor
+F32,1067,Slew Rate Control
+U16,1069,DZDT Mode 
+U16,1069,Force Reset
+U16,1070,"DZDT Reset (0=Do nothing, 1=capture DZDT Delta T and load into starting point)"
+F32,1071,DZDT Delta T
+F32,1071,Frequency Span Diagnositic
+F32,1073,DZDT Delta T Starting Point (Initialized on Reset)
+F32,1075,DZDT Delta Compensation
+F32,1077,Delta T with DZDT Compensation (for ref only)
+F32,1079,DZDT Average
+F32,1079,Drive Phase
+F32,1081,DZDT Standard Deviation
+U16,1083,DZDT Status
+U16,1083,Fork State
+U16,1084,"DAQ Start (0=No Daq, 1 = Capture LPO and RPO data, 2 = LPO data, 3=Rpo Data)"
+U16,1085,DAQ Index ( range from 0 – 8188)
+U16,1086,LPO Data at address Index
+U16,1087,LPO Data at address Index + 1
+U16,1088,LPO Data at address Index + 2
+U16,1089,LPO Data at address Index + 3
+U16,1090,RPO Data at address Index
+U16,1091,RPO Data at address Index + 1
+U16,1092,RPO Data at address Index + 2
+U16,1093,RPO Data at address Index + 3
+U16,1094,DAQ Mode Selection [Neptune only]
+F32,1095,DZDT Standard Deviation
+F32,1097,DZDT Standard Deviation
+F32,1099,Frequency Scale Factor
+F32,1101,Frequency Output Pulses per Unit
+F32,1103,Frequency Output Units per Pulse
+F32,1105,Frequency Output fault setting for upscale (Hz)
+U16,1107,Frequency Output Fault Code (see analog output fault code table)
+U16,1108,Frequency Output Scaling Method (see FO scaling methods table)
+F32,1109,Primary mA Output fault setting (mA)
+F32,1111,Secondary mA Output fault setting (mA)
+U16,1113,Primary mA Output Fault Code (see analog output fault code table in back)
+U16,1114,Secondary mA Output Fault Code (see analog output fault code table in back)
+U16,1115,Password for access to offline display menus (0 to 9999)
+U16,1116,Display Auto Scroll Rate (1 to 30 seconds)
+U16,1117,Display Process Variable #1 (see process variable codes in back)
+U16,1118,Display Process Variable #2 (see process variable codes in back)
+U16,1119,Display Process Variable #3 (see process variable codes in back)
+U16,1120,Display Process Variable #4 (see process variable codes in back)
+U16,1121,Display Process Variable #5 (see process variable codes in back)
+U16,1122,Display Process Variable #6 (see process variable codes in back)
+U16,1123,Display Process Variable #7 (see process variable codes in back)
+U16,1124,Display Process Variable #8 (see process variable codes in back)
+U16,1125,Display Process Variable #9 (see process variable codes in back)
+U16,1126,Display Process Variable #10 (see process variable codes in back)
+U16,1127,Display Process Variable #11 (see process variable codes in back)
+U16,1128,Display Process Variable #12 (see process variable codes in back)
+U16,1129,Display Process Variable #13 (see process variable codes in back)
+U16,1130,Display Process Variable #14 (see process variable codes in back)
+U16,1131,Display Process Variable #15 (see process variable codes in back)
+U16,1132,RS485 Digital Communications Protocol (see protocol codes in back)
+U16,1133,RS485 Digital Communications Baud Rate (see baud rate codes in back)
+U16,1134,RS485 Digital Communications Parity (see parity codes in back)
+U16,1135,RS485 Digital Communications Stop Bits
+U16,1136,"RS485/USP Switch  (0=USP, 1=485 Slave Port)"
+U16,1137,Attached Core Software revision
+U16,1138,Board Type (see board type codes table)
+U16,1139,Sensor Type Code (see sensor type codes in back)
+A8,1140,HART Polling Tag #2
+U16,1144,Polling Control Code #2 (see polling control code table)
+U16,1145,Polled Variable #1 Code (see process variable codes table)
+U16,1146,Polled Variable #2 Code (see process variable codes table)
+U16,1147,Polling Type Code (refer to polling type codes table)
+U16,1148,"Totals Display Precision (number of  digits to the right of decimal point, 0-4)"
+U16,1149,Frequency/Discrete Output channel assignment (see Output Type codes)This register is superceded by 1167/1168.  Do not use.
+U16,1150,Coriolis and Sensor Alarm Timeout (minutes)
+U16,1151,Discrete Output 1 Assignment (refer to discrete output assignment codes)
+U16,1152,"Discrete Output 1 Polarity (0 = active low, 1 = active high)"
+U16,1153,Discrete Output 2 Assignment (refer to discrete output assign. Codes)
+U16,1154,"Discrete Output 2 Polarity (0 = active low, 1 = active high)"
+U16,1155,Discrete Output 3 Assignment (refer to discrete output assign. Codes)
+U16,1156,"Discrete Output 3 Polarity (0 = active low, 1 = active high)"
+U16,1157,Discrete Output 4 Assignment (refer to discrete output assign. Codes)
+U16,1158,"Discrete Output 4 Polarity (0 = active low, 1 = active high)"
+F32,1159,Flow Rate Switch Set-point 
+U16,1161,Flow Rate Switch Process Variable (see Freq. Output Assignment Codes)
+U16,1162,Device Type Code for attached Core
+U16,1163,Board Revision
+U16,1164,100 Hz Update Rate Variable Assignment
+U16,1165,Burst Command (refer to burst command options table) Moved to 2559 for HART 7.
+U16,1166,Output Channel A Type Assignment (refer to output type codes) 
+U16,1167,Output Channel B Type Assignment (refer to output type codes) 
+U16,1168,Output Channel C Type Assignment (refer to output type codes)
+U16,1169,Burst Variable 1 (refer to process variable codes)
+U16,1170,Burst Variable 2 (refer to process variable codes)
+U16,1171,Burst Variable 3 (refer to process variable codes)
+U16,1172,Burst Variable 4 (refer to process variable codes)
+U16,1173,Channel A Power (refer to power source codes)
+U16,1174,Channel B Power (refer to power source codes) 
+U16,1175,Channel C Power (refer to power source codes) 
+U16,1176,Discrete Input 1 Assignment (refer to Discrete Input assignment codes)
+U16,1177,Discrete Input 2 Assignment (refer to Discrete Input assignment codes)
+U16,1178,"Discrete Input 1 Polarity (0 = active low, 1 = active high)"
+U16,1179,"Discrete Input 2 Polarity (0 = active low, 1 = active high)"
+U16,1180,"Milliamp Input Source (can be 53=pressure, 55=temperature or 251=none)  Gen5 see Integer Codes Table"
+U16,1181,Frequency Output Mode (refer to FO mode codes)
+U16,1182,Discrete Output 1 Fixed Value (refer to Discrete Output state codes)
+U16,1183,Discrete Output 2 Fixed Value (refer to Discrete Output state codes)
+U16,1184,Discrete Output 3 Fixed Value (refer to Discrete Output state codes)
+U16,1185,Discrete Output 4 Fixed Value (refer to Discrete Output state codes)
+U16,1186,Profibus Station Address (0 – 126) 
+U24,1187,Attached Core HART device I.D. number
+F32,1189,Primary mA Output 4 mA Trim Constant
+F32,1191,Primary mA Output 20 mA Trim Constant
+F32,1193,Secondary mA Output 4 mA Trim Constant
+F32,1195,Secondary mA Output 20 mA Trim Constant
+U16,1197,"Frequency Output Polarity (0 = active low, 1 = active high)"
+U16,1198,Frequency Output Power (refer to power source codes)
+U16,1199,Display test on/off duration (1-60 seconds)
+U16,1200,Transmitter Software Version Number (xxx.xx format – 612 means rev 6.12)
+U32,1201,Number of requests sent to Core Processor since power-on
+U32,1203,Number of good responses received from Core Processor since power-on
+U32,1203,Number of Out-Of-Lock Periods
+U32,1205,Number of response timeouts with Core Processor since power-on
+U32,1207,Number of Core Processor responses with CRC error since power-on
+U32,1209,Number of Core Processor responses with omm.. Errors since power-on
+U32,1211,Number of spurious characters received from Core Processor since power-on
+U32,1213,Last four spurious characters received from Core Processor since power-on
+U32,1213,Number of A26 (Core Processor Connects)
+U16,1215,Real-time clock: seconds (0-59) [5700 RO]
+U16,1216,Real-time clock: minutes (0-59) [5700 RO]
+U16,1217,Real-time clock: hours (0-23) [5700 RO]
+U16,1218,Real-time clock: day (1-31) [5700 RO]
+U16,1219,Real-time clock: month (1-12) [5700 RO]
+U16,1220,Real-time clock: year (1996-2095 for 3500) (1970-2099 for 5700) [5700 RO]
+U16,1221,Frequency Input flow units (see table at back)
+U16,1222,Frequency Input Scaling Method (see mass flow and volume flow unit codes)
+F32,1223,Frequency Input frequency set-point (Hz) or number of pulses 
+F32,1225,Frequency Input flow rate or total
+F32,1227,Frequency Input K-factor
+U16,1229,Frequency Input measured frequency
+F32,1231,Frequency Input measured flow rate
+F32,1233,Frequency Input measured total
+F32,1235,Frequency Input measured inventory
+U16,1237,"Alarm Index (1=A1,…, 39=A39, 40=A100, …, 70=A130,88=A148)"
+U16,1238,"Alarmn Severity (0=Ignore, 1=Info-only, 2=Fault) [Array in Neptune]"
+U16,1239,Alarmn Status (write 0 to acknowledge alarm) [2D Array in Neptune]
+U16,1240,Alarmn Count (inactive to active transitions) [2D Array in Neptune]
+U32,1241,"Alarmn Last Posted (seconds since January 1, 1996) [2D Array in Neptune]"
+U32,1243,"Alarmn Last Cleared (seconds since January 1, 1996) [2D Array in Neptune]"
+U16,1245,Alarm Type Index
+U16,1246,Alarmn Type Status (write 0 to acknowledge alarm type)
+U32,1247,"Alarmn Type Last Posted (seconds since January 1, 1996)"
+U32,1249,"Alarmn Type Last Cleared (seconds since January 1, 1996)"
+U16,1251,Discrete Batch flow source (see batch flow source codes)
+U16,1252,Discrete Batch current preset number (0-5)
+U16,1253,Discrete Batch number of stages (1 or 2)
+U16,1254,Discrete Batch number of decimals for display
+U16,1255,"Discrete Batch configure presets by (0=% target, 1=quantity)"
+U16,1256,Discrete Batch state (see Discrete Batch State Codes)
+F32,1257,Discrete Batch no flow time-out (in seconds)
+F32,1259,Discrete Batch alarm timeout (in minutes)
+F32,1261,Discrete Batch maximum target
+U16,1263,"Discrete Batch preset configuration index (x=0,1,2,3,4,5)"
+U16,1264,"Discrete Batch preset x enable (0=Disable, 1=Enable)"
+A22,1265,Discrete Batch preset x name
+U16,1276,Discrete Batch preset x density curve
+F32,1277,Discrete Batch preset x open primary
+F32,1279,Discrete Batch preset x open secondary
+F32,1281,Discrete Batch preset x close primary
+F32,1283,Discrete Batch preset x end warning
+F32,1285,Discrete Batch preset x target
+F32,1287,Discrete Batch preset x overrun
+F32,1289,Discrete Batch current target
+F32,1291,Discrete Batch current total
+F32,1293,Discrete Batch preset 1 inventory
+F32,1295,Discrete Batch preset 2 inventory
+F32,1297,Discrete Batch preset 3 inventory
+F32,1299,Discrete Batch preset 4 inventory
+F32,1301,Discrete Batch preset 5 inventory
+F32,1303,Discrete Batch preset 6 inventory
+F32,1305,Maximum Batch Time (in seconds)
+F32,1307,Discrete Batcher: Target Time
+U16,1309,"AOC Compensation Mode ( 0=Compensation Off, 1=Fixed Value, 2=AOC Algorithm)"
+U16,1309,"AOC Compensation Algorithm  (Upward=0, Downward=1, Fixed=2)"
+U16,1310,AOC Learning Cycles
+F32,1311,Purge Cycle Delay (in seconds)
+F32,1313,Purge Cycle Time (in seconds)
+U16,1315,Start Sensor Zero
+U16,1316,Reset Mass Total   (G5: Config Total #1)
+U16,1317,Reset Volume Total   (G5: Config Total #2)
+U16,1318,Reset API Reference (Standard) Volume Total   (G5: Config Total #3)
+U16,1319,Reset Enhanced Density Reference  Volume Total   (G5: Config Total #5)
+U16,1320,Reset Enhanced Density Net Mass Total  (G5: Config Total #6)
+U16,1321,Reset Enhanced Density Net Volume Total (G5: Config Total #7)
+U16,1322,Reset All Totals
+U16,1323,Start/Stop All Totals
+U16,1324,End discrete batch
+U16,1325,Inhibit discrete batch
+U16,1326,Inhibit discrete batch totalizer
+U16,1327,Reset discrete batch
+U16,1328,Resume discrete batch
+U16,1329,Start discrete batch
+U16,1330,Stop discrete batch
+U16,1331,Increment Current Batch Preset
+U16,1332,Increment Current ED Curve
+U16,1333,Print Screen
+U16,1334,Print W&M Transfer Screen
+U16,1335,Reset Gas Standard Volume Total  (G5: Config Total #4)
+U16,1336,Reset 2nd All Totals
+U16,1337,Reset 2nd Mass Total
+U16,1338,Reset 2nd Volume Total
+U16,1339,Reset 2nd Gas Standard Volume Total
+U16,1340,Inhibit discrete batch flow
+U16,1341,Start background meter verification
+U16,1342,Integrity Detection
+U16,1343,Start/Stop 2nd All Totals
+U16,1344,Modbus Double Precision Floating Point Byte Order
+U32,1345,Batch BOL Number
+U16,1347,PPI Alarm Password 1 (see password codes table)
+U16,1348,PPI Alarm Password 2 (see password codes table)
+U16,1349,PPI Alarm Password 3 (see password codes table)
+U16,1350,PPI Alarm Password 4 (see password codes table)
+U16,1351,PPI Maintenance Password 1 (see password codes table)
+U16,1352,PPI Maintenance Password 2 (see password codes table)
+U16,1353,PPI Maintenance Password 3 (see password codes table)
+U16,1354,PPI Maintenance Password 4 (see password codes table)
+U16,1355,PPI Configuration Password 1 (see password codes table)
+U16,1356,PPI Configuration Password 2 (see password codes table)
+U16,1357,PPI Configuration Password 3 (see password codes table)
+U16,1358,PPI Configuration Password 4 (see password codes table)
+U16,1359,Display language selection (see language codes table)
+U16,1360,Bit #0 – PPI F1 Button
+U16,1361,PPI Temperature (degrees C)
+U16,1362,Display Process Variable #16 (see process variable codes in back)
+U16,1363,Display Process Variable #17 (see process variable codes in back)
+U16,1364,Display Process Variable #18 (see process variable codes in back)
+U16,1365,Display Process Variable #19 (see process variable codes in back)
+U16,1366,Display Process Variable #20 (see process variable codes in back)
+U16,1367,"Process Variable Code (n = 0…94) (see Process Variable Codes table)  For Gen5, n = 0…251"
+U16,1368,Process Variablen – number of digits displayed to right of decimal point (0 to 5)
+U16,1369,"Process Variablen – custody transfer approved (0=NO, 1=YES)"
+U16,1370,Reset Batch Security
+A22,1371,Header Line 1 Text
+U16,1382,Header Line 1 Line Feeds
+U16,1383,"Header Line 1 Font Size (0=Normal height, 1 = Double height)"
+A22,1384,Header Line 2 Text
+U16,1395,Header Line 2 Line Feeds
+U16,1396,"Header Line 2 Font Size (0=Normal height, 1 = Double height)"
+A22,1397,Header Line 3 Text
+U16,1408,Header Line 3 Line Feeds
+U16,1409,"Header Line 3 Font Size (0=Normal height, 1 = Double height)"
+A22,1410,Header Line 4 Text
+U16,1421,Header Line 4 Line Feeds
+U16,1422,"Header Line 4 Font Size (0=Normal height, 1 = Double height)"
+A22,1423,Footer Text
+U16,1434,Footer Line Feeds
+U16,1435,"Footer Font Size (0=Normal height, 1 = Double height)"
+U16,1436,Lines Per Page
+U16,1437,Number of Tickets
+U16,1438,Number of Data Bits
+U32,1439,Start Number (BOL)
+U16,1441,Printer type (see printer codes table)
+U16,1442,DI Print Request Configuration (see print screen table)
+U16,1443,W&M DI Action (see W&M DI action codes)
+U16,1444,Disable Paper Out Detection (0=enable Paper check; 1=disable Paper check)
+U16,1445,Printer Characters Per Second
+U16,1446,Printer Buffer Size
+F32,1447,Frequency Output Negative Rate Threshold
+F32,1449,Frequency Output Positive Rate Threshold
+F32,1451,Frequency Output Averaging Window Size (0-7 samples)
+F32,1453,Frequency Input Pulses per Unit
+F32,1455,Frequency Input Units per Pulse
+F32,1457,Batch AOC Average
+F32,1457,Batch AOC Average
+F32,1459,Batch Time (in seconds)
+U16,1461,Batch Count
+U16,1462,"Discrete Output Initial State (0 = 0 V, 1 = 24 V)"
+F32,1463,Average Density (Forest Service CEQ only)
+U16,1465,Discrete Batcher: Averaging Samples for Timed Fill
+U16,1466,W&M Software Version
+U16,1467,W&M Print Condition (see W&M print condition codes)
+U16,1468,W&M Number of Transfer Tickets (1 to 3)
+U16,1469,W&M Transfer Total Display Format (see transfer total format codes)
+U16,1470,"World Area for W&M Security (0=NTEP, 1=OIML, 2=CMC [Neptune only])"
+U16,1471,Audit Trail Event Counter
+U16,1472,Audit Trail Index Value for next stored change
+U16,1473,Audit Trail Index Register (n=0..999)
+U16,1474,Audit Trail Recordn Event Counter
+U32,1475,"Audit Trail Recordn Time Stamp (Seconds since January 1, 1996)"
+U16,1477,"Audit Trail Recordn Register Number (0xxxx for coil, 4xxxx for register)"
+U16,1478,Audit Trail Recordn Register Array Index (valid only if item is an array)
+U16,1479,Audit Trail Recordn Item Units (valid only if item normally has associated units)
+U16,1488,Bootloader revision (x.xx format)
+A32,1489,"Fieldbus Tag (Fieldbus Devices), HART Long Tag (HART devices),"
+U16,1505,Fieldbus/ Profibus PA AI Function Block Index (0 – 3)
+U16,1506,Fieldbus  / Profibus PA AI Target Mode
+U16,1507,Fieldbus / Profibus PA AI Actual Mode
+U16,1508,Fieldbus / Profibus  AI Channel
+U16,1509,Fieldbus / Profibus PA AI XD Scale Units (valid units associated with channel selection)
+U16,1510,Fieldbus / Profibus PA AI L Type (Only 1=Direct can be written)
+U16,1511,Fieldbus / Profibus PA Integrator Block Type
+U16,1512,Fieldbus Alert Timeout
+U32,1513,W&M BOL Start Number
+U16,1515,Transmitter NVM Primary Configuration Copy Bad on Power-up Count (Set to 0 on master reset)
+U16,1516,Transmitter NVM Backup Configuration Copy Bad on Power-up Count (Set to 0 on master reset)
+U32,1517,Transmitter Firmware Checksum
+U16,1519,DeviceNet Daughterboard Software Version
+U16,1512,Profibus-PA AI1 Channel (see Profibus-PA AI Channel codes)
+U16,1513,Profibus-PA AI1 Units (see Profibus-PA AI Unit code tables)
+U16,1514,Profibus-PA AI2 Channel (see Profibus-PA AI Channel codes)
+U16,1515,Profibus-PA AI2 Units (see Profibus-PA AI Unit code tables)
+U16,1516,Profibus-PA AI3 Channel (see Profibus-PA AI Channel codes)
+U16,1517,Profibus-PA AI3 Units (see Profibus-PA AI Unit code tables)
+U16,1518,Profibus-PA AI4 Channel (see Profibus-PA AI Channel codes)
+U16,1519,Profibus-PA AI4 Units (see Profibus-PA AI Unit code tables)
+U16,1520,"Process Monitor Format (0=No Stats, 1=With Stats)"
+A16,1521,Printer Pre-Header Control Character String (16 characters)
+A16,1529,Printer Post-Footer Control Character String (16 characters)
+F32,1537,Actual Back Flow Rate (uncorrected)
+F32,1539,Actual Density (Unremediated Density for PVR and TBR for 2700 and 800)
+F32,1541,Actual Drive Gain
+F32,1543,Actual Gross Flow Rate
+F32,1545,Actual Mass Flow Rate
+F32,1547,Actual Net Oil Flow Rate
+F32,1549,Actual Net Water Flow Rate
+F32,1551,Actual Temperature
+F32,1553,Actual Uncorrected Oil Flow Rate
+F32,1555,Actual Uncorrected Water Cut
+F32,1557,Actual Net Water Cut
+F32,1559,Actual Uncorrected Gross Flow (same as 253/254)
+F32,1561,Actual Uncorrected Water Flow
+F32,1563,Actual Gas Volume Flow Rate (Gas Meter)
+F32,1565,Density for Manual Oil Density Determination (ETO21541)
+F32,1567,Temperature for Manual Oil Density Determination (ETO21541)
+F32,1567,Average Back Flow Rate (obsolete in v7.10)
+F32,1569,Average Density
+F32,1571,Average Drive Gain
+F32,1573,Average Gross Flow Rate
+F32,1575,Average Mass Flow Rate
+F32,1577,Average Net Oil Flow Rate
+F32,1579,Average Net Water Flow Rate
+F32,1581,Average Temperature
+F32,1583,Average Uncorrected Oil Flow Rate
+F32,1585,Average Uncorrected Water Cut
+F32,1587,Average Water Cut
+F32,1589,Average Uncorrected Gross Flow Rate
+F32,1591,Average Uncorrected Water Flow Rate
+F32,1593,Average Gas Volume Flow Rate (Gas Meter)
+F32,1597,Maximum Back Flow Rate (uncorrected)
+F32,1599,Maximum Density
+F32,1601,Maximum Drive Gain
+F32,1603,Maximum Gross Flow Rate
+F32,1605,Maximum Mass Flow Rate
+F32,1607,Maximum Net Oil Flow Rate
+F32,1609,Maximum Net Water Flow Rate
+F32,1611,Maximum Temperature
+F32,1613,Maximum Uncorrected Oil Flow Rate
+F32,1615,Maximum Uncorrected Water Cut
+F32,1617,Maximum Water Cut
+F32,1619,Maximum Uncorrected Gross Flow Rate
+F32,1621,Maximum Uncorrected Water Flow Rate
+F32,1623,Maximum Gas Volume Flow Rate (Gas Meter)
+F32,1627,Minimum Back Flow Rate (uncorrected)
+F32,1629,Minimum Density
+F32,1631,Minimum Drive Gain
+F32,1633,Minimum Gross Flow Rate
+F32,1635,Minimum Mass Flow Rate
+F32,1637,Minimum Net Oil Flow Rate
+F32,1639,Minimum Net Water Flow Rate
+F32,1641,Minimum Temperature
+F32,1643,Minimum Uncorrected Oil Flow Rate
+F32,1645,Minimum Uncorrected Water Cut
+F32,1647,Minimum Water Cut
+F32,1649,Minimum Uncorrected Gross Flow Rate
+F32,1651,Minimum Uncorrected Water Flow Rate
+F32,1653,Minimum Gas Volume Flow Rate (Gas Meter)
+F32,1655,Corrected (Assuming 100% Oil) Density @ RefTemp  (Fixed SGU for 2700 v8.0 and later)
+F32,1657,Gross Volume Total
+F32,1659,Mass Total
+F32,1661,Net Oil Volume Total   [ Gen5 Snapshot (Inv) ]
+F32,1663,Net Water Volume Total   [ Gen5 Snapshot (Inv) ]
+F32,1665,Uncorrected Oil Volume Total   [ Gen5 Snapshot (Inv) ]
+F32,1667,Uncorrected Water Volume Total   [ Gen5 Snapshot (Inv) ]
+F32,1669,Back Flow Volume Total (uncorrected)
+F32,1671,Uncorrected Gross Volume Total
+F32,1673,Gas Volume Total (Gas Meter)
+F32,1675,Density of Oil at Reference Temperature
+F32,1677,Maximum Deviation of Oil Density During Density Determination
+F32,1679,Density of Water at Reference Conditions
+F32,1681,Maximum Deviation of Water Density During Density Determination
+F32,1683,"Drive Gain Threshold for TBR (volts in v5.x, percent in v7.1 and later)"
+F32,1685,External Water Cut Input (%)
+F32,1687,Shrinkage Factor for Water
+F32,1689,Shrinkage Factor for Oil
+U16,1691,Oil density averaging time for Density Determination (seconds)
+U16,1692,Produced Water Density averaging time for Density Determination (seconds)
+U16,1693,Purge Time for separator (minutes) (well test mode only)
+U16,1694,Look-back Time Interval for TBR (5-30 seconds)
+F32,1695,Oil Density Pressure Coefficient
+F32,1697,Reference Pressure
+F32,1699,Gas Reference Density (Gas Meter)
+U16,1701,"Well to be Configured (0 for continuous mode, 1-48 for well test mode)"
+U16,1702,"Well that is Being Tested (0 for continuous mode, 1-48 for well test mode)"
+U16,1703,"Test Results (0=well under test, 1=last test, 2=next-to-last test, 3=oldest test, 4=saved recalculation data, 5=recalculation results)"
+U16,1704,"Well Within Archive for Test Results (0 for continuous mode, 1-48 for well test mode)"
+U16,1705,"Reference Temperature (0=60 degF, 1=15 degC, 2=20 degC)"
+U16,1706,"Action taken on TBR event (0=hold last value, 1=stop well test, 2=alarm only)"
+U32,1707,Well Test Start Time and Date
+U32,1709,Well Test Transient Bubble Time (seconds)
+U32,1711,Well Test Elapsed Time (seconds)
+U32,1713,Production Measurement Paused Time in seconds
+U32,1715,Well Test Purge Time Remaining (seconds)
+U16,1717,Gas Volume Flow Units (Gas Meter)
+U16,1718,Gas Volume Total Units (Gas Meter)
+U16,1719,NOC State
+U16,1720,NOC Mode/State
+F32,1721,External Water Cut Alarm Limit (%)
+U32,1723,Well Test External Water Cut Overrange Time (seconds)
+U32,1725,Time and Date of Last Reset All
+U32,1727,Time and Date Last Well Test Was Started
+U32,1729,Time and Date Last Well Test Was Started
+F32,1731,NOC External Water Cut Minimum Threshold
+U32,1733,Shrinkage Factored Uncorrected Net Flow Oil @ Line
+U32,1735,Shrinkage Factored Corrected Net Flow Oil @ RefTemp
+U32,1737,"Shrinkage Factored Volume Flow, Mixture @ RefTemp"
+U32,1739,deg API Corrected (Assuming 100% Oil) Density Mix @ RefTemp
+U32,1741,Time and Date Maximum Back Flow Was Achieved
+U32,1743,Time and Date Maximum Density Was Achieved
+U32,1745,Time and Date Maximum Drive Gain Was Achieved
+U32,1747,Time and Date Maximum Gross Flow Rate Was Achieved
+U32,1749,Time and Date Maximum Mass Flow Rate Was Achieved
+U32,1751,Time and Date Maximum Net Oil Flow Rate Was Achieved
+U32,1753,Time and Date Maximum Net Water Flow Rate Was Achieved
+U32,1755,Time and Date Maximum Temperature Was Achieved
+U32,1757,Time and Date Maximum Uncorrected Oil Flow Was Achieved
+U32,1759,Time and Date Maximum Uncorrected Water Cut Was Achieved
+U32,1761,Time and Date Maximum Water Cut Was Achieved
+U32,1763,Time and Date Maximum Uncorrected Gross Flow Rate Was Achieved
+U32,1765,Time and Date Maximum Uncorrected Water Flow Rate Was Achieved
+U32,1767,Time and Date Maximum Gas Volume Flow Rate Was Achieved (Gas Meter)
+U32,1773,Time and Date Minimum Density Was Achieved
+U32,1775,Time and Date Minimum Drive Gain Was Achieved
+U32,1777,Time and Date Minimum Gross Flow Rate Was Achieved
+U32,1779,Time and Date Minimum Mass Flow Rate Was Achieved
+U32,1781,Time and Date Minimum Net Oil Flow Rate Was Achieved
+U32,1783,Time and Date Minimum Net Water Flow Rate Was Achieved
+U32,1785,Time and Date Minimum Temperature Was Achieved
+U32,1787,Time and Date Minimum Uncorrected Oil Flow Was Achieved
+U32,1789,Time and Date Minimum Uncorrected Water Cut Was Achieved
+U32,1791,Time and Date Minimum Water Cut Was Achieved
+U32,1793,Time and Date Minimum Uncorrected Gross Flow Rate Was Achieved
+U32,1795,Time and Date Minimum Uncorrected Water Flow Rate Was Achieved
+U32,1797,Time and Date Minimum Gas Volume Flow Rate Was Achieved (Gas Meter)
+F32,1799,Liquid Mass Flow (APM PG only)
+U32,1801,Time and Date Back Flow Was Reset
+U32,1803,Time and Date Density Was Reset
+U32,1805,Time and Date Drive Gain Was Reset
+U32,1807,Time and Date Gross Flow Was Reset
+U32,1809,Time and Date Mass Flow Was Reset
+U32,1811,Time and Date Net Oil Flow Was Reset
+U32,1813,Time and Date Net Water Flow Was Reset
+U32,1815,Time and Date Temperature Was Reset
+U32,1817,Time and Date Uncorrected Oil Flow Rate Was Reset
+U32,1819,Time and Date Uncorrected Water Cut Was Reset
+U32,1821,Time and Date Water Cut Was Reset
+U32,1823,Time and Date Uncorrected Gross Flow Rate Was Reset
+U32,1825,Time and Date Uncorrected Water Flow Rate Was Reset
+U32,1827,Time and Date Gas Volume Flow Rate Was Reset (Gas Meter)
+U16,1829,Density Determination Update Progress
+U16,1830,"Well Number for Density Determination (0 for continuous mode, 1-48 for well test mode)"
+F32,1831,Density Determination Manually Entered Water Density
+F32,1833,Density Determination Manually Entered Water Temperature
+F32,1835,Water Cut Percentage of Oil Sample
+U32,1837,Time stamp When Oil/Water Density Determination Averaging Performed
+F32,1839,Density Determination Calculated Water Density at Reference Temperature
+U32,1841,Time Stamp of Calculated Water Density at Reference (1839/1840)
+F32,1843,Density Determination Water Density at Reference Temperature
+U32,1845,Time stamp for Water Density at Reference Temperature (1843/1844)
+F32,1847,Current Water Density at Reference (same as 1679)
+U32,1849,Time stamp for Current Water Density at Reference
+F32,1851,Current Oil Density at Reference (same as 1675)
+U32,1853,Time stamp for Current Oil Density at Reference
+F32,1855,Density Determination Calculated Oil Density at Reference Temperature
+U32,1857,Time stamp of Oil Density Sample for Water Cut Measurement
+F32,1859,Density Determination Volume Total
+F32,1861,Density Determination Average Density
+F32,1863,Density Determination Average Temperature
+F32,1865,Density Determination Measured Water Cut
+F32,1867,Density Determination Measured Reference Pressure
+U32,1869,Time stamp of Reference Pressure
+F32,1871,Drive Gain Threshold for TMR (percent)
+U16,1873,Undefined
+U16,1874,HART Polling Control Code #3 (see polling control code table)
+A8,1875,HART Polling Tag #3
+F32,1879,TMR Mass Flow Rate (from gas meter)
+F32,1881,TMR Net Oil Carry-Over Volume Total
+F32,1883,TMR Net Water Carry-Over Volume Total
+F32,1885,TMR Mass Carry-Over Total
+F32,1887,TMR Uncorrected Oil Carry-Over Volume Total
+F32,1889,TMR Uncorrected Water Carry-Over Volume Total
+F32,1891,TMR Drive Gain (from gas meter)
+F32,1893,TMR Average Drive Gain (from gas meter)
+F32,1895,TMR Minimum Drive Gain (from gas meter)
+F32,1897,TMR Maximum Drive Gain (from gas meter)
+U32,1899,TMR Minimum Drive Gain Timestamp
+U32,1901,TMR Maximum Drive Gain Timestamp
+U32,1903,TMR Timer (seconds)
+F32,1905,TMR pre-event averaging period (seconds)
+F32,1907,TMR post-event averaging period (seconds)
+F32,1909,TMR Flow Rate Factor
+F32,1911,TMR Gas Flow Correction Total
+F32,1913,Wet gas reference %liquid mass  - user input (ETO 30184)
+F32,1915,Density associated with Liquid % of Mass Flow - user input (ETO 30184)
+F32,1917,Density used to convert Liquid Mass Flow (reg 1799) to
+F32,1919,Liquid flow rate during test - user input (ETO 30184)
+F32,1921,Temperature at meter during test - user input (ETO 30184)
+F32,1923,Pressure at meter during test - user input (ETO 30184)
+U16,1925,"Well Number for Data Recalculation (0 for continuous mode, 1-48 for well test mode)"
+U16,1926,"Well Data Set for Recalculation (1=last test, 2=next-to-last test, 3=oldest test)"
+U16,1927,Recalculation Reference Temperature
+F32,1929,Recalculation oil density at reference conditions
+F32,1931,Recalculation water density at reference conditions
+F32,1933,Recalculation reference pressure
+F32,1935,Recalculation pressure coefficient for oil density
+F32,1937,Recalculation gas reference density
+F32,1939,Recalculation shrinkage factor for oil
+F32,1941,Recalculation shrinkage factor for water
+F32,1943,Original reference temperature
+F32,1945,Original oil density at reference conditions
+F32,1947,Original water density at reference conditions
+F32,1949,Original reference pressure
+F32,1951,Original pressure coefficient for oil density
+F32,1953,Original gas reference density
+F32,1955,Original shrinkage factor for oil
+F32,1957,Original shrinkage factor for water
+F32,1959,Manual Oil Density for Density Determination (ETO21541)   Gen5:Standard
+F32,1961,Manual Oil Temperature for Density Determination (ETO21541)
+F32,1963,TMR Remediated Mass Flow Rate
+F32,1965,TMR Remediated Mass Total
+F32,1967,TMR Remediated Mass Inventory
+F32,1969,Maximum % Liquid - user input (ETO 30184)
+F32,1971,Observed Maximum Deviation (NOC Density Determination)
+F32,1973,Manual Water Density for NOC
+F32,1975,Stable RPO Voltage Threshold (default=0.2993) (ETO 29496)
+F32,1979,Unstable RPO Voltage Threshold (default=0.16) (ETO 29496)
+F32,1983,Delta Temp Threshold (default=2 degC) (ETO 29496)
+F32,1987,Delta Density Threshold (default=0 g/cc) (ETO 29496)
+U16,1989,Index for Coefficient Array (0 - 14) (ETO 29496)
+F32,1990,Array of the 15 Coefficients (ETO 29496)
+F32,1992,Low Pressure Reference Value (range 0 to 120 bar) (ETO 29496)
+F32,1994,High Pressure Reference Value (range 0 to 120 bar) (ETO 29496)
+F32,1998,Temperature at Standard Conditions  (ETO 29496)
+F32,2000,Pressure at Standard Conditions  (ETO 29496)
+F32,2004,Dry Gas Mass Fraction at Operating Conditions  (ETO 29496)
+F32,2008,Dry Gas Mass Flow Rate  (ETO 29496)
+F32,2013,Density for MicroLoad support (ETO23317 and ETO23182)
+F32,2255,Gas Liquid Ratio - Standard Conditions (ETO 29496)
+F32,2257,Net Oil Mass Flow Rate @ Ref (ETO 29496)
+F32,2259,Net Water Mass Flow Rate (ETO 30184)
+F32,2261,Liquid Volume Flow Rate (ETO 30184)  
+F32,2263,Gas to Oil Ratio (ETO 30184)
+F32,2265,Unremediated Volume Flow of Mix @ Line (no TBR)
+U32,2267,TBR Cumulative Time (Seconds)
+U16,2269,Processor restart.Similar to processor restart in FF.The default value = 0 . Processor restart if value = 4.The value shall immidiately change to 1 after writing.
+U16,2274,Ident No. selector
+U16,2275,AO OUT Channel
+U16,2276,Temp. / Pressure compensation selector
+A16,2277,Profibus I&M iDevice installation Date
+U16,2286,Fieldbus TOT Function Block Index (0 – 3)
+U16,2287,Fieldbus TOT Target Mode
+U16,2288,Fieldbus TOT Actual Mode
+U16,2289,Fieldbus TOT Channel
+U16,2290,Fieldbus TOT Units (valid units associated with channel selection)
+U16,2291,Fieldbus TOT Selection
+U16,2292,Fieldbus TOT SetTot
+U16,2293,Fieldbus TOT ModeTot
+U16,2294,Fieldbus AO Function Block Index (0 – 3) (For 2700 PA range is 0-1) 
+U16,2295,Fieldbus AO Target Mode
+U16,2296,Fieldbus AO Actual Mode
+U16,2297,Fieldbus AO Channel
+U16,2298,Fieldbus AO PV Scale Units (valid units associated with channel selection)
+U16,2299,Fieldbus AO Out Scale Units (valid units associated with channel selection)
+U16,2300,"Power Outage Log Index (0-2, 0=last, 2=oldest)"
+U32,2301,Power Off Time stamp
+U32,2303,Power On Time stamp
+U16,2305,Index of Well Name to Configure (1-48) (v5.x only)
+A16,2306,Well name (16 characters maximum) (well test mode only)
+U8,2314,LCD Test Picture Index (1~8)
+F32,2327,"Gross Volume Inventory (Gen5 Total, NOC Gross Volume @ Ref)"
+F32,2329,"NOC Mass Inventory (Gen5 Total, NOC Mass Total)"
+F32,2331,"Net Oil Volume Inventory (Gen5 Total, NOC Oil Total @ Ref)"
+F32,2333,"Net Water Volume Inventory (Gen5 Total, NOC Water Total @ Ref)"
+F32,2335,"Uncorrected Oil Volume Inventory (Gen5 Total, NOC Oil Total @ Line)"
+F32,2337,"Uncorrected Water Volume Inventory (Gen5 Total, NOC Water Total @ Line)"
+F32,2339,"Back Flow Volume Inventory (uncorrected) (Gen5 Total, Backflow @ Line)"
+F32,2341,"Uncorrected Gross Volume Inventory (Gen5 Total, NOC Gross Volume @ Line)"
+F32,2343,Gas Volume Inventory (Gas Meter)
+U8,2345," The value of global current register, which determines the current setting for outputs of MAX6967 (controller to control the sensitivity of LDO IR buttons and intensity of LEDs and backlight) (refer to global current register code)"
+U8,2346,"The value of output current register, which determines half/full global current of separate output pins of MAX6967 (controller to control the sensitivity of LDO IR buttons and intensity of LEDs and backlight) (refer to output current register code)"
+U8,2347,The duty cycle of Timer 2 assigned as PWM signal for LDO IR button 1 (determine the sensitivity of button 1) (0 ~ 99)
+U8,2348,The duty cycle of Timer 2 assigned as PWM signal for LDO IR button 2 (determine the sensitivity of button 2) (0 ~ 99)
+U8,2349,The duty cycle of Timer 2 assigned as PWM signal for LDO IR button 3 (determine the sensitivity of button 3) (0 ~ 99)
+U8,2350,"The duty cycle of PWM signal, generated from internal MAX6967, for LDO red status LED (determine the intensity of red LED) (0 ~ 99)"
+U8,2351,"The duty cycle of PWM signal, generated from internal MAX6967, for LDO yellow status LED (determine the intensity of yellow LED) (0 ~ 99)"
+U8,2352,"The duty cycle of PWM signal, generated from internal MAX6967, for LDO green status LED (determine the intensity of green LED) (0 ~ 99)"
+U16,2353,PWM signal frequency for LDO IR buttons (0 ~ 20000)
+U8,2355,LDO screen flag
+U8,2356,"LDO button type (IR=0, Touch=1)"
+U8,2357,"LDO display driver type (TRULY=0, AVD=1)"
+U16,2358,Oil Density Scaled Integer (scale factor is 10000)
+U16,2359,Water Density Scaled Integer (scale factor is 10000)
+U16,2360,"Dynamic Drive Control (0=Drive off, 1=Dyn Drive On, 2=Standard Drive) "
+F32,2361,Absolute Max Allowed Drive Current (Ceiling)
+F32,2363,Absolute Min Allowed Drive Current (Floor)
+F32,2365,Undefined
+F32,2367,Calculated Dynamic Max Drive Current (without limits)
+F32,2369,Calibration Point 1 Vg Voltage
+F32,2371,Calibration Point 1 I_output Current
+F32,2373,Calibration Point 2 Vg Voltage
+F32,2375,Calibration Point 2 I_output Current
+F32,2377,Calculated Loop Resistance
+F32,2379,Calculated Supply Voltage
+F32,2381,Calculated Predicted Vg Voltage
+F32,2383,Dynamically Controlled Max Output Drive Current (Actual with limits applied)
+U16,2478,AOC Flow Rate Samples
+F32,2479,AOC Averaged Flow Rate
+F32,2481,Variance of  AOC Training Values for Secondary Fill
+F32,2483,Variance of AOC Training Values
+U16,2485,Alarm Occurred During Transfer (ETO 14416)
+U16,2486,Rotary Switch Setting (Profibus Address)
+U16,2487,Precision DO 1 Fixed Value
+U16,2488,Precision DO 2 Fixed Value
+U16,2489,Precision DO 1 Source (110 - Primary Valve only)
+U16,2490,"Precision DO 1 Polarity  (0 = active low, 1 = active high)"
+U16,2491,Precision DO 2 Source (109 - Pump or 111 - Secondary Valve)
+U16,2492,"Precision DO 2 Polarity (0 = active low, 1 = active high)"
+F32,2493,Pump to Valve Delay Time (in seconds)
+U16,2495,Bit #0 – Primary Fill In Progress
+U16,2496,Bit #0 – Fill Start Not Okay
+U16,2497,"Fill AOC Convergence Rate (1 = Normal, 2 = Slow)"
+U16,2498,Fill Log Index (n=0 to 1000)
+F32,2499,Fill Log Valuen
+F32,2501,Average of Secondary Fill Totals
+F32,2503,Variance of Secondary Fill Totals
+F32,2505,Discrete Batcher: Percent Fill
+F32,2507,Discrete Batcher: AOC Change Limit
+F32,2509,Analog Valve Set Point
+F32,2511,Analog Valve Open Full
+F32,2513,Analog Valve Close Partial
+F32,2515,Fixed AOC Valve
+F32,2517,Discrete Batch Close Secondary
+F32,2519,Average of Batch Totals
+F32,2521,Variance of Batch Totals
+F32,2523,Discrete Batcher: Secondary AOC Value for Dual Fill
+U16,2525,Analog Valve Number of Stages (1 or 2)
+U16,2526,"Batch State (0=Idle, 1=Running, 2=Paused)"
+U16,2526,Bit #0 – Batch In Progress
+F32,2527,"Analog Valve Closed Value (in mA, 0.0 to 4.0)"
+A32,2529,Fieldbus Device ID
+A32,2545,Profibus Device Order Number
+U8,2555,"HART Universal Mode (5=HART5, 7=HART7)"
+U8,2556,HART 7 Lock Device Status
+U8,2557,HART 7 Burst Message Index (0-2)
+U8,2558,HART 7 Burst Message Control (indexed)
+U16,2559,HART 7 Burst Message Command (indexed)
+U8,2560,HART 7 Burst Message Trigger Mode (indexed)
+F32,2561,HART 7 Burst Message Trigger Value (indexed)
+U32,2563,HART 7 Burst Message Update Time (indexed)
+U32,2565,HART 7 Burst Message Max Update Time (indexed)
+U8,2567,HART 7 Burst Message Variable 0 (indexed)
+U8,2568,HART 7 Burst Message Variable 1 (indexed)
+U8,2569,HART 7 Burst Message Variable 2 (indexed)
+U8,2570,HART 7 Burst Message Variable 3 (indexed)
+U8,2571,HART 7 Burst Message Variable 4 (indexed)
+U8,2572,HART 7 Burst Message Variable 5 (indexed)
+U8,2573,HART 7 Burst Message Variable 6 (indexed)
+U8,2574,HART 7 Burst Message Variable 7 (indexed)
+U8,2576,HART 7 Event Notify Control
+U32,2577,HART 7 Event Notify Retry Time
+U32,2579,HART 7 Event Notify Max Update Time
+U32,2581,HART 7 Event Notify Debounce Time
+U8,2583,HART 7 Event Notify Device Status Mask
+A25,2584,HART 7 Event Notify Event Status Mask
+U16,2597,"Configuration Change Counter (incremented for all config writes through any interface (i.e. HART, Modbus, Local Display, etc)"
+U32,2598,Unique Hart ID of last connected puck.
+U16,2600,Core Processor Software Version Number (xxx.xx format – 421 means rev 4.21)
+U16,2601,Gas standard volume flow unit (see gas standard volume flow unit codes)
+U16,2602,Gas standard volume total/inv unit (derived from the GSV flow unit)
+U16,2603,Base gas standard volume unit
+U16,2604,Base time unit for special gas standard volume unit
+F32,2605,Special gas standard volume unit conversion factor
+A8,2607,Special gas standard volume flow unit string
+A8,2611,Special gas standard volume total (or inventory) unit string
+U16,2615,Discrete Output 1 Fault Indication (refer to discrete output fault codes)
+U16,2616,Discrete Output 2 Fault Indication (refer to discrete output fault codes)
+U16,2617,Discrete Output 3 Fault Indication (refer to discrete output fault codes)
+U16,2618,Discrete Output 4 Fault Indication (refer to discrete output fault codes)
+U16,2619,Totalizer Reset Option for Custody Transfer (see Reset Option codes)
+U16,2620,"Bell-202 HART Loop Current Mode (0=Disabled, 1=Enabled)"
+U16,2621,"Display update period (milliseconds) - The range for Gen5 is (100 - 10,000 ms)"
+U16,2622,Backlight intensity (0=off to 63=full on)
+U16,2623,Acknowledge alarm (write alarm index to acknowledge the alarm)
+U16,2624,"LED Status (1=green, 2=red, 3=yellow, add 4 if flashing)"
+U32,2625,Power-on time (seconds since last reset)
+U16,2627,Alarm Log History Index (n=0 to 49)
+U16,2628,"Alarmn Number (1=A1, etc.) [Array in Neptune]"
+U16,2629,"Alarmn Status Change (1=posted, 2=cleared) [Array in Neptune]"
+U32,2631,Alarmn Timestamp of status change (power-on time in seconds)
+U16,2633,Alarm Status A0-A7
+U16,2634,Alarm Status A8-A15
+U16,2635,Alarm Status A16-A23
+U16,2636,Alarm Status A24-A31
+U16,2637,Alarm Status A32-A39
+U16,2638,Alarm Status A100-A107
+U16,2639,Alarm Status A108-A115
+U16,2640,Alarm Status A116-A123
+U16,2641,Alarm Status A124-A131
+U16,2642,Alarm Status A132-A139
+U16,2643,Alarm Status A140-A147
+U16,2644,Alarm Status A148-A155 (reserved for future use)
+U16,2645,Alarm Status A156-A163 (reserved for future use)
+U16,2646,Alarm Status A164-A171 (reserved for future use)
+U16,2647,Alarm Status A172-179 (reserved for future use)
+F32,2659,Previous Auto Zero  (doesn't survive a power cycle)
+U16,2661,Bit #0 – Xmtr EEPROM Checksum Error (A18)
+U16,2662,Bit #0 – Undefined
+U16,2663,"LOI Button Simulation (0=Neither, 1=Scroll, 2=Select, 3=Both)"
+U16,2664,Scratchpad Offset (0 to 255)
+F32,2673,Factory flow signal offset at zero flow  (units of uSec)
+U16,2675,Slot 0 Configuration Array Dim1 Index
+U16,2676,Slot 1 Configuration Array Dim1 Index
+U16,2677,Slot 2 Configuration Array Dim1 Index
+U16,2678,Slot 3 Configuration Array Dim1 Index
+U16,2679,Slot 4 Configuration Array Dim1 Index
+U16,2680,Slot 5 Configuration Array Dim1 Index
+U16,2681,Slot 6 Configuration Array Dim1 Index
+U16,2682,Slot 7 Configuration Array Dim1 Index
+U16,2683,Slot 8 Configuration Array Dim1 Index
+U16,2684,Slot 9 Configuration Array Dim1 Index
+U16,2685,Slot 10 Configuration Array Dim1 Index
+U16,2686,Slot 11 Configuration Array Dim1 Index
+U16,2687,Slot 12 Configuration Array Dim1 Index
+U16,2688,Slot 13 Configuration Array Dim1 Index
+U16,2689,Slot 14 Configuration Array Dim1 Index
+U16,2690,Slot 15 Configuration Array Dim1 Index
+U16,2691,Slot 16 Configuration Array Dim1 Index
+U16,2692,Slot 17 Configuration Array Dim1 Index
+U16,2693,Slot 18 Configuration Array Dim1 Index
+U16,2694,Slot 19 Configuration Array Dim1 Index
+U16,2695,Slot 20 Configuration Array Dim1 Index
+U16,2696,Slot 21 Configuration Array Dim1 Index
+U16,2697,Slot 22 Configuration Array Dim1 Index
+U16,2698,Slot 23 Configuration Array Dim1 Index
+U16,2699,Slot 24 Configuration Array Dim1 Index
+U16,2700,Slot 25 Configuration Array Dim1 Index
+U16,2701,Slot 26 Configuration Array Dim1 Index
+U16,2702,Slot 27 Configuration Array Dim1 Index
+U16,2703,Slot 28 Configuration Array Dim1 Index
+U16,2704,Slot 29 Configuration Array Dim1 Index
+U16,2705,Slot 30 Configuration Array Dim1 Index
+U16,2706,Slot 31 Configuration Array Dim1 Index
+U16,2707,Slot 0 Configuration Array Dim2 Index
+U16,2708,Slot 1 Configuration Array Dim2 Index
+U16,2709,Slot 2 Configuration Array Dim2 Index
+U16,2710,Slot 3 Configuration Array Dim2 Index
+U16,2711,Slot 4 Configuration Array Dim2 Index
+U16,2712,Slot 5 Configuration Array Dim2 Index
+U16,2713,Slot 6 Configuration Array Dim2 Index
+U16,2714,Slot 7 Configuration Array Dim2 Index
+U16,2715,Slot 8 Configuration Array Dim2 Index
+U16,2716,Slot 9 Configuration Array Dim2 Index
+U16,2717,Slot 10 Configuration Array Dim2 Index
+U16,2718,Slot 11 Configuration Array Dim2 Index
+U16,2719,Slot 12 Configuration Array Dim2 Index
+U16,2720,Slot 13 Configuration Array Dim2 Index
+U16,2721,Slot 14 Configuration Array Dim2 Index
+U16,2722,Slot 15 Configuration Array Dim2 Index
+U16,2723,Slot 16 Configuration Array Dim2 Index
+U16,2724,Slot 17 Configuration Array Dim2 Index
+U16,2725,Slot 18 Configuration Array Dim2 Index
+U16,2726,Slot 19 Configuration Array Dim2 Index
+U16,2727,Slot 20 Configuration Array Dim2 Index
+U16,2728,Slot 21 Configuration Array Dim2 Index
+U16,2729,Slot 22 Configuration Array Dim2 Index
+U16,2730,Slot 23 Configuration Array Dim2 Index
+U16,2731,Slot 24 Configuration Array Dim2 Index
+U16,2732,Slot 25 Configuration Array Dim2 Index
+U16,2733,Slot 26 Configuration Array Dim2 Index
+U16,2734,Slot 27 Configuration Array Dim2 Index
+U16,2735,Slot 28 Configuration Array Dim2 Index
+U16,2736,Slot 29 Configuration Array Dim2 Index
+U16,2737,Slot 30 Configuration Array Dim2 Index
+U16,2738,Slot 31 Configuration Array Dim2 Index
+U16,2739,Slot 0 Configuration Array Dim3 Index
+U16,2740,Slot 1 Configuration Array Dim3 Index
+U16,2741,Slot 2 Configuration Array Dim3 Index
+U16,2742,Slot 3 Configuration Array Dim3 Index
+U16,2743,Slot 4 Configuration Array Dim3 Index
+U16,2744,Slot 5 Configuration Array Dim3 Index
+U16,2745,Slot 6 Configuration Array Dim3 Index
+U16,2746,Slot 7 Configuration Array Dim3 Index
+U16,2747,Slot 8 Configuration Array Dim3 Index
+U16,2748,Slot 9 Configuration Array Dim3 Index
+U16,2749,Slot 10 Configuration Array Dim3 Index
+U16,2750,Slot 11 Configuration Array Dim3 Index
+U16,2751,Slot 12 Configuration Array Dim3 Index
+U16,2752,Slot 13 Configuration Array Dim3 Index
+U16,2753,Slot 14 Configuration Array Dim3 Index
+U16,2754,Slot 15 Configuration Array Dim3 Index
+U16,2755,Slot 16 Configuration Array Dim3 Index
+U16,2756,Slot 17 Configuration Array Dim3 Index
+U16,2757,Slot 18 Configuration Array Dim3 Index
+U16,2758,Slot 19 Configuration Array Dim3 Index
+U16,2759,Slot 20 Configuration Array Dim3 Index
+U16,2760,Slot 21 Configuration Array Dim3 Index
+U16,2761,Slot 22 Configuration Array Dim3 Index
+U16,2762,Slot 23 Configuration Array Dim3 Index
+U16,2763,Slot 24 Configuration Array Dim3 Index
+U16,2764,Slot 25 Configuration Array Dim3 Index
+U16,2765,Slot 26 Configuration Array Dim3 Index
+U16,2766,Slot 27 Configuration Array Dim3 Index
+U16,2767,Slot 28 Configuration Array Dim3 Index
+U16,2768,Slot 29 Configuration Array Dim3 Index
+U16,2769,Slot 30 Configuration Array Dim3 Index
+U16,2770,Slot 31 Configuration Array Dim3 Index
+A12,2771,Original Curven Name of Curve
+A12,2777,Extended Curven Name of Curve
+F32,2783,Curven  Special Density at ConcentrationY (at Ref Temp)
+F32,2785,Curven  SD Coeff at ConcentrationY (at Ref Temp)
+U16,2787,Curven Special Density Units Code
+U16,2788,Curven Enable Special Density Curve (1=Enabled)
+A8,2789,Curven Special Density Units Text
+F32,2793,User Defined SGU of Solid (ETO10598)
+U16,2795,Batch Fast Fill AOC Rate Method
+F32,2797,Flow Verification Zero
+U16,2799,DDC Global Trigger Status
+U16,2800,"DDC Trigger Index  ( 0-7 valid, Triggers 0-2 are predefined and read-only)"
+U16,2801,"DDC Trigger Status (0=Insuff. Memory, 1=Awaiting, 2=Complete, 3=Complete And Awaiting, 4=In Progress)"
+U16,2802,"DDC Trigger Once (0=No, 1=Only Once)"
+U16,2803,DDC Trigger “A” Event Code
+U16,2804,"DDC Trigger operator (0=AND, 1=OR)"
+U16,2805,DDC Trigger “B” Event Code
+U16,2806,"DDC Storage Rate (units of 0.01 Sec,  Max= 655.35 Sec)"
+U16,2807,DDC # of Samples in buffer
+U16,2808,"DDC Trigger A PV Code (if applicable, otherwise ‘None’)"
+U16,2809,"DDC Trigger B PV Code (if applicable, otherwise ‘None’)"
+U16,2810,"DDC % After Trigger ( units of 1%, values of 0-100 are valid)"
+F32,2811,"DDC Trigger A PV Value (for trigger event codes 0 & 1, units per 2808) "
+F32,2813,"DDC Trigger B PV Value  (for trigger event codes 0 & 1, units per 2809)"
+U32,2815,"DDC Trigger A Value (for trigger codes 2,3, and 8)  "
+U32,2817,"DDC Trigger B Value (for trigger codes 2,3, and 8)"
+U16,2819,DDC Trigger Estimated Size
+U16,2820,Sample Number being stored
+U32,2821,DDC Trigger Data Storage Started At X time since last power-up 
+F32,2823,DDC Trigger Compression  (NAN if no data in trigger buffer) 
+U32,2825,DDC Total Available Memory For All Trigger Buffers 
+U32,2827,"DDC Free Buffer Memory, not yet used by Trigger Buffers "
+F32,2829,DDC Estimated Compression (used for all triggers) 
+U16,2831,DDC Trigger Storage Type Index  ( 0 to 31 )
+U16,2832,"DDC Trigger Storage Type Value  (PV codes are valid, indexed on 2815)"
+U16,2833,"DDC Trigger Count of Triggered Events (reset when ""1"" is written to 2801)"
+U16,2834,Trigger Buffer Sample Number Index (Buffer is not random access!)
+U32,2835,Trigger Buffer Value for Status Word 419/420 (Indexed on 2834)
+U32,2837,Trigger Buffer Value for Status Word 421/422 (Indexed on 2834)
+U32,2839,Trigger Buffer Value for Status Word 423/424 (Indexed on 2834)
+U32,2841,Trigger Buffer Value for Status Word 433/434 (Indexed on 2834)
+U16,2907,Config Total #1 (Mass Total Default) Direction Config Register
+U16,2908,Config Total #2 (Vol Total Default) Direction Config Register
+U16,2909,Config Total #3 (API Vol Total Default) Direction Config Register
+U16,2910,Config Total #4 (GSV Total Default) Direction Config Register
+U16,2911,Config Total #5 (ED Std Vol Total Default) Direction Config Register
+U16,2912,Config Total #6 (ED Net Mass Total Default) Direction Config Register
+U16,2913,Config Total #7 (ED Net Vol Total Default) Direction Config Register
+U16,2914,Config Inv #1 (Mass Inv Default) Direction Config Register
+U16,2915,Config Inv #2 (Vol Inv Default) Direction Config Register
+U16,2916,Config Inv #3 (API Vol Inv Default) Direction Config Register
+U16,2917,Config Inv #4 (GSV Inv Default) Direction Config Register
+U16,2918,Config Inv #5 (ED Std Vol Inv Default) Direction Config Register
+U16,2919,Config Inv #6 (ED Net Mass Inv Default) Direction Config Register
+U16,2920,Config Inv #7 (ED Net Vol Inv Default) Direction Config Register
+U16,2921,Config Total #1 Source Config Register
+U16,2922,Config Total #2 Source Config Register
+U16,2923,Config Total #3 Source Config Register
+U16,2924,Config Total #4 Source Config Register
+U16,2925,Config Total #5 Source Config Register
+U16,2926,Config Total #6 Source Config Register
+U16,2927,Config Total #7 Source Config Register
+U16,2928,Config Inv #1 Source Config Register
+U16,2929,Config Inv #2 Source Config Register
+U16,2930,Config Inv #3 Source Config Register
+U16,2931,Config Inv #4 Source Config Register
+U16,2932,Config Inv #5 Source Config Register
+U16,2933,Config Inv #6 Source Config Register
+U16,2934,Config Inv #7 Source Config Register
+U16,2935,Config Total #1 Units Code Register
+U16,2936,Config Total #2 Units Code Register
+U16,2937,Config Total #3 Units Code Register
+U16,2938,Config Total #4 Units Code Register
+U16,2939,Config Total #5 Units Code Register
+U16,2940,Config Total #6 Units Code Register
+U16,2941,Config Total #7 Units Code Register
+U16,2942,Config Inv #1 Units Code Register
+U16,2943,Config Inv #2 Units Code Register
+U16,2944,Config Inv #3 Units Code Register
+U16,2945,Config Inv #4 Units Code Register
+U16,2946,Config Inv #5 Units Code Register
+U16,2947,Config Inv #6 Units Code Register
+U16,2948,Config Inv #7 Units Code Register
+U16,2949,Alternate Mass Total Units  (See allowable total units codes)
+A12,2950,Original Active Curve Name of Curve
+A12,2956,Extended Active Curve Name of Curve
+U16,2962,Active Curve Special Density Units Code
+A8,2963,Active Curve Special Density Units Text
+U16,2967,Active Curve Concentration Code
+A8,2968,Active Curve Special Concentration Text
+U16,2972,Output Channel D Type Assignment (refer to output type codes) 
+U16,2973,Output Channel E Type Assignment (refer to output type codes) 
+U16,2974,Output Channel F Type Assignment (refer to output type codes)
+U16,2975,Output Channel G Type Assignment (refer to output type codes)
+U16,2976,Output Channel H Type Assignment (refer to output type codes)
+U16,2977,Channel D Power (refer to power source codes)
+U16,2978,Channel E Power (refer to power source codes) 
+U16,2979,Channel F Power (refer to power source codes) 
+U16,2980,Channel G Power (refer to power source codes) 
+U16,2981,Channel H Power (refer to power source codes) 
+U16,2984,"FCF Datalog Index (0-19, 0 = most recent run)"
+U16,2985,FCF Datalog Item 1: Run Number
+U16,2986,"FCF Datalog Item 5: Status (Bit7 = FCF pass/fail, Bits6-4 = state, Bits3-0 = Abort code) Abort States are compressed to fit in 3 bits"
+U32,2987,FCF Datalog Item 2: Time Initiated (in running seconds)
+F32,2989,FCF Datalog Item 3: LPO Normalized Data
+F32,2991,FCF Datalog Item 4: RPO Normalized Data
+F32,2993,MV Timers: Time Until First Run in Hours
+F32,2995,MV Timers: Time between each run after the first run initiated in hours
+F32,2997,MV Timers: Time left until next run in hours
+U16,3000,Enable FCF Verification (See FCF Enable Codes) 
+U16,3001,Algorithm State (1 through 18)
+U16,3002,Abort Code
+U16,3003,State at Abort
+U16,3004,Stiffness out of limits LPO
+U16,3005,Stiffness out of limits RPO
+U16,3006,Damping out of limits
+U16,3007,Mass out of limits LPO
+U16,3008,Mass out of limits RPO
+U16,3009,Resonant Frequency Estimate out of limits 
+U16,3010,Drive current out of limits 
+U16,3011,Delta t out of limits
+U16,3012,Temperature out of limits 
+U16,3013,Density out of limits
+U16,3014,Drive frequency out of limits 
+U16,3015,LPO filter out of limits 
+U16,3016,RPO filter out of limits 
+U16,3017,FCF Validation Counter
+U16,3019,Sensor Type (See Sensor Type Codes) (700 is limited)
+U16,3020,Progress (% Complete)
+F32,3021,"FRF Coeff – T1, LPO, Real"
+F32,3023,"FRF Coeff – T1, LPO, Imag"
+F32,3025,"FRF Coeff – T2, LPO, Real"
+F32,3027,"FRF Coeff – T2, LPO, Imag"
+F32,3029,"FRF Coeff – T3, LPO, Real"
+F32,3031,"FRF Coeff – T3, LPO, Imag"
+F32,3033,"FRF Coeff – T4, LPO, Real"
+F32,3035,"FRF Coeff – T4, LPO, Imag"
+F32,3037,"FRF Coeff – Dr, LPO, Real"
+F32,3039,"FRF Coeff – Dr, LPO, Imag"
+F32,3041,"FRF Coeff – T1, RPO, Real"
+F32,3043,"FRF Coeff – T1, RPO, Imag"
+F32,3045,"FRF Coeff – T2, RPO, Real"
+F32,3047,"FRF Coeff – T2, RPO, Imag"
+F32,3049,"FRF Coeff – T3, RPO, Real"
+F32,3051,"FRF Coeff – T3, RPO, Imag"
+F32,3053,"FRF Coeff – T4, RPO, Real"
+F32,3055,"FRF Coeff – T4, RPO, Imag"
+F32,3057,"FRF Coeff – Dr, RPO, Real"
+F32,3059,"FRF Coeff – Dr, RPO, Imag"
+F32,3061,Test Tone 1 Frequency
+F32,3063,Test Tone 2 Frequency
+F32,3065,Test Tone 3 Frequency
+F32,3067,Test Tone 4 Frequency
+F32,3069,Carrier Frequency
+F32,3071,"Pole, Real"
+F32,3073,"Pole, Imag"
+F32,3075,"Residue, LPO, Real"
+F32,3077,"Residue, LPO, Imag"
+F32,3079,"Residue, RPO, Real"
+F32,3081,"Residue, RPO, Imag"
+F32,3083,Frf Tone Level (mA) 
+F32,3085,Tone Ramp Time (Seconds)
+F32,3087,BL Coef. 1
+F32,3089,FRF Drive Target
+F32,3091,FRF Drive P Coefficient
+U16,3093,"Output state during FCF Verification (0=Last Value, 1=Fault)"
+F32,3094,
+U16,3096,"Override Meter Verification sensor parameteters - when set to 1, causes registers 3083, 3085, 3087, 3089, 3094, 3159, 3161, 3163 to be RW; when 0, causes them to be RO"
+U16,3099,"Update FRF Statistics (0=Do not update running stats, 1=Update)"
+U16,3100,FCF Verification Data Set Selection (see FCF Data Set Codes Table)
+F32,3101,Stiffness LPO
+F32,3103,Stiffness RPO
+F32,3105,Damping
+F32,3107,Mass LPO
+F32,3109,Mass RPO
+F32,3111,Resonant Frequency Estimate
+F32,3113,Drive Current
+F32,3115,Delta T
+F32,3117,Temperature
+F32,3119,Density
+F32,3121,Drive Frequency
+F32,3123,LPO Filter
+F32,3125,RPO Filter
+F32,3127,"Amp Calibration, Drive Tone, Real"
+F32,3129,"Amp Calibration, Drive Tone, Imaginary"
+F32,3131,"Amp Calibration, Test Tone 1, Real"
+F32,3133,"Amp Calibration, Test Tone 1, Imaginary"
+F32,3135,"Amp Calibration, Test Tone 2, Real"
+F32,3137,"Amp Calibration, Test Tone 2, Imaginary"
+F32,3139,"Amp Calibration, Test Tone 3, Real"
+F32,3141,"Amp Calibration, Test Tone 3, Imaginary"
+F32,3143,"Amp Calibration, Test Tone 4, Real"
+F32,3145,"Amp Calibration, Test Tone 4, Imaginary"
+F32,3147,Stiffness Limit Set point
+F32,3149,Mass Limit Set point
+F32,3151,Damping Limit Set point
+F32,3153,Res. Frequency Limit Set point
+F32,3155,Tube Frequency during meter verification
+F32,3157,Delta T during meter verification
+F32,3159,Tone Spacing Multiplier
+F32,3161,Frequency Drift Limit
+F32,3163,Max Sensor Current 
+F32,3165,KFQ2 Linear Density Correction for Stiffness Value
+U16,3167,Unused
+U16,3171,"Mass Flow waveform selection (1=fixed value, 2=sawtooth, 3=sine wave)"
+U16,3172,"Line Temperature waveform selection (1=fixed value, 2=sawtooth, 3=sine)"
+U16,3173,"Density waveform selection (1=fixed value, 2=sawtooth, 3=sine wave)"
+U16,3174,"Viscosity waveform selection (1=fixed value, 2=sawtooth, 3=sine wave)"
+F32,3175,Value for a fixed mass flow in  simulation mode
+F32,3177,Min. amplitude of Sine / Sawtooth wave for mass flow
+F32,3179,Max. amplitude of Sine / Sawtooth wave for mass flow
+F32,3181,Period of Sine / Sawtooth wave for mass flow
+F32,3183,Value for a fixed Line Temperature in  simulation mode
+F32,3185,Min. amplitude of Sine / Sawtooth wave for Line Temperature.
+F32,3187,Max. Amplitude of Sine / Sawtooth wave for Line Temperature.
+F32,3189,Period of Sine / Sawtooth wave for Line Temperature.
+F32,3191,Value for a fixed Density in  simulation mode
+F32,3193,Min. amplitude of Sine / Sawtooth wave for Density.
+F32,3195,Max. Amplitude of Sine / Sawtooth wave for Density.
+F32,3197,Period of Sine / Sawtooth wave for Density.
+A22,3199,Frequency Input Total Label
+A16,3199,SG Calibration 1 Label
+F32,3201,Flow Rate 1 for Highly Characterized Sensor Linearization
+F32,3203,Flow Rate 2 for Highly Characterized Sensor Linearization
+F32,3205,Flow Rate 3 for Highly Characterized Sensor Linearization
+F32,3207,Flow Rate 4 for Highly Characterized Sensor Linearization
+F32,3209,Alarm Above Flow Rate for Highly Characterized Sensor Linearization
+A22,3210,Frequency Input Inventory Label
+A16,3210,SG Calibration 2 Label
+F32,3218,Gas Purity Concentration (curve 2)
+F32,3211,Adjustment for Segment 1 for Highly Characterized Sensor Linearization
+F32,3213,Adjustment for Segment  2 for Highly Characterized Sensor Linearization
+F32,3215,Adjustment for Segment  3 for Highly Characterized Sensor Linearization
+F32,3217,Adjustment for Segment  4 for Highly Characterized Sensor Linearization
+F32,3219,Lock Zero for Highly Characterized Sensor Linearization
+F32,3221,Currently Applied Correction for Highly Characterized Sensor Linearization
+A22,3221,Mass Total Label
+A16,3221,SG Calibration 3 Label
+F32,3223,10 Point Linearization Flow Rate 1
+F32,3225,10 Point Linearization Flow Rate 2
+F32,3227,10 Point Linearization Flow Rate 3
+F32,3229,10 Point Linearization Flow Rate 4
+F32,3229,Gas Purity Concentration (curve 3)
+A22,3232,Mass Inventory Label
+A16,3232,SG Calibration 4 Label
+F32,3231,10 Point Linearization Flow Rate 5
+F32,3233,10 Point Linearization Flow Rate 6
+F32,3235,10 Point Linearization Flow Rate 7
+F32,3237,10 Point Linearization Flow Rate 8
+F32,3239,10 Point Linearization Flow Rate 9
+F32,3241,10 Point Linearization Flow Rate 10
+F32,3240,Gas Purity Concentration (curve 4)
+A22,3243,Volume Total Label
+F32,3251,10 Point Linearization Correction 5
+F32,3253,10 Point Linearization Correction 6
+A22,3254,Volume Inventory Label
+F32,3263,10 Point Linearization Current Correction 
+A22,3265,Gas Standard Volume Total Label
+A22,3265,Last Assert File Name
+A22,3276,Gas Standard Volume Inventory Label
+A22,3287,API Corrected VolumeTotal Label
+A22,3298,API Corrected VolumeInventory Label
+A22,3309,ED Standard Volume Total Label
+A22,3320,ED Standard Volume Inventory Label
+A22,3331,ED Net Mass Total Label
+A22,3342,ED Net Mass Inventory Label
+A22,3353,ED Net Volume Total Label
+A22,3364,ED Net Volume Inventory Label
+A8,3375,PVR Status Message
+F32,3379,Gas Flow Rate for PVR (ETO22166)
+F32,3381,Gas Total for PVR (ETO22166)
+F32,3383,Mass Forward Total (Bunkering)
+F32,3385,Mass Forward Inventory (Bunkering)
+F32,3387,Mass Reverse Total (Bunkering)
+F32,3389,Mass Reverse Inventory (Bunkering)
+U32,3393,Viscosity Calibration Factor Slope
+U32,3395,Viscosity Calibration Factor Offset
+U16,3397,Core processor NV write count
+U16,3398,Transmitter NV write count
+U32,3399,Real-time clock in seconds
+F32,3401,Sensor Simulator K1
+F32,3403,Sensor Simulator K2
+F32,3405,Sensor Simulator Flow Cal Factor
+F32,3407,Sensor Simulator Density
+F32,3409,Sensor Simulator Mass Flow Constant
+F32,3411,Sensor Simulator Mass Flow Rate
+F32,3413,Sensor Simulator Temperature
+F32,3415,Sensor Simulator Delta T
+F32,3417,Sensor Simulator Frequency
+F32,3419,Sensor Simulator Sensor F0
+U16,3421,Sensor Simulator Sensor Q
+F32,3423,Sensor Simulator LPO Amplitude
+F32,3425,Sensor Simulator RPO Amplitude
+F32,3427,Sensor Simulator Noise Power
+F32,3429,Sensor Simulator Detla T Offset
+F32,3431,Sensor Simulator Density Temperature Coefficient
+F32,3433,Sensor Simulator Density Meter Factor
+F32,3435,Sensor Simulator Corrected Density
+F32,3437,RTD Simulator Resistance
+U16,3439,RTD Simulator Relay State
+F32,3441,Sensor Simulator Corrected MassFlow
+F32,3443,Sensor Simulator Temperature coefficient for flow  
+F32,3600,Fixed Voltage for VO output (Used in conjunction with coil 348)
+U16,3602,Truck ID Number  ETO15561 Only
+F32,3603,Truck Tare Weight  ETO15561 Only
+F32,3605,Target Weight Multiplier  ETO15561 Only
+U16,3607,Batch Start Time: seconds (0-59) ETO15561 Only
+U16,3608,Batch Start Time: minutes (0-59)  ETO15561 Only
+U16,3609,Batch Start Time: hours (0-23) ETO15561 Only
+U16,3610,Batch Start Time: day (1-31)  ETO15561 Only
+U16,3611,Batch Start Time: month (1-12)  ETO15561 Only
+U16,3612,Batch Start Time: year (1996-2095) ETO15561 Only
+U16,3613,Batch End Time: seconds (0-59) ETO15561 Only
+U16,3614,Batch End Time: minutes (0-59)  ETO15561 Only
+U16,3615,Batch End Time: hours (0-23) ETO15561 Only
+U16,3616,Batch End Time: day (1-31)  ETO15561 Only
+U16,3617,Batch End Time: month (1-12)  ETO15561 Only
+U16,3618,Batch End Time: year (1996-2095) ETO15561 Only
+F32,3629,ETO32172 Meter Factor for low density setpoint
+F32,3631,ETO32172 Meter Factor for high density setpoint
+F32,3633,"Kinematic Viscosity Offset (ETO32819, standard as of v2.1)"
+U32,3633,Last Assert Line Time
+F32,3635,Actual Drive Gain (ETO32819 v2.1+)
+U32,3635,Last Assert Line Number
+U16,3637,"Software Build Type (Gas=21, Fork=22, CDM=23)"
+U16,3638,ADZ Holdoff Temperature (ETO34269 v8.03+) (degC)
+F32,3391,User SG -- ETO 18914
+U16,3900,Snapshot Period Average Outputs Period (Seconds)
+F32,3901,Snapshot Drive Gain Threshold Addition Override  (see reg 3927)
+F32,3903,"Snapshot ""Cthresh"""
+F32,3907,Snapshot Gas Void Fraction (Percent Units)
+F32,3909,Snapshot Extended Drive Gain
+U16,3911,"Snapshot Confidence (0=Low, 1=Med, 2=High)"
+U16,3912,Snapshot Current Hold Value Count
+F32,3913,Snapshot Current Mass Flow Hold Value
+F32,3915,Snapshot Current Density Hold Value
+F32,3917,Snapshot Current Volume Flow Hold Value
+F32,3919,"Snapshot Current Decoupling Ratio ""A"""
+F32,3921,Snapshot Drive Gain Low
+F32,3923,Snapshot Drive Gain Threshold Period (Seconds)
+F32,3925,Snapshot Initial Drive Gain Threshold
+F32,3927,Snapshot Drive Gain Threshold Addition
+F32,3929,Snapshot Confidence Drive Gain Threshold #1
+F32,3931,Snapshot Confidence Drive Gain Threshold #2
+F32,3933,Snapshot Confidence GVF Threshold #1
+F32,3935,Snapshot Gas Density
+U16,3937,Snapshot Peak Detect Buffer Size
+U16,3938,Snapshot Number of Low Drive Gain Sections
+U16,3939,Snapshot Drive Gain Buffer Size
+U16,3940,Snapshot Output Type  (see type codes)
+F32,3941,Snapshot Current Extended Drive Gain Threshold
+F32,3943,Snapshot Unremediated Mass Flow
+F32,3945,Snapshot Unremediated Density
+F32,3947,Snapshot Unremediated Volume Flow
+F32,3949,Snapshot Period Average Output Mass Flow
+F32,3951,Snapshot Period Average Output Density
+F32,3953,Snapshot Period Average Output Volume Flow
+F32,3955,Snapshot Period Average Output Net Oil Flow @Line
+F32,3957,Snapshot Period Average Output Net Oil Flow @60F
+F32,3959,Snapshot Period Average Output Watercut @Line
+F32,3961,Snapshot Period Average Output Gas Void Fraction
+F32,3963,Snapshot Period Average Output Line Temperature
+U16,3965,Snapshot Period Average Output Confidence
+U16,3966,Snapshot Contract Period Start Hour (0-23)
+U16,3967,"Snapshot Contract Period #1 Source Tot/Inv (PVcodes: 2,4,6,7,17,18,24,25,27,28,30,31,63,64)"
+U16,3971,"Snapshot (APM2.0) - Drive Gain Threshold Override (See 3996), 0=manual 1=auto"
+F32,3972,"Snapshot Contract Period #1 ""Today's"" (Current) Total"
+F32,3974,"Snapshot Contract Period #2 ""Today's"" (Current) Total"
+F32,3976,"Snapshot Contract Period #3 ""Today's"" (Current) Total"
+F32,3978,"Snapshot Contract Period #4 ""Today's"" (Current) Total"
+F32,3980,"Snapshot Contract Period #1 ""Yesterday's"" (Previous) Total"
+F32,3982,"Snapshot Contract Period #2 ""Yesterday's"" (Previous) Total"
+F32,3984,"Snapshot Contract Period #3 ""Yesterday's"" (Previous) Total"
+F32,3986,"Snapshot Contract Period #4 ""Yesterday's"" (Previous) Total"
+F32,3988,"Override for Density Hold Value, -1=no override."
+F32,3990,Modbus External Watercut Input Value (Not used for mAI Watercut)
+F32,3992,Snapshot Meter Factor for Shrinkage Calculations
+F32,3994,Snapshot Watercut Hold Override
+F32,3996,Snapshot Watercut Hold Override
+F32,4001,"K0, Instrument Calibration Factor"
+F32,4003,"K1, Instrument Calibration Factor"
+F32,4005,"K2, Instrument Calibration Factor"
+F32,4007,"K18, Instrument Calibration Factor"
+F32,4009,"K19, Instrument Calibration Factor"
+F32,4011,"KV4, Instrument Calibration Factor (Calibration range indexed by register 4022)"
+F32,4013,"KV5, Instrument Calibration Factor (Calibration range indexed by register 4022)"
+F32,4015,"KV6, Instrument Calibration Factor (Calibration range indexed by register 4022)"
+F32,4017,Velocity of Sound of Calibration fluid
+F32,4019, Velocity of Sound of Measured fluid
+U16,4021,Orion Calibration Status
+U16,4022,KV Calibration Factor Index (0-1)
+F32,4023,KV Calibration Crossover Point (based on Quality Factor)
+F32,4025,Override limit for KDV time period check
+F32,4027,ASTM Multi Curve Coefficient A
+F32,4029,ASTM Multi Curve Coefficient B
+F32,4031,"K20A1, Constant used to compute K20"
+F32,4031,"A1, Density Calibration Constant"
+F32,4033,"K20B1, Constant used to compute K20"
+F32,4033,"A2, Density Calibration Constant"
+F32,4035,"K20C1, Constant used to compute K20"
+F32,4035,"A3, Density Calibration Constant"
+F32,4037,"K20A2, Constant used to compute K20"
+F32,4037,"A4, Density Calibration Constant"
+F32,4039,"K20B2, Constant used to compute K20"
+F32,4039,"A5, Density Calibration Constant"
+F32,4041,"K20C2, Constant used to compute K20"
+F32,4041,"A6, Density Calibration Constant"
+F32,4043,"K21A1, Constant used to compute K21"
+F32,4043,"A7, Density Calibration Constant"
+F32,4045,"K21B1, Constant used to compute K21"
+F32,4045,"A8, Density Calibration Constant"
+F32,4047,"K21C1, Constant used to compute K21"
+F32,4047,"A9, Density Calibration Constant"
+F32,4049,"K21A2, Constant used to compute K21"
+F32,4049,Value for a fixed viscosity in  simulation mode
+F32,4051,"K21B2, Constant used to compute K21"
+F32,4051,Min. amplitude of Sine / Sawtooth wave for viscosity
+F32,4053,"K21C2, Constant used to compute K21"
+F32,4053,Max. amplitude of Sine / Sawtooth wave for viscosity
+F32,4055,"KF1, Instrument Calibration Factor"
+F32,4055,Period of Sine / Sawtooth wave for viscosity
+F32,4057,"KF2, Instrument Calibration Factor"
+F32,4059,"Va, Liquid VOS"
+F32,4061,Mobrey Density
+F32,4065,Pressure Offset
+F32,4067,Density Offset
+F32,4069,Pressure Crossover from low pressure to high pressure
+F32,4069,Density Meter Factor
+F32,4071,Flow velocity
+F32,4073,Fixed Flow Velocity value (m/sec)
+U16,4075,Flow velocity units
+U16,4076,Select predefined concentration equations
+F32,4077,Flow Velocity Cut Off
+F32,4079,Flow Velocity Hi Limit
+F32,4081,Flow Velocity Lo Limit
+F32,4083,Flow Velocity Span
+F32,4085,"Flow Velocity/Viscosity Damping (used for velocity on CDM, used for viscosity for FVM and HFVM)"
+F32,4087,Time Period A (u/sec)
+F32,4089,Alternate Pressure
+F32,4089,Time Period B (u/sec) 
+F32,4091,Special Equation Output
+F32,4093,Programmable Constant A for Special Equation 
+F32,4095,Programmable Constant B for Special Equation 
+F32,4097,Programmable Constant C for Special Equation (X for Special Equation Type I)
+F32,4099,Programmable Constant E for Special Equation (Y for Special Equation Type I)
+F32,4101,Programmable Constant F for Special Equation 
+F32,4103,Programmable Constant a for Special Equation 
+F32,4105,Programmable Constant  b for Special Equation
+F32,4107,Programmable Constant  c for Special Equation
+F32,4109,Progarammable Constant  d for Special Equation
+F32,4111,Programmable Constant  e for Special Equation
+F32,4113,Programmable Constant  f for Special Equation
+U16,4115,Pointer a  for Special Equation
+U16,4116,Pointer b  for Special Equation
+U16,4117,Pointer c  for Special Equation
+U16,4118,Pointer d  for Special Equation
+U16,4119,Pointer e  for Special Equation
+U16,4120,Pointer f for Special Equation
+F32,4121,User Defined Water Density (Air Density for gas meters)
+F32,4123,User Defined Base Density
+F32,4123,User Defined Density at 20C (ETO38819)
+A8,4125,Special Equation unit string
+F32,4129,Gas Base Density
+F32,4131,Percent CO2
+F32,4133,Percent N2
+F32,4135,Compressibility
+F32,4137,Gas SG 
+F32,4139,Base Pressure
+F32,4141,Base Compressibility
+F32,4143,Base Temperature
+F32,4145,Superior Calorific Value (RW for 5700; RO for others)
+F32,4147,Wobbe Index
+A8,4149,Special density  unit string
+U16,4153,Base density unit for special density unit
+U16,4154,Base kinematic viscosity unit for special kinematic viscosity unit
+F32,4155,Special density unit conversion factor
+F32,4157,Quality Factor
+F32,4159,Dynamic Viscosity
+F32,4161,Kinematic Viscosity
+U16,4163,Dynamic Viscosity Unit
+U16,4164,Kinematic Viscosity Unit
+U16,4165,"Viscosity value range selection (0=ultra low, 1=low, 2=medium, 3=high)"
+F32,4166,V0 at the selected range
+F32,4168,V1 at the selected range
+F32,4170,V2 at the selected range
+F32,4172,Range scale at the selected range
+U16,4174,Viscosity range switch setpoint index (see the Range Switch Setpoint Index table)
+F32,4175,Viscosity range switch setpoint (at the index selected by register 4174)
+F32,4177,Viscosity Hysteresis
+F32,4179,Viscosity Compression Filter Parameter
+F32,4181,Orion Simulated Temperature Value
+F32,4183,User Defined Line Compressibility 
+F32,4185,Viscosity Offset
+A8,4187,Special dynamic viscosity  unit string
+A8,4191,Special kinematic viscosity  unit string
+F32,4195,Special dynamic viscosity unit conversion factor
+F32,4197,Special kinematic viscosity unit conversion factor
+U16,4199,Base dynamic viscosity unit for special dynamic viscosity unit
+F64,4200,Mass Total - Double - user units
+F64,4204,Line (Gross) Volume Total - Double - user units
+F64,4208,API: Temp/Pressure Corrected Volume Total - Double - user units
+F64,4212,Enhanced Density: Standard Volume Total - Double - user units
+F64,4216,Enhanced Density: Net Mass Total - Double - user units
+F64,4220,Enhanced Density: Net Volume Total - Double - user units
+F64,4224,Gas Standard Volume Total - Double - user units
+F64,4228,Mass Inventory - Double - user units
+F64,4232,Line (Gross) Volume Inventory - Double - user units
+F64,4236,API: Temp/Pressure Corrected Volume Inventory - Double - user units
+F64,4240,Enhanced Density: Standard Volume Inventory - Double - user units
+F64,4244,Enhanced Density: Net Mass Inventory - Double - user units
+F64,4248,Enhanced Density: Net Volume Inventory - Double - user units
+F64,4252,Gas Standard Volume Inventory - Double - user units
+F64,4256,Mass Forward Total - Double - user units  (Bunkering)
+F64,4260,Mass Forward Invemtory - Double - user units  (Bunkering)
+F64,4264,Mass Reverse Total - Double - user units  (Bunkering)
+F64,4268,Mass Reverse Invemtory - Double - user units  (Bunkering)
+U16,4201,"Liq. Vol. Flow waveform selection (1=fixed value, 2=sawtooth, 3=sine wave)"
+U16,4202,"Gas Vol. Flow waveform selection (1=fixed value, 2=sawtooth, 3=sine wave)"
+U16,4203,"Drive Gain waveform selection (1=fixed value, 2=sawtooth, 3=sine wave)"
+U16,4204,"Pressure waveform selection (1=fixed value, 2=sawtooth, 3=sine wave)"
+U16,4205,"Water Cut waveform selection (1=fixed value, 2=sawtooth, 3=sine wave)"
+F32,4207,Value for a fixed liquid volume flow in  simulation mode
+F32,4209,Min. amplitude of Sine / Sawtooth wave for liquid volume flow
+F32,4211,Max. amplitude of Sine / Sawtooth wave for liquid volume flow
+F32,4213,Period of Sine / Sawtooth wave for liquid volume flow
+F32,4215,Value for a fixed gas volume flow in  simulation mode
+F32,4217,Min. amplitude of Sine / Sawtooth wave for gas volume flow
+F32,4219,Max. amplitude of Sine / Sawtooth wave for gas volume flow
+F32,4221,Period of Sine / Sawtooth wave for gas volume flow
+F32,4223,Value for a fixed drive gain in  simulation mode
+F32,4225,Min. amplitude of Sine / Sawtooth wave for drive gain 
+F32,4227,Max. amplitude of Sine / Sawtooth wave for drive gain 
+F32,4229,Period of Sine / Sawtooth wave for drive gain 
+F32,4231,Value for a fixed pressure in  simulation mode
+F32,4233,Min. amplitude of Sine / Sawtooth wave for pressure
+F32,4235,Max. amplitude of Sine / Sawtooth wave for pressure
+F32,4237,Period of Sine / Sawtooth wave for pressure 
+F32,4239,Value for a fixed water cut in  simulation mode
+F32,4241,Min. amplitude of Sine / Sawtooth wave for water cut
+F32,4243,Max. amplitude of Sine / Sawtooth wave for water cut
+F32,4245,Period of Sine / Sawtooth wave for water cut
+A16,4247,Channel A Descriptor
+A16,4255,Channel B Descriptor
+A16,4263,Channel C Descriptor
+U16,4271,Core Processor Slave Address
+U16,4272,"Master type connected to sensor simulator (0 = 3500, 1 = NOC)"
+U16,4273,Process Comparator Delay (ETO17461)
+F64,4274,2nd Mass Total - Double - user units
+F64,4278,2nd Volume Total - Double - user units
+F64,4282,2nd Gas Standard Volume Total - Double - user units
+F64,4286,Differential Mass Total - Double - user units
+F64,4290,Differential Mass Inventory- Double - user units
+F32,4294,ETO32172 Meter Factor for low density setpoint
+F32,4296,ETO32172 Meter Factor for high density setpoint
+F32,4298,ETO32172 Applied Correction Factor 
+U16,4300,"LD Control (1=Use hard-coded liquid hydrocarbon coeffs, 2=Use Custom Coeffs (4303-4355) w/API dens, 3=Use Custom Coeffs (4303-4355) w/Line dens) default = 1."
+F32,4301,Low Correction Cutoff 
+F32,4303,Density ISO 1 
+F32,4305,Density ISO 2 
+F32,4307,Density ISO 3 
+F32,4313,Temperature ISO 1
+F32,4315,Temperature ISO 2 
+F32,4317,Slopefor D1/T1 
+F32,4319,Slope for D2/T1
+F32,4321,Slope for D3/T1
+F32,4327,Offset for D1/T1
+F32,4329,Offset for D2/T1
+F32,4331,Offset for D3/T1
+F32,4337,Slope for D1/T2
+F32,4339,Slope for D2/T2
+F32,4341,Slope for D3/T2
+F32,4347,Offset for D1/T2
+F32,4349,Offset for D2/T2
+F32,4351,Offset for D3/T2
+F32,4357,Current Velocity  (m/sec)  (PV=208)
+F32,4359,Current Correction (%)
+F32,4361,Current % of Maximum Error Limit (PV=217)
+F32,4363,Upper Correction Limit %
+F32,4365,Lower Correction Limit %
+F32,4367,"Drive Gain Threshold for Current % of Maximum Error Limit  Calc, (%) "
+F32,4369,Average Batch Drive Gain Threshold (%) (a.k.a. BATCH_AVE_DG_CUTOFF)
+F32,4371,MID 0.5% PASS Threshold (Units of %)
+F32,4373,Constant used for Current % of Maximum Error Limit Calc (unitless) (a.k.a. ES)
+U32,4375,Reset Time - time when Rest button was pushed on PPI Bunker Operations screen
+F32,4377,Drive Gain Cal Limit (%) (a.k.a. SSC)
+F32,4379,Minimum Measured Quantity (Mass Total Units) (a.k.a. MMQ)
+U16,4381,MID Certificate Number
+F32,4383,Dead Volume (Mass Total Units)
+F32,4385,Pickoff Threshold for X Calc (Volts) (a.k.a LPO_T  )
+F32,4387,Constant used for Current % of Maximum Error Limit Calc (unitless) (a.k.a. EM)
+F32,4389,Maximum Allowable MID error (%) (a.k.a. ERR_T)
+U16,4391,Bunker Log Index to Print to External Printer (0=current ticket; 1-5=historical tickets; 255=nothing to print)
+U16,4392,Bunker Log Index
+U32,4393,Print Time
+U32,4395,Reset Time
+F32,4397,Mass Total
+F32,4399,Mass Inventory
+F32,4401,Average Temperature
+F32,4403,Percent Max Aeration Limit
+U16,4405,Active Alarms during ticket? (0=none; 1=yes)
+U16,4406,Aeration Limit Exceeded?  (0=OIML 1% Class Fail; 1=OIML 1% Class Pass; 2 = OIML 0.5% Class Fail; 3 = OIML 0.5% Class Pass)
+U16,4407,Minimum Measured Quantity Exceeded?  (0=fail; 1=pass)
+U16,4408,No Power Interrupt?  (0=fail; 1=pass)
+U16,4409,Overall OIML R117-1 Passed?  (0 = fail; 1 = pass; 2 = pass with high aeration; 3 = pass with temp out of range; 4 = pass with both high aeration and temp out of range)
+U32,4410,Bunker Stop time - totals stopped
+U32,4412,Bunker Start time - totals started
+U32,4414,BOL
+F32,4416,Average Density (uses reg 4392 as the log index
+F32,4418,Average Density @ Temp
+F32,4420,Gross Volume Total
+F32,4422,Net Volume Total
+F32,4424,Mass Total In Vacuum
+F32,4426,Mass Total in Air
+F32,4428,Bunker Start Forward Mass Inventory
+F32,4430,Bunker End Forward Mass Inventory
+F32,4432,Bunker Start Reverse Mass Inventory
+F32,4434,Bunker End Reverse Mass Inventory
+U16,4436,Bunker Ticket Failed to Print (1=fail; 0=pass)
+U16,4437,Delay Before Posting Time Period Out of Range Alarm (seconds) ETO 27261
+F32,4438,Differential Mass Flow
+F32,4440,Differential Mass Total
+F32,4442,Differential Mass Inventory
+F32,4444,Differential Low Flow Cut Off
+F32,4446,Differential Mass Flow Dampening
+F32,4448,Differential Auto Zero
+U16,4450,"PVR Action (ETO22166)  (0=Hold Last Value, 1=Alert Only, 2=User Oil Density)  Gen5 Snapshot NOC (PVR)(0=Liquid Density, 1=Density Oil@Line)"
+F32,4451,Fork Drive Current
+F32,4453,Gas Frequency Output Filter Coefficient
+F32,4455,Gas Amplitude Scale Factor
+F32,4457,Fork Frequency Output Filter Coefficient
+F32,4459,Fork Amplitude Scale Factor
+F32,4461,Differential Auto Zero Max 
+F32,4463,Differential Auto Zero Min
+F32,4465,Sales Density
+U16,4473,HART Polling Control Code #4 (see polling control code table)
+A8,4474,HART Polling Tag #4
+U16,4478,Polled Variable #3 Code (see process variable codes table)
+U16,4479,Polled Variable #4 Code (see process variable codes table)
+U16,4480,SGERG Method (see SGERG Mehod codes table)
+F32,4481,Fork Viscosity F0 Frequency value
+F32,4483,Fork Viscosity F0 Phase value
+F32,4485,Fork Viscosity F1 Frequency value
+F32,4487,Fork Viscosity F1 Phase value
+F32,4489,Fork Viscosity F2 Frequency value
+F32,4491,Fork Viscosity F2 Phase value
+F32,4493,Gas Drive Phase Slope
+F32,4495,Gas Drive Phase Offset
+F32,4497,Fork Drive Phase Slope
+F32,4499,Fork Drive Phase Offset
+F32,4501,Primary Referred Viscosity
+F32,4503,Secondary Referred Viscosity
+F32,4505,Ignition Index (CCAI )
+U16,4507,"Fork Tine Length (0=short, 1=long)"
+U16,4508,Gas Input Units
+F32,4509,Tube-case temperature differential
+F32,4511, Average Time Period on Air/Vacuum (sensor check)
+F32,4513,Time Period Stability ( sensor check)
+U16,4515,KDV Results (See sensor check results codes)
+U16,4516,KDV Failure Bits
+F32,4517,Factory Average Drive Gain for KDV
+U16,4521,Referred viscosity calculation method
+U16,4522,"Referred Viscosity Configuration Curve Index (for Matrix method, n = 0-5 ; for ASTM method, n = 0-7)"
+U16,4523,"Referred Viscosity Temperature Isotherm Index (for Matrix method, n = 0-5; for ASTM method, n = 0-1)"
+U16,4524,"Referred Viscosity Maximum Fit Order for 6x6 matrix (order=2,3,4,5)"
+F32,4525,Referred Viscosity Temperature Isothermx Value (6x1) (Indexed by register #4523) 
+F32,4527,"Referred Viscosity (6x6) @ Temp. IsothermX, Curven (Indexed by register #4522 and #4523)"
+F32,4529,Referred Viscosity Reference Temperature 1
+F32,4531,Referred Viscosity Reference Temperature 2
+F32,4533,Referred Viscosity Curve Fit Expected Accuracy
+U16,4535,"Referred Viscosity Curve Fit Result (0=Good, 1=Poor, 2=Failed, 3=Empty)"
+U16,4536,"Referred Viscosity Input Source Selection (for matrix method only) (163=Kinematic, 162=Dynamic) "
+U16,4537,Number of ASTM Reference Curves (n = 2-8)
+F32,4538,"ASTM Temperature Value  (2X8) @ point 1 or point 2,  Curven(n=0-7) (Indexed by register #4522 and #4523)"
+F32,4540,"ASTM Referral Viscosity (2X8) @ TemperatureX , Curven(n=0-7) (Indexed by register #4522 and #4523)"
+F32,4542,User SG/RD/MW for calibration gas 1
+F32,4544,User SG/RD/MW for calibration gas 2
+F32,4546,Average Time Period for calibration gas 1
+F32,4548,Average Time Period for calibration gas 2
+U16,4550,Molecular Weight Units
+F32,4551,Molecular Weight of Air
+U16,4553,Calorific Value Units
+U16,4554,Energy Flow Units
+F32,4555,Simulated Time Period B Value
+F32,4557,Maximum Curve Fit Error for Viscosity Matrix Referral
+F32,4559,Base Density for Line Density Calculation
+F32,4561,Base Density for Sensor Check
+U16,4564,Elevation above sea level for Known Density Verification (See Elevation above sea level codes)
+F32,4565,Lab Viscosity for Viscosity Scaling Factor Calibration
+F32,4567,Percent H2
+F32,4569,Mag Meter Volume Flow 
+F32,4571,Mass Flow from Mag Meter Volume Input
+F32,4573,Ignition Index (CII )
+F32,4575,Gas Relative Density
+F32,4577,Gas Molecular Weight
+F32,4579,Temperature Average ( sensor check)
+F32,4581,Drive Gain Average ( sensor check)
+F32,4583,Drive Gain Stability ( sensor check)
+F32,4585,Percent CO
+F32,4587,Temperature Stability ( sensor check)
+U16,4589,API Reference Density Units
+U16,4590,Wobbe Index Units
+F32,4591,Case Temperature Average ( sensor check)
+F32,4593,Case Temperature Stability ( sensor check)
+F32,4595,Simulated Quality Factor Value
+F32,4597,Corrected Volume from Coriolis Meter Input
+F32,4599,Mass Input from Coriolis Meter
+F32,4601,Alternate Pressure
+F32,4603,Energy Flow
+F32,4605,Gas K0 
+F32,4607,Gas K1
+F32,4609,Gas K2
+F32,4611,Gas K18
+F32,4613,Gas K19
+U16,4615,Gas Calibration Set Index
+F32,4616,Shrinkage Factor Corrected Net Oil Total @ Line
+F32,4618,Shrinkage Factor Corrected Net Oil Total @ Reference
+F32,4620,Tube Cross Sectional Area
+U16,4622,Special Equation Type
+U16,4623,Base Viscosity Units
+F32,4624,RTD Calibration Coefficient A
+U16,4626,"Active Gas Calibration Set Index (0 only for GDM, 0-3 for SGM)"
+F32,4628,K0 Legacy Calibraion Constant
+F32,4630,K1 Legacy Calibraion Constant
+F32,4632,K2 Legacy Calibraion Constant
+F32,4634,K18 Legacy Calibraion Constant
+F32,4636,K19 Legacy Calibraion Constant
+F32,4638,"K20A, Constant used to compute K20"
+F32,4640,"K20B, Constant used to compute K20"
+F32,4642,K21A Constant used to compute K21
+F32,4644,"K21B, Constant used to compute K21"
+U16,4646,"Index for K20A, K20B, K21A, and K21B legacy coefficients (0-3)"
+U16,4647,"Index for K0, K1, and K2 Legacy coefficients (0-1)"
+F32,4648,Time Period A (in microseconds)
+F32,4650,Time Period B (in microseconds)
+F32,4652,K22 Legacy Calibration Coefficient
+F32,4654,K23 Legacy Calibration Coefficient
+F32,4656,Floating Point Software Version
+U16,4658,Calibration Points for Gas SG (2 or 3)
+U16,4659,Configuration Gas Calibration Set Index (0-3)
+F32,4660,Time Period for Gas K0 Calibration
+F32,4662,Time Period for Gas K1 Calibration
+F32,4664,Time Period for Gas K2 Calibration
+F32,4666,SG/RD/MW for Gas K0 Calibration
+F32,4668,SG/RD/MW for Gas K1 Calibration
+F32,4670,SG/RD/MW for Gas K2 Calibration
+U16,4672,Low Limit Gas Type
+U16,4673,Medium Limit Gas Type
+U16,4674,High Limit Gas Type
+U16,4675,Stability Threshold (in nanoseconds) to determine Stable/Unstable (coil 445)
+F32,4676,Gas Drive Current
+U16,4678,Gas K18/K19 Index
+F32,4679,SG Calibration Stability
+U16,4681,"Index for KDV results (0= factory, 1 = user)"
+F32,4682,K3 (VOS Correction Factor)
+F32,4684,K4 (VOS Correction Factor)
+F32,4686,Temperature of VOS Calibration gas
+F32,4688,Temperature of VOS Measured gas
+F32,4690,Temperature Differential Average (Health Check)
+F32,4692,Temperature Differential Stability (Health Check)
+F32,4694,SGM Time Period / Temperature Sensitivity Coefficients (0 to 4)  Coefficient 5 added in register 4776
+U16,4696,SGM Time Period / Temperature Sensitivity Coefficient Index
+F32,4697,RTD Calibration Coefficient B
+F32,4699,RTD Calibration Coefficient C
+U16,4701,Current Viscosity Range
+U16,4702,"Bit #0 – Line Pressure for Line Compressibility Out-Of-Range (NX19, NX19-mod, NX19-mod3)"
+U16,4703,"Bit #0 –Base Pressure for Base Compressibility Out-Of-Range (NX19, NX19-mod, NX19-mod3)"
+F64,4704,Double Precision Frequency
+F32,4708,Diagnostic Input Density
+F32,4710,Diagnostic Density Calculation
+U16,4712,KDV Factory Baseline Pass/Fail Criteria (in nanoseconds)
+U16,4713,KDV Factory Baseline Wait Time (in minutes)
+U16,4714,"Pressure Input Type (0 = Polled, 1 = Dig.Comm, 2 = Fixed)"
+F32,4716,"SG, MW, or RD of Primary Gas for Gas Purity Calculations"
+F32,4718,"SG, MW, or RD of Secondary Gas for Gas Purity Calculations"
+F32,4720,Gas Specific Gravity for Calibration Range 2
+F32,4722,Gas Specific Gravity for Calibration Range 3
+F32,4724,Gas Specific Gravity for Calibration Range 4
+F32,4726,Gas Molecular Weight for Calibration Range 2
+F32,4728,Gas Molecular Weight for Calibration Range 3
+F32,4730,Gas Molecular Weight for Calibration Range 4
+U16,4732,"Fluid for KDV on user fluid ((0=water, 1= user fluid)"
+U16,4733,"Gas Purity Data Type (0=SG, 1=MW, 2=RD)"
+F32,4734,Fork Long Ki
+F32,4736,Fork Long Kp
+F32,4738,Fork Short Ki
+F32,4740,Fork Short Kp
+F32,4742,Fork Long Air Mode
+F32,4744,Fork Short Air Mode
+F32,4746,Fork Phase Override
+U16,4748,API Calculation Status
+F32,4749,Setpoint for CM switching for high concentration sulfuric acid.
+U32,4751,Bunkering - Critical Alarm Failure Status Register 1
+U32,4753,Bunkering - Critical Alarm Failure Status Register 2
+U32,4755,Bunkering - Critical Alarm Failure Status Register 3
+F32,4757,Bunkering MID Density Limit High
+F32,4759,Bunkering MID Density Limit Low
+F32,4761,Bunkering MID Temperature Limit High
+F32,4763,Bunkering MID Temperature Limit Low
+F32,4765,Bunkering MassTotal in Air
+F64,4767,Bunkering Double MassTotal in Air
+U16,4771,Bunkering Log Mass Roll Over Flag
+F32,4772,Water Density for Inline Calibration Check
+F32,4774,"SGM Time Period / Temperature Sensitivity Coefficient 5 (Added coefficient, see register 4694)"
+F32,4776,SGM Temperature Array for Time Period Sensitivity
+F32,4778,SGM Temperature Array for Time Period Sensitivity
+F32,4780,Reference Temperature for Inline Calibration Check
+F32,4782,Reference Pressure for Density Offset Calibration
+F32,4784,Calculated Water Density at Reference Conditions for Density Offset Calibration
+U16,4786,Undefined
+F32,4787,Inline Calibration Check Result
+F32,4789,Q Values for Viscosity Range Switching
+F32,4791,Timeout for Drive Gain Hold Last Measured Value
+F32,4793,Limit for Inline Calibration Check on Water
+F32,4796,Shrinkage Factor Corrected Net Oil Total @ Line
+F32,4798,Bunkering Mass in Air Factor
+U32,4800,"HOG - Max number of bytes, total of all potential files created"
+U16,4802,HOG - Number of files to be created  (Use coil 525 to update this value)
+U16,4803,"HOG - Write Operation Status ( In Progress=0, Fail=1, Success=2, Aborted=3 )"
+U32,4804,HOG - Request Start Time/Date (# of sec format)
+U16,4806,HOG -Request # of days (For use with coil 525)
+U16,4807,"HOG -Request Details (Bit0: 0=Fast, 1=Slow)(Bit1: 1=Sdcard 0=USB)"
+F32,4808,HOG -Progress Indicator (0-100%)
+U16,4900,Gen5 Burst Mode Enable
+F32,4901,DB_FRF_LPO_AIR_STIFF
+F32,4903,DB_FRF_RPO_AIR_STIFF
+F32,4905,DB_FRF_LPO_WATER_STIFF
+F32,4907,DB_FRF_RPO_WATER_STIFF
+F32,4909,DB_FRF_LPO_AIR_MASS
+F32,4911,DB_FRF_RPO_AIR_MASS
+F32,4913,DB_FRF_LPO_WATER_MASS
+F32,4915,DB_FRF_RPO_WATER_MASS
+F32,4917,DB_FRF_AIR_DAMPING
+F32,4919,DB_FRF_WATER_DAMPING
+F32,4921,DB_FRF_AMP_CAL_T1_RE
+F32,4923,DB_FRF_AMP_CAL_T1_IM
+F32,4925,DB_FRF_AMP_CAL_T2_RE
+F32,4927,DB_FRF_AMP_CAL_T2_IM
+F32,4929,DB_FRF_AMP_CAL_T3_RE
+F32,4931,DB_FRF_AMP_CAL_T3_IM
+F32,4933,DB_FRF_AMP_CAL_T4_RE
+F32,4935,DB_FRF_AMP_CAL_T4_IM
+F32,4937,DB_FRF_AMP_CAL_DR_RE
+F32,4939,DB_FRF_AMP_CAL_DR_IM
+U16,4941,Tertiary MAO (#3) Source (See Milliamp Output Assignment Codes)
+U16,4942,Tertiary MAO (#3) Fault Indication (See Analog Fault Codes Table)
+F32,4943,Tertiary MAO (#3) Actual Value
+F32,4945,Tertiary MAO (#3) Damping
+F32,4947,Tertiary MAO (#3) Cutoff
+F32,4949,Tertiary MAO (#3) URV (20mA point)
+F32,4951,Tertiary MAO (#3) LRV (4mA point)
+F32,4953,Tertiary MAO (#3) Trim Low
+F32,4955,Tertiary MAO (#3) Trim High
+F32,4957,Tertiary MAO (#3) Fault Setting
+F32,4959,Tertiary MAO (#3) Fixed Value
+U16,4961,Secondary FO (#2) Source (see Frequency Output Assignment Codes)
+U16,4962,Secondary FO (#2)  Fault Indication (See Analog Fault Codes Table)
+F32,4963,Secondary FO (#2) Actual Value
+F32,4965,Secondary FO (#2) Fixed Value
+F32,4967,Secondary FO (#2) Fault Setting for upscale
+F32,4969,Secondary FO (#2) Frequency Factor
+F32,4971,Secondary FO (#2) Flow Rate Factor
+F32,4973,Secondary FO (#2) Pulses Per Unit
+F32,4975,Secondary FO (#2) Units Per Pulse
+F32,4977,Secondary FO (#2) Max Pulse Width
+F32,4979,MAI 20mATrim Constant
+F32,4981,MAI 4mATrim Constant
+F32,4983,MAI Damping
+F32,4985,Max Drive Current Allowed
+U16,4987,Primary MAO (#1) Direction (See MAO Direction Codes)
+U16,4988,Secondary MAO (#2) Direction (See MAO Direction Codes)
+U16,4989,Tertiary MAO (#3) Direction (See MAO Direction Codes)
+U16,4990,Primary FO (#1) Direction (See FO Direction Codes)
+U16,4991,Secondary FO (#2) Direction (See FO Direction Codes)
+U16,4997,Burst Status from Core
+F32,4998,Totalizer History Progress (0%-100%)
+U16,4999,Mercury & Qiming Feature Key (refer to Mercury & Qiming Feature Key codes)
+U16,5000,Feature Key (refer to Feature Key codes)
+U16,5001,Output ASIC LIOR Register (lower 8 bits of register)
+U16,5002,Milliamp Output 2 PWM counts
+U16,5003,"Custody Transfer Security Switch (secure=7070, otherwise unsecured)"
+U16,5004,700 Floating Point Byte Ordering for Modbus
+U16,5005,CEQ Number
+U16,5006,"Fix Status LED (0=unfix, 1=green, 2=red, 3=yellow, 4=0ff, add 4 to flash)"
+U16,5007,LDO Sample Period
+U16,5008,LDO Scroll Button Assertion Count
+U16,5009,LDO Select Button Assertion Count
+U16,5010,Display Screen Number (write to change current screen)
+U32,5011,Direct Memory Access Address
+U16,5045,Board Type (see board type codes table)
+U16,5046,Board Revision (Read Only for Orion)
+U16,5047,NVM Address (must be written to load data into 5048)
+U16,5048,NVM Data
+U16,5049,NVM Test Command
+U16,5050,"Profile Index (task index, timer index, or interrupt index)"
+U16,5051,Task Maximum Blocking Time (before yielding) (us)
+U16,5052,Task Maximum Execution Time (us)
+U16,5053,Task Run Count
+U16,5054,Task Stack Usage (bytes)
+U16,5055,Timer Maximum Execution Time (us)
+U16,5055,ISR Maximum Execution Time (us)
+U16,5057,ISR Average Execution Time (us)
+U16,5058,"Gen5: Fix Attached Core Status LED (0=unfix, 1=green, 2=red, 3=yellow, 4=0ff, add 4 to flash)"
+U16,5059,"PIC Block 22/2400:(0=A, 1=B, 2=C, 3=D) 9739:(0=A, 1=E, 2=F, 3=D) ORION:(0=A, 1=E, 2=D):Qiming(0=A,1=B)"
+U16,5060,PIC Revision
+U32,5061,Number of requests sent to PIC (since power-on)
+U32,5063,Number of valid responses received from PIC
+U32,5065,Number of error responses received from PIC
+U32,5067,Number of PIC responses with checksum errors
+U32,5069,Number of PIC response time-outs
+U32,5071,Number of PIC comm. Error responses
+U32,5073,Number of PIC memory error responses
+U32,5075,Number of PIC general error responses
+U32,5077,Number of PIC configuration error responses
+U32,5079,Number of PIC HART parity error responses
+U16,5081,LDO Button Minimum Idle Time between button presses (milliseconds)
+U16,5082,LDO Button Minimum Hold Time for a button press (milliseconds)
+U16,5083,"LDO IR Button Status LED Control (0=PIC controlled, 1=Blackfin controlled)"
+U16,5084,LDO IR Button Detection Window Size
+U16,5085,LDO IR Button In Band Threshold for Assertion
+U16,5086,LDO IR Button In Band Threshold for De-assertion
+U16,5087,LDO IR Button Out of Band Threshold for Assertion
+U16,5088,LDO IR Button Out of Band Threshold for De-assertion
+U16,5089,LDO Backlight On Intensity
+U16,5090,LDO Scroll Button IR Power
+U16,5091,LDO Select Button IR Power
+U16,5092,LDO IR Hysteresis
+U16,5093,"LDO Hardware Assembly Revision (1=A, 2=B, etc.)"
+U16,5094,LDO Board Type (See LDO Board Type Codes)
+U32,5095,LDO Calibration Date (mm dd yy yy)
+U16,5097,Calibration Time (hh mm)
+U16,5098,Calibration Software Version
+U16,5101,PIC Comm. Failure Window Size (1 to 200)
+U16,5102,"PIC Comm. Max Failures (> 0, < Window Size)"
+U16,5105,CP CEQ Number
+U16,5106,Transmitter NVM Primary Configuration Copy Bad During Runtime Count
+U16,5107,Transmitter NVM Backup Configuration Copy Bad During Runtime Count
+U16,5108,"Fix Network LED (0=Unfix, 1=Green, 2=Red)"
+A16,5109,LDO Screen Text Top line
+A16,5117,LDO Screen Text Bottom line
+U16,5125,PPI Button Simulation
+U16,5126,PPI Text Line index (0-15)
+A22,5127,PPI Text Single Line
+U16,5138,Gas Measurement Type (see Gas Measurement Type Codes table)
+U16,5139,Fork Type (see Fork Type Codes table)
+U16,5140,Interface Type (see Interface Type Codes table)
+U16,5141,Viscosity calibrated range selection (see calibrated range selection table)
+A32,5142,Orion Product Code String & Gen5 'Options' portion of Product Code String
+U16,5158,PPI Contrast Amount (0-255)
+u16,5159,Orion transmitter type(Bit mapped)
+F32,5160,KDV factory time period
+U16,5162,Blind Unit Directory Read Exception
+U16,5163,Blind Unit File Attribute
+U16,5164,File Created Time in compressed format
+U16,5165,File Created Date in compressed format
+U32,5166,File Size
+A24,5168,Blind Unit FileName
+A24,5180,Blind Unit Directory Name
+U16,5192,Blind Unit commands
+A16,5300,Config Total #1 Name
+A16,5308,Config Total #2 Name
+A16,5316,Config Total #3 Name
+A16,5324,Config Total #4 Name
+A16,5332,Config Total #5 Name
+A16,5340,Config Total #6 Name
+A16,5348,Config Total #7 Name
+A16,5356,Config Inv #1 Name
+A16,5364,Config Inv #2 Name
+A16,5372,Config Inv #3 Name
+A16,5380,Config Inv #4 Name
+A16,5388,Config Inv #5 Name
+A16,5396,Config Inv #6 Name
+A16,5404,Config Inv #7 Name
+A16,5412,Config Total #1 User-Defined Name
+A16,5420,Config Total #2 User-Defined Name
+A16,5428,Config Total #3 User-Defined Name
+A16,5436,Config Total #4 User-Defined Name
+A16,5444,Config Total #5 User-Defined Name
+A16,5452,Config Total #6 User-Defined Name
+A16,5460,Config Total #7 User-Defined Name
+A16,5468,Config Inv #1 User-Defined Name
+A16,5476,Config Inv #2 User-Defined Name
+A16,5484,Config Inv #3 User-Defined Name
+A16,5492,Config Inv #4 User-Defined Name
+A16,5500,Config Inv #5 User-Defined Name
+A16,5508,Config Inv #6 User-Defined Name
+A16,5516,Config Inv #7 User-Defined Name
+U8,5524,LCD Contrast (see reg 2622 for setting backlight intensity) (Stored in display)
+U8,5525,LOI Status LED Setting - dynamic which means device will over write value.
+U8,5526,LOI Network LED Setting - dynamic which means device will over write value.
+U8,5527,LOI Link LED setting - dynamic which means device will over write value.
+U8,5528,LOI Button Sensitivity LEFT (Stored in PIC)
+U8,5529,LOI Button Sensitivity DOWN (Stored in PIC)
+U8,5530,LOI Button Sensitivity UP (Stored in PIC)
+U8,5531,LOI Button Sensitivity RIGHT (Stored in PIC)
+U8,5532,LOI Button Press Detection Window Size (Max = 2) (Stored in PIC)
+U8,5533,LOI Button Press Threshold (Max = 8 * Window) (Stored in PIC)
+U8,5534,LOI Button Release Threshold (Max = 8 * Window) (Stored in PIC)
+U8,5535,LOI LCD Revision
+U8,5536,LOI IR Hardware Revision
+U8,5537,LOI WiFi Revision
+U8,5538,"LOI Firmware Revision (5700: PIC firmware, 4200: MSP firmware)"
+U8,5539,LOI Rotary1 Position
+U8,5540,LOI Rotary2 Position
+U8,5541,LOI Rotary3 Position
+U8,5542,LOI Status  TBD
+U16,5543,LOI Raw button states 
+U16,5544,"Fix Link LED (0=unfix, 1=green, 4=blink green)"
+U8,5545,LOI Button Adapt Hold Off time (200 ms ticks) (Stored in PIC)
+U16,5546,LOI Rotary Setting (3 rotary switches settings combined into single register)
+U8,5547,Reserved
+A4,5548,Password for configuration and alert access
+U32,5550,Reset All Min/Max Temp Statistics Timestamp
+U32,5552,Sensor Temperature Max Timestamp
+U32,5554,Sensor Temperature Min Timestamp
+U32,5556,Core Temperature Max Timestamp
+U32,5558,Core Temperature Min Timestamp
+U32,5560,Xmtr Temperature Max Timestamp
+U32,5562,Xmtr Temperature Min Timestamp
+F32,5564,Sensor Default FlowPressureComp Liqid
+F32,5566,Sensor Default FlowPressureComp Gas
+F32,5568,Sensor Default DensPressureComp
+F32,5570,Sensor Current FlowPressureComp
+F32,5572,Sensor Current DensPressureComp
+U32,5574,Alert current status - latched until acknowledged.  Shared with Local Display.
+U16,5576,Alert 1 - 4 severity condensed into nibbles with Alert 1 in least significant nibble and Alert 4 in most significant nibble - see NE-107 Severity Codes
+U16,5577,Alert 5 - 8 severity condensed into nibbles with Alert 5 in least significant nibble and Alert 8 in most significant nibble - see NE-107 Severity Codes
+U16,5578,Alert 9 - 12 severity condensed into nibbles with Alert 9 in least significant nibble and Alert 12 in most significant nibble - see NE-107 Severity Codes
+U16,5579,Alert 13 - 16 severity condensed into nibbles with Alert 13 in least significant nibble and Alert 16 in most significant nibble - see NE-107 Severity Codes
+U16,5580,Alert 17 - 20 severity condensed into nibbles with Alert 17 in least significant nibble and Alert 20 in most significant nibble - see NE-107 Severity Codes
+U16,5581,Alert 21 - 24 severity condensed into nibbles with Alert 21 in least significant nibble and Alert 24 in most significant nibble - see NE-107 Severity Codes
+U16,5582,Alert 25 - 28 severity condensed into nibbles with Alert 25 in least significant nibble and Alert 28 in most significant nibble - see NE-107 Severity Codes
+U16,5583,Alert 29 - 32 severity condensed into nibbles with Alert 29 in least significant nibble and Alert 32 in most significant nibble - see NE-107 Severity Codes
+U32,5584,"Ignore Alerts - 1 bit per alert.  1=ignore, 0=don't ignore"
+U16,5586,Bit #0 – CP RAM error (A2)
+U16,5587,Bit #0 – Low Power (A31)
+U16,5588,Bit #0 –  FO1 Fixed (A111)
+U16,5589,Bit #0 – DO3 Present Value
+U16,5590,Bit #0 – System is in fault
+U16,5591,Bit #0 – Security is enabled and there's no password
+U16,5592,Bit #0 – Wi-Fi Communication Failed
+U16,5593,Bit #0 – Undefined
+U16,5594,Bit #0 – Undefined
+U16,5595,Bit #0 – Undefined
+U16,5596,"Ignore Conditions in Reg 5586 - 1 bit per alert.  1=ignore, 0=don't ignore"
+U16,5597,"Ignore Conditions in Reg 5587 - 1 bit per alert.  1=ignore, 0=don't ignore"
+U16,5598,"Ignore Conditions in Reg 5588 - 1 bit per alert.  1=ignore, 0=don't ignore"
+U16,5599,"Ignore Conditions in Reg 5589 - 1 bit per alert.  1=ignore, 0=don't ignore"
+U16,5600,"Ignore Conditions in Reg 5590 - 1 bit per alert.  1=ignore, 0=don't ignore"
+U16,5601,"Ignore Conditions in Reg 5591 - 1 bit per alert.  1=ignore, 0=don't ignore"
+U16,5602,"Ignore Conditions in Reg 5592 - 1 bit per alert.  1=ignore, 0=don't ignore"
+U16,5603,"Ignore Conditions in Reg 5593 - 1 bit per alert.  1=ignore, 0=don't ignore"
+U16,5604,"Ignore Conditions in Reg 5594 - 1 bit per alert.  1=ignore, 0=don't ignore"
+U16,5605,"Ignore Conditions in Reg 5595 - 1 bit per alert.  1=ignore, 0=don't ignore"
+U16,5606,2 PV Screen Slot #1 (see process variable codes in back)
+U16,5607,2 PV Screen Slot #2 (see process variable codes in back)
+U32,5608,Bit #0 – Custody Transfer
+U16,5610,Temporary license key number of expiration days - 90 days maximum
+U16,5611,Permanent license key expiration days - 0xFFFF is a permanent license.  (0xFF for 4200)
+F32,5612,Time Zone Units
+U16,5614,Time Zone (Sets time zone units)
+U32,5615,Time in Seconds (of time zone units) 
+U16,5629,HART Seconday Variable
+U16,5630,HART Tertiary Variable
+U32,5631,Bit #0 – Undefined
+U16,5633,"LED Status Configuration 0 = Standard (default), 1 = NE107"
+U32,5634,Watch Dog Time timeout counter (increments for each Kinetis core WDT reset)
+U32,5636,Unique ID (from SD Card on 5700XX)
+U16,5638,NE-107 Alert Summary
+U32,5639,"Acknowledge Alerts - 1 bit per alert.  1=Needs ACK, 0 = Alert ACK'ed"
+U16,5641,Event History Index (0 to 19) - Record 19 is most recent while Record 0 is oldest
+U16,5642,Event ID (0 to 160) Follows ordering of conditions (Reg 5586-5595)
+U16,5643,Event State (0=Active; 1=Inactive; 2=Toggling)
+U32,5644,Event Timestamp (seconds)
+U32,5646,Bit #0 – Custody Transfer
+F32,5650,Config File Save/Restore Progress
+U16,5652,"Config File Save/Restore Status (0=OK/Done, 1=Error/Aborted, 2=In Progress)"
+U16,5653,"Config File Save/Restore Type (0=Spare, 1=Spare/SD, 2=Xfer, 3=Xfer/SD, 4=EDF, 5=EDF/SD, 6=Dump, 7=Dump/SD)"
+U16,5664,Config File Restore Error Count
+U16,5665,Config File EDF (.matrix)  0-5 are valid values
+U32,5670,Totalizer Log StartTime(in seconds)
+U8,5672,Totalizer Log Time Interval(in hours)
+U8,5673,"Totalizer Log PV1  (can assign any Tot/Inv Pvcode, also 200-203)"
+U8,5674,"Totalizer Log PV2   (can assign any Tot/Inv Pvcode, also 200-203)"
+U8,5675,"Totalizer Log PV3   (can assign any Tot/Inv Pvcode, also 200-203)"
+U8,5676,"Totalizer Log PV4   (can assign any Tot/Inv Pvcode, also 200-203)"
+U32,5631,Bit #0 – Undefined
+A16,5680,Permanent License Key String
+A16,5688,Temporary License Key String
+U16,5697,FCF Datalog Item: Run Counter
+U16,5698,NV Map Version (increments 1 to 0xFFFF whenever the NV Map changes)
+U16,5699,Zero Verification Result (Refer to Zero Verification Result Codes)
+F32,5700,Mean of Temperature from Last Flowing Baseline
+F32,5702,Mean of Density from Last Flowing Baseline
+F32,5704,Mean of Drive Gain from Last Flowing Baseline
+F32,5706,Mean of Delta-T from Last Flowing Baseline
+F32,5708,Standard Deviation of Temperature from Last Flowing Baseline
+F32,5710,Standard Deviation of Density from Last Flowing Baseline
+F32,5712,Standard Deviation of Drive Gain from Last Flowing Baseline
+F32,5714,Standard Deviation of Delta-T from Last Flowing Baseline
+F32,5718,Factory D1 ZeroStdDev
+F32,5720,Factory D1 ZeroValue
+U32,5722,Factory D1 SensorSerialNm
+A16,5724,Factory D1 SensorType
+U32,5732,Factory D1 Time
+F32,5734,Factory D1 Temp5MinAve
+F32,5736,Factory D1 Temp5MinStdDev
+F32,5738,Factory D1 DG5MinAve
+F32,5740,Factory D1 DG5MinStdDev
+F32,5742,Factory D1 LPO5MinAve
+F32,5744,Factory D1 LPO5MinStdDev
+F32,5746,Factory D2 ZeroStdDev
+F32,5748,Factory D2 ZeroValue
+U32,5750,Factory D2 SensorSerialNm
+A16,5752,Factory D2 SensorType
+U32,5760,Factory D2 Time
+F32,5762,Factory D2 Temp5MinAve
+F32,5764,Factory D2 Temp5MinStdDev
+F32,5766,Factory D2 DG5MinAve
+F32,5768,Factory D2 DG5MinStdDev
+F32,5770,Factory D2 LPO5MinAve
+F32,5772,Factory D2 LPO5MinStdDev
+F32,5774,Phase Genius Drive Gain Limit 
+F32,5776,Phase Genius LPO Limit Factor 
+U8,5778,"Phase Genius Flow Severity(0=Single,1=moderate,2=severe)"
+U16,5779,SMV data index (0-19 to access SMV run data)
+U32,5780,Factory D2 Time
+F32,5782,Normalized LPO Stiffness
+F32,5784,Normalized RPO Stiffness
+F32,5786,LPO Mass Data
+F32,5788,Rpo Mass Data
+F32,5790,Damping
+F32,5792,Drive mA
+F32,5794,delta T
+F32,5796,Temperature
+F32,5798,Density
+F32,5800,LPO Ampiltude
+F32,5802,RPO Amplitude
+F32,5804,Drive Frequency
+F32,5806,LPO Export (data to be used if a new core is needed)
+F32,5808,RPO Export (data to be used if a new core is needed)
+F32,5810,LPO Conf
+F32,5812,RPO Conf
+F32,5814,LPO Flex
+F32,5816,RPO Flex
+U16,5818,Abort Code
+U16,5819,Abort State
+U16,5820,LPO P/F
+U16,5821,RPO P/F
+U16,5822,Sensor Type
+U32,5823,Sensor Serial Number
+U16,5825,Index number of last run
+U16,5826,Index of SMV run to save at next save time
+U32,5827,Time of last save
+F32,5849,Smart Zero Progress (0.0% to 100.0%)
+U16,5851,Password failures
+U16,5852,Software Upgrade failures
+U16,5853,Database Write failures
+U16,5863,Proto Micro Software Version Number (xxx.xx format – 612 means rev 6.12)
+U16,5864,HART Field Alarm Severity 1 (NE107)
+U16,5865,HART Field Alarm Severity 2 (NE107)
+U16,5866,Differential Mass Flow Scaled Integer
+U16,5867,Differential Mass Total Scaled Integer
+U16,5868,Differential Mass Inventory Scaled Integer
+U16,5869,Differential Mass Flow Scaled Integer Offset
+U16,5870,Differential Mass Total Scaled Integer Offset
+U16,5871,Differential Mass Inventory Scaled Integer Offset
+U16,5872,Differential Mass Flow Scaled Integer Factor
+U16,5873,Differential Mass Total Scaled Integer Factor
+U16,5874,Differential Mass Inventory Scaled Integer Factor
+F32,5875,Zero Check Value
+U16,5877,Number of available messages in File Message Pool
+U16,5878,Max usage of PEG Pool (%)
+U32,5879,Max usage of Fast RAM (bytes)
+F32,5881,Coefficients for polynomial time period correction 
+F32,5883,Polynomial time period accuracy
+U16,5885,Index for polynomial time period correction coefficients (0-4)
+F32,5886,Density from A Factors for SSC
+F32,5888,Density from K Factors for SSC.
+F32,5890,Uncorrected damped temperature for SSC.
+F32,5892,Manually entered RTD wire resistance.
+U16,5899,Ethernet mirror mode - use coil 545 to enable (see Ethernet Mirror Mode Codes)
+U16,5900,IP Address Octet 1 - MSB
+U16,5901,IP Address Octet 2
+U16,5902,IP Address Octet 3
+U16,5903,IP Address Octet 4 - LSB
+U16,5904,Subnet Mask Octet 1 - MSB
+U16,5905,Subnet Mask Octet 2
+U16,5906,Subnet Mask Octet 3
+U16,5907,Subnet Mask Octet 4 - LSB
+U16,5908,Default Gateway Octet 1 - MSB
+U16,5909,Default Gateway Octet 2
+U16,5910,Default Gateway Octet 3
+U16,5911,Default Gateway Octet 4 - LSB
+U16,5912,Preferred DNS server Octet 1 - MSB
+U16,5913,Preferred DNS server Octet 2
+U16,5914,Preferred DNS server Octet 3
+U16,5915,Preferred DNS server Octet 4 - LSB
+U16,5916,Alternate DNS server Octet 1 - MSB
+U16,5917,Alternate DNS server Octet 2
+U16,5918,Alternate DNS server Octet 3
+U16,5919,Alternate DNS server Octet 4 - LSB
+U16,5920,EIP TCP Mcast TTL
+U16,5921,EIP TCP Mcast Alloc
+U16,5922,EIP TCP Mcast Num Mcast
+U32,5923,EIP TCP Mcast Start Adr
+U16,5925,Ethernet Port 1 Speed
+U16,5926,Ethernet Port 2 Speed
+U16,5927,EIP_QoS_DSCP_Urgent
+U16,5928,EIP_QoS_DSCP_Scheduled
+U16,5929,EIP_QoS_DSCP_High
+U16,5930,EIP_QoS_DSCP_Low
+U16,5931,EIP_QoS_DSCP_Explicit
+U16,5932,Max usage of TCP/IP Pool (%)
+U16,5933,Max usage of RTCS Message Pool (%)
+U16,5934,Max usage of RTCS PCB (%)
+U16,5935,Max usage of RTCS Sockets (%)
+U16,5936,Profinet Input Assembly
+U16,5937,Profinet Output Assembly
+U32,5950,ENET Status Block
+U32,5952,ENET Output Block
+F32,5954,ENET Input Slot 1
+F32,5956,ENET Input Slot 2
+F32,5958,ENET Input Slot 3
+F32,5960,ENET Input Slot 4
+F32,5962,ENET Input Slot 5
+F32,5964,ENET Input Slot 6
+F32,5966,ENET Input Slot 7
+F32,5968,ENET Input Slot 8
+F32,5970,ENET Input Slot 9
+F32,5972,ENET Input Slot 10
+F32,5974,ENET Input Slot 11
+F32,5976,ENET Input Slot 12
+F32,5978,ENET Input Slot 13
+F32,5980,ENET Input Slot 14
+F32,5982,ENET Input Slot 15
+F32,5984,ENET Input Slot 16
+F32,5986,ENET Input Slot 17
+F32,5988,ENET Input Slot 18
+F32,5990,ENET Input Slot 19
+F32,5992,ENET Input Slot 20
+F32,5994,ENET Input Slot 21
+F32,5996,ENET Input Slot 22
+F32,5998,ENET Input Slot 23
+F32,6000,ENET Input Slot 24
+F32,6002,ENET Input Slot 25
+F32,6004,ENET Input Slot 26
+F32,6006,ENET Input Slot 27
+F32,6008,ENET Input Slot 28
+F32,6010,ENET Input Slot 29
+F32,6012,ENET Input Slot 30
+F32,6014,ENET Input Slot 31
+F32,6016,ENET Input Slot 32
+F32,6018,ENET Output Slot 1 - Output of Floating Point Modbus Register
+F32,6020,ENET Output Slot 2 - Output of Floating Point Modbus Register
+F32,6022,ENET Output Slot 3 - Output of Floating Point Modbus Register
+F32,6024,ENET Output Slot 4 - Output of Floating Point Modbus Register
+U16,6026,ENET Output Slot 5 - Output of U16 Modbus Register
+U16,6027,ENET Output Slot 6 - Output of U16 Modbus Register
+U16,6028,ENET Output Slot 7 - Output of U16 Modbus Register
+U16,6029,ENET Output Slot 8 - Output of U16 Modbus Register
+U16,6030,ENET Output Slot 9 - Output of Modbus Coil
+U16,6031,ENET Output Slot 10 - Output of Modbus Coil
+U16,6032,ENET Output Slot 11 - Output of Modbus Coil
+U16,6033,ENET Output Slot 12 - Output of Modbus Coil
+U16,6034,ENET Input Slot 1 Transmitter Variable Index
+U16,6035,ENET Input Slot 2 Transmitter Variable Index
+U16,6036,ENET Input Slot 3 Transmitter Variable Index
+U16,6037,ENET Input Slot 4 Transmitter Variable Index
+U16,6038,ENET Input Slot 5 Transmitter Variable Index
+U16,6039,ENET Input Slot 6 Transmitter Variable Index
+U16,6040,ENET Input Slot 7 Transmitter Variable Index
+U16,6041,ENET Input Slot 8 Transmitter Variable Index
+U16,6042,ENET Input Slot 9 Transmitter Variable Index
+U16,6043,ENET Input Slot 10 Transmitter Variable Index
+U16,6044,ENET Input Slot 11 Transmitter Variable Index
+U16,6045,ENET Input Slot 12 Transmitter Variable Index
+U16,6046,ENET Input Slot 13 Transmitter Variable Index
+U16,6047,ENET Input Slot 14 Transmitter Variable Index
+U16,6048,ENET Input Slot 15 Transmitter Variable Index
+U16,6049,ENET Input Slot 16 Transmitter Variable Index
+U16,6050,ENET Input Slot 17 Transmitter Variable Index
+U16,6051,ENET Input Slot 18 Transmitter Variable Index
+U16,6052,ENET Input Slot 19 Transmitter Variable Index
+U16,6053,ENET Input Slot 20 Transmitter Variable Index
+U16,6054,ENET Input Slot 21 Transmitter Variable Index
+U16,6055,ENET Input Slot 22 Transmitter Variable Index
+U16,6056,ENET Input Slot 23 Transmitter Variable Index
+U16,6057,ENET Input Slot 24 Transmitter Variable Index
+U16,6058,ENET Input Slot 25 Transmitter Variable Index
+U16,6059,ENET Input Slot 26 Transmitter Variable Index
+U16,6060,ENET Input Slot 27 Transmitter Variable Index
+U16,6061,ENET Input Slot 28 Transmitter Variable Index
+U16,6062,ENET Input Slot 29 Transmitter Variable Index
+U16,6063,ENET Input Slot 30 Transmitter Variable Index
+U16,6064,ENET Input Slot 31 Transmitter Variable Index
+U16,6065,ENET Input Slot 32 Transmitter Variable Index
+U16,6066,ENET Output Slot 1 Floating Point Modbus Register
+U16,6067,ENET Output Slot 2 Floating Point Modbus Register
+U16,6068,ENET Output Slot 3 Floating Point Modbus Register
+U16,6069,ENET Output Slot 4 Floating Point Modbus Register
+U16,6070,ENET Output Slot 5 U16 Modbus Register
+U16,6071,ENET Output Slot 6 U16 Modbus Register
+U16,6072,ENET Output Slot 7 U16 Modbus Register
+U16,6073,ENET Output Slot 8 U16 Modbus Register
+U16,6074,ENET Output Slot 9 Modbus Coil
+U16,6075,ENET Output Slot 10 Modbus Coil
+U16,6076,ENET Output Slot 11 Modbus Coil
+U16,6077,ENET Output Slot 12 Modbus Coil
+U16,6082,"http: port - RW for v1.x, RO for v2.0 and above"
+U16,6083,"https: port - RW for v1.x, RO for v2.0 and above"
+U16,6084,Modbus TCP port
+U16,6085,EtherNet/IP Implicit Message port
+U16,6086,EtherNet/IP Explicit Message port
+U16,6087,undefined
+U32,6088,MAC ID - Mfg part (1st three octets)  Micro Motion = 0x001EF2
+U32,6090,MAC ID - Device part (last three octets) - Copy of HART ID (reg 122/123)
+A14,6092,Admin Password for web server authentication - 14 characters
+A14,6099,Operator Password for web server authentication - 14 characters
+U16,6106,Primary Ethernet Protocol (see Primary Ethernet Protocol Codes)
+U16,6107,"Inactivity timeout for EtherNet/IP, Modbus TCP and Profinet (sec)"
+U16,6108,"Ethernet,WIFI Connections"
+U32,6109,"MAC ID - Port 2  (last three octets) - HART ID (reg 122/123 + 6,000,000)"
+U16,6111,Count of new items in Alert History (cleared/acknowledged by writing 0).
+U16,6112,Web Process Monitor Variable #1 (see process variable codes table)
+U16,6113,Web Process Monitor Variable #2 (see process variable codes table)
+U16,6114,Web Process Monitor Variable #3 (see process variable codes table)
+U16,6115,Web Process Monitor Variable #4 (see process variable codes table)
+U16,6116,Web Process Monitor Variable #5 (see process variable codes table)
+U16,6117,Web Process Monitor Variable #6 (see process variable codes table)
+U16,6118,Web Process Monitor Variable #7 (see process variable codes table)
+U16,6119,Web Process Monitor Variable #8 (see process variable codes table)
+U16,6120,Web Process Monitor Variable #9 (see process variable codes table)
+U16,6121,Web Process Monitor Variable #10 (see process variable codes table)
+U16,6122,Web Process Monitor Variable #11 (see process variable codes table)
+U16,6123,Web Process Monitor Variable #12 (see process variable codes table)
+U16,6124,Web Process Monitor Variable #13 (see process variable codes table)
+U16,6125,Web Process Monitor Variable #14 (see process variable codes table)
+U16,6126,Web Process Monitor Variable #15 (see process variable codes table)
+U16,6127,Web Process Monitor Variable #16 (see process variable codes table)
+U16,6128,Web Prep Download File
+U16,6129,Printer IP Address Octet 1 - MSB
+U16,6130,Printer IP Address Octet 2
+U16,6131,Printer IP Address Octet 3
+U16,6132,Printer IP Address Octet 4 - LSB
+A4,6198,Password for totalizer inventory start/stop/reset context menu
+U16,6200,"Zero Data Set (0=current, 1=factory, 2=previous)"
+U16,6201,deltaT number of samples during Zero Cal
+F32,6202,Average deltaT during Zero Cal
+F32,6204,Average tempearature during Zero Cal
+F32,6206,Average density during Zero Cal
+F32,6208,Average drive gain during Zero Cal
+F32,6210,Standard Deviation deltaT during Zero Cal
+F32,6212,Standard Deviation tempearature during Zero Cal
+F32,6214,Standard Deviation density during Zero Cal
+F32,6216,Standard Deviation drive gain during Zero Cal
+F32,6222,Gas vs Liquid limit (default = 300 kg/m3; no range checking)
+F32,6224,Zero Density limit (default = 100 kg/m3; no range checking)
+F32,6226,Zero Multiplier (default =3; no range checking)
+F32,6228,Base Spec Multiplier (default = 2; no range checking)
+F32,6230,Cryogenic temperature limit (default = -100 degC; no range checking)
+F32,6232,Zero Stability from PDS (mass flow user units)
+F32,6234,Mass Flow Base Accuracy (%)
+F32,6236,Mass Flow Pressure Effect from PDS (%/pressure user units)
+F32,6238,Zero Stability vs Tempearture from PDS
+F32,6240,Maximum Flow from PDS (mass flow user units)
+F32,6242,Minimum Flow (mass flow user units)
+F32,6244,Base Density Accuracy from PDS (density user units)
+F32,6246,Density Pressure Effect from PDS
+F32,6248,Density vs Temperature from PDS
+F32,6250,Operating Zero Stability (mass flow user units)
+F32,6252,Zero Stability at operating temperature (mass flow user units)
+F32,6254,Total Zero Stability (operating ZS + temperature ZS)  (mass flow user units)
+F32,6256,Flat Spec Minimum Limit  (mass flow user units)
+F32,6258,Mass Pressure Effect at operating pressure (%)
+F32,6260,Mass operating uncertainty (%)
+F32,6262,Mass best uncertainty (%)
+U16,6264,Bit #0 – Low Flow Check Failed
+F32,6265,Temperature Correction Factor
+F32,6267,Density Correction Factor
+U16,6269,"Flow Range Status (0=Optimum,1=Needs Zero,2=Flow Rate too low)"
+F32,6270,Installation Verification Progress
+U16,6272,Installation Verification State
+F32,6273,Mass Flow Pressure Meter Factor (unitless)
+F32,6275,Density Pressure Meter Factor  (unitless)
+F32,6277,Volume Flow Pressure Meter Factor  (unitless)
+F32,6336,SMV Symmetry Standard Deviation (needed for coating)  - last run
+F32,6338,SMV Conf. Int. Spread (needed for coating)  - last run
+F32,6340,Normalized Standard Deviation of LPO Stiffness - last run
+F32,6342,Normalized Standard Deviation of RPO Stiffness - last run
+F32,6344,LPO Conf Int. Spread  - last run
+F32,6346,RPO Conf Int. Spread  - last run
+U16,6348,SMV Output State Codes - last run (see reg 6364 for bit definitions)
+U16,6349,SMV State Input 
+F32,6350,SMV Dead Band Base
+F32,6352,SMV Dead Band
+F32,6354,SMV Max Conf. Int. Spread
+F32,6356,Normalized Standard Deviation of LPO Stiffness
+F32,6358,Normalized Standard Deviation of RPO Stiffness
+F32,6360,LPO Conf Int. Spread
+F32,6362,RPO Conf Int. Spread
+U16,6364,Bit #0 – Left Stiffness Changed High
+F32,6365,SMV Symmetry Dead Band
+F32,6367,SMV Symmetry Standard Deviation (needed for coating)
+F32,6369,SMV Symmetry Conf. Int. Spread (needed for coating)
+F32,6371,SMV LPO Meter Factor
+F32,6373,SMV RPO Meter Factor
+F32,6375,Standard Deviation of LPO Stiffness 
+F32,6377,Standard Deviation of RPO Stiffness 
+F32,6379,Symmetry Standard Deviation Raw Data
+F32,6381,Stiffness LPO Log
+F32,6383,Stiffness RPO Log
+F32,6385,Resonant Frequency Estimate Log
+U16,6400,Hour Index for Trend Data (0-3)
+U16,6401,Variable Index for Trend Data (0=mass flow; 1=volume flow/GSV; 2=density; 3=temperature;4=drive gain;5=LPO;6=RPO;7=live zero)
+F32,6402,Trend Datapoint 0
+F32,6404,Trend Datapoint 1
+F32,6406,Trend Datapoint 2
+F32,6408,Trend Datapoint 3
+F32,6410,Trend Datapoint 4
+F32,6412,Trend Datapoint 5
+F32,6414,Trend Datapoint 6
+F32,6416,Trend Datapoint 7
+F32,6418,Trend Datapoint 8
+F32,6420,Trend Datapoint 9
+F32,6422,Trend Datapoint 10
+F32,6424,Trend Datapoint 11
+F32,6426,Trend Datapoint 12
+F32,6428,Trend Datapoint 13
+F32,6430,Trend Datapoint 14
+F32,6432,Trend Datapoint 15
+F32,6434,Trend Datapoint 16
+F32,6436,Trend Datapoint 17
+F32,6438,Trend Datapoint 18
+F32,6440,Trend Datapoint 19
+F32,6442,Trend Datapoint 20
+F32,6444,Trend Datapoint 21
+F32,6446,Trend Datapoint 22
+F32,6448,Trend Datapoint 23
+F32,6450,Trend Datapoint 24
+F32,6452,Trend Datapoint 25
+F32,6454,Trend Datapoint 26
+F32,6456,Trend Datapoint 27
+F32,6458,Trend Datapoint 28
+F32,6460,Trend Datapoint 29
+F32,6462,Trend Datapoint 30
+F32,6464,Trend Datapoint 31
+F32,6466,Trend Datapoint 32
+F32,6468,Trend Datapoint 33
+F32,6470,Trend Datapoint 34
+F32,6472,Trend Datapoint 35
+F32,6474,Trend Datapoint 36
+F32,6476,Trend Datapoint 37
+F32,6478,Trend Datapoint 38
+F32,6480,Trend Datapoint 39
+F32,6482,Trend Datapoint 40
+F32,6484,Trend Datapoint 41
+F32,6486,Trend Datapoint 42
+F32,6488,Trend Datapoint 43
+F32,6490,Trend Datapoint 44
+F32,6492,Trend Datapoint 45
+F32,6494,Trend Datapoint 46
+F32,6496,Trend Datapoint 47
+F32,6498,Trend Datapoint 48
+F32,6500,Trend Datapoint 49
+F32,6502,Trend Datapoint 50
+F32,6504,Trend Datapoint 51
+F32,6506,Trend Datapoint 52
+F32,6508,Trend Datapoint 53
+F32,6510,Trend Datapoint 54
+F32,6512,Trend Datapoint 55
+F32,6514,Trend Datapoint 56
+F32,6516,Trend Datapoint 57
+F32,6518,Trend Datapoint 58
+F32,6520,Trend Datapoint 59
+U16,6522,Current Hour Index
+U16,6523,Current Datapoint Index
+U16,6524,Data Set Index for 5700 Trend Data (0-71)
+U16,6525,Trend Datapoint 0
+U16,6526,Trend Datapoint 1
+U16,6527,Trend Datapoint 2
+U16,6528,Trend Datapoint 3
+U16,6529,Trend Datapoint 4
+U16,6530,Trend Datapoint 5
+U16,6531,Trend Datapoint 6
+U16,6532,Trend Datapoint 7
+U16,6533,Trend Datapoint 8
+U16,6534,Trend Datapoint 9
+U16,6535,Trend Datapoint 10
+U16,6536,Trend Datapoint 11
+U16,6537,Trend Datapoint 12
+U16,6538,Trend Datapoint 13
+U16,6539,Trend Datapoint 14
+U16,6540,Trend Datapoint 15
+U16,6541,Trend Datapoint 16
+U16,6542,Trend Datapoint 17
+U16,6543,Trend Datapoint 18
+U16,6544,Trend Datapoint 19
+U16,6545,Trend Datapoint 20
+U16,6546,Trend Datapoint 21
+U16,6547,Trend Datapoint 22
+U16,6548,Trend Datapoint 23
+U16,6549,Trend Datapoint 24
+U16,6550,Trend Datapoint 25
+U16,6551,Trend Datapoint 26
+U16,6552,Trend Datapoint 27
+U16,6553,Trend Datapoint 28
+U16,6554,Trend Datapoint 29
+U16,6555,Trend Datapoint 30
+U16,6556,Trend Datapoint 31
+U16,6557,Trend Datapoint 32
+U16,6558,Trend Datapoint 33
+U16,6559,Trend Datapoint 34
+U16,6560,Trend Datapoint 35
+U16,6561,Trend Datapoint 36
+U16,6562,Trend Datapoint 37
+U16,6563,Trend Datapoint 38
+U16,6564,Trend Datapoint 39
+U16,6565,Trend Datapoint 40
+U16,6566,Trend Datapoint 41
+U16,6567,Trend Datapoint 42
+U16,6568,Trend Datapoint 43
+U16,6569,Trend Datapoint 44
+U16,6570,Trend Datapoint 45
+U16,6571,Trend Datapoint 46
+U16,6572,Trend Datapoint 47
+U16,6573,Trend Datapoint 48
+U16,6574,Trend Datapoint 49
+U16,6575,Trend Datapoint 50
+U16,6576,Trend Datapoint 51
+U16,6577,Trend Datapoint 52
+U16,6578,Trend Datapoint 53
+U16,6579,Trend Datapoint 54
+U16,6580,Trend Datapoint 55
+U16,6581,Trend Datapoint 56
+U16,6582,Trend Datapoint 57
+U16,6583,Trend Datapoint 58
+U16,6584,Trend Datapoint 59
+U16,6585,Trend Datapoint 60
+U16,6586,Trend Datapoint 61
+U16,6587,Trend Datapoint 62
+U16,6588,Trend Datapoint 63
+U16,6589,Trend Datapoint 64
+U16,6590,Trend Datapoint 65
+U16,6591,Trend Datapoint 66
+U16,6592,Trend Datapoint 67
+U16,6593,Trend Datapoint 68
+U16,6594,Trend Datapoint 69
+U16,6595,Trend Datapoint 70
+U16,6596,Trend Datapoint 71
+U16,6597,Trend Datapoint 72
+U16,6598,Trend Datapoint 73
+U16,6599,Trend Datapoint 74
+U16,6600,Trend Datapoint 75
+U16,6601,Trend Datapoint 76
+U16,6602,Trend Datapoint 77
+U16,6603,Trend Datapoint 78
+U16,6604,Trend Datapoint 79
+U16,6605,Trend Datapoint 80
+U16,6606,Trend Datapoint 81
+U16,6607,Trend Datapoint 82
+U16,6608,Trend Datapoint 83
+U16,6609,Trend Datapoint 84
+U16,6610,Trend Datapoint 85
+U16,6611,Trend Datapoint 86
+U16,6612,Trend Datapoint 87
+U16,6613,Trend Datapoint 88
+U16,6614,Trend Datapoint 89
+U16,6615,Trend Datapoint 90
+U16,6616,Trend Datapoint 91
+U16,6617,Trend Datapoint 92
+U16,6618,Trend Datapoint 93
+U16,6619,Trend Datapoint 94
+U16,6620,Trend Datapoint 95
+U16,6621,Trend Datapoint 96
+U16,6622,Trend Datapoint 97
+U16,6623,Trend Datapoint 98
+U16,6624,Trend Datapoint 99
+U16,6625,Trend Datapoint 100
+U16,6626,Trend Datapoint 101
+U16,6627,Trend Datapoint 102
+U16,6628,Trend Datapoint 103
+U16,6629,Trend Datapoint 104
+U16,6630,Trend Datapoint 105
+U16,6631,Trend Datapoint 106
+U16,6632,Trend Datapoint 107
+U16,6633,Trend Datapoint 108
+U16,6634,Trend Datapoint 109
+U16,6635,Trend Datapoint 110
+U16,6636,Trend Datapoint 111
+U16,6637,Trend Datapoint 112
+U16,6638,Trend Datapoint 113
+U16,6639,Trend Datapoint 114
+U16,6640,Trend Datapoint 115
+U16,6641,Trend Datapoint 116
+U16,6642,Trend Datapoint 117
+U16,6643,Trend Datapoint 118
+U16,6644,Trend Datapoint 119
+U16,6645,Current Data Set Index
+U16,6646,Current Data Point Index
+U16,6859,Status for MicroLoad support (ETO23317 and ETO23182)
+U32,6860,Number of Bytes of File Read
+A242,6862,
+U32,6983,Number of Bytes of File Write
+A242,6985,Data Blocks of File during File Write
+U16,7106,File Exception Register
+U32,7107,File Checksum
+U64,7109,Filesystem Freespace  (or Internal Memory)
+U16,7113,"Bit #0 – Flow Direction  (0=Forward/Zero, 1=Reverse)"
+U16,7114,Hornet Update index
+U16,7115,Hornet Update value - Notify Hornet of change of some specific parameters through the host other than modbus
+U16,7116,Fieldbus  AI TargetMode1 
+U16,7117,Fieldbus AI ActualMode1  
+U16,7118,Fieldbus AI Channel1     
+U16,7119,Fieldbus AI XDScaleUnits1
+U16,7120,Fieldbus AI LType1       
+U16,7121,Fieldbus AI TargetMode2  
+U16,7122,Fieldbus AI ActualMode2  
+U16,7123,Fieldbus AI Channel2     
+U16,7124,Fieldbus AI XDScaleUnits2
+U16,7125,Fieldbus AI LType2       
+U16,7126,Fieldbus AI TargetMode3  
+U16,7127,Fieldbus AI ActualMode3  
+U16,7128,Fieldbus AI Channel3     
+U16,7129,Fieldbus AI XDScaleUnits3
+U16,7130,Fieldbus AI LType3       
+U16,7131,overwrite Field reference point Count
+U16,7132,LOI PIC Checksum
+U16,7133,LCD PIC Checksum
+U16,7134,LCD PIC Revision
+U16,7135,LCD PIC Status
+U8,7136,"Preamble_length(0=One Byte,1= Two Byte, 2=Four Byte, 3= Eight Byte) "
+U16,7137,Production Type
+U16,7138,Fluid Type
+U16,7139,Fieldbus Integrator2 Block Type
+F32,7140,Phase Flow Severity
+U8,7142,Active Curve Concentration Unit Code
+U16,7148,2nd Sensor Slave Address (RS485 only)
+U16,7149,Zero Log Mem Location
+U16,7150,Zero Log Index
+F32,7152,Zero Log - Auto Zero Value
+U32,7154,Zero Log - Auto Zero Time 
+F32,7156,Zero Log - Max Temperature
+F32,7158,Zero Log - Max Density
+F32,7160,Zero Log - Max Drive Gain
+F32,7162,Zero Log - Min Temperature
+F32,7164,Zero Log - Min Density
+F32,7166,Zero Log - Min Drive Gain
+F32,7168,Min Mass Flow Threshold to Reset Total in CT-CMC mode
+U16,7170,Zero Log - Slot 0 Configuration Index
+U16,7171,Zero Log - Slot 1 Configuration Index
+U16,7172,Zero Log - Slot 2 Configuration Index
+U16,7173,Zero Log - Slot 3 Configuration Index
+U16,7174,Zero Log - Slot 4 Configuration Index
+U16,7175,Zero Log - Slot 5 Configuration Index
+U16,7176,Zero Log - Slot 6 Configuration Index
+U16,7177,Zero Log - Slot 7 Configuration Index
+U32,7178,Zero Log - Slot 0 Configuration 
+F32,7180,Zero Log - Slot 1 Configuration 
+F32,7182,Zero Log - Slot 2 Configuration 
+F32,7184,Zero Log - Slot 3 Configuration 
+F32,7186,Zero Log - Slot 4 Configuration 
+F32,7188,Zero Log - Slot 5 Configuration 
+F32,7190,Zero Log - Slot 6 Configuration 
+F32,7192,Zero Log - Slot 7 Configuration 
+U16,7195,Bit #0 – Memory Fail
+F32,7196,Kp for Ultra Low Viscosity Fluids on long tined forks
+F32,7198,Kp for Ultra Low Viscosity Fluids on short tined forks
+U32,7200,Hornet Firmware Checksum
+F32,7202,Fixed Drive Gain for Simulation
+F32,7204,Fixed LPO Filtered Amp for Simulation
+F32,7206,Fixed RPO Filtered Amp for Simulation
+U16,7208,Fieldbus TOT Target Mode1
+U16,7209,Fieldbus TOT Actual Mode1
+U16,7210,Fieldbus TOT Channel1
+U16,7211,Fieldbus TOT Units1 (valid units associated with channel selection)
+U16,7212,Fieldbus TOT SetTot1
+U16,7213,Fieldbus TOT ModeTot1
+U16,7214,Fieldbus TOT Target Mode2
+U16,7215,Fieldbus TOT Actual Mode2
+U16,7216,Fieldbus TOT Channel2
+U16,7217,Fieldbus TOT Units2 (valid units associated with channel selection)
+U16,7218,Fieldbus TOT SetTot2
+U16,7219,Fieldbus TOT ModeTot2
+U16,7220,Fieldbus TOT Target Mode3
+U16,7221,Fieldbus TOT Actual Mode3
+U16,7222,Fieldbus TOT Channel3
+U16,7223,Fieldbus TOT Units3 (valid units associated with channel selection)
+U16,7224,Fieldbus TOT SetTot3
+U16,7225,Fieldbus TOT ModeTot3
+U16,7226,Fieldbus AO Target Mode1
+U16,7227,Fieldbus AO Actual Mode1
+U16,7228,Fieldbus AO Channel1
+U16,7229,Fieldbus AO PV Scale Units1 (valid units associated with channel selection)
+U16,7230,Fieldbus AO Out Scale Units1 (valid units associated with channel selection)
+U16,7231,Fieldbus DO Target Mode
+U16,7232,Fieldbus DO Actual Mode
+U16,7233,Fieldbus DO in channel
+U16,7234,Fieldbus DO out channel
+U16,7235,Fieldbus DI Target Mode
+U16,7236,Fieldbus DI Actual Mode
+U16,7237,Fieldbus DI channel
+U32,7238,Bit #0 – Start Zero Cal
+U16,7240,Display Security Options
+A8,7241,NE-53 Revision (Software)
+U16,7245,PA Communication Status
+U32,7246,Temperature Rise Threshold for ADZ
+F32,7248,Differential Return Mass Flow
+F32,7250,Differential Return Mass Total
+F64,7252,Differential Return Mass Total - Double
+F32,7256,Differential API-corrected Volume Flow Rate
+F32,7258,Differential API-corrected Volume Flow Total
+F32,7260,Differential API-corrected Volume Flow Inventory
+F32,7262,Differential API-corrected Volume Flow Auto Zero
+F32,7264,Differential API-corrected Volume Flow Auto Zero Min Value
+F32,7266,Differential API-corrected Volume Flow Auto Zero Max Value
+F32,7268,Compensation Coefficient 1
+F32,7270,Compensation Coefficient 2
+F32,7272,Compensation Coefficient 3
+F32,7274,Compensation Coefficient 4
+F32,7276,Compensation Coefficient 5 (Second FCF)
+F32,7278,Compensation Coefficient 6 (Second FCF Flow Rate 25%)
+F32,7280,Compensation Coefficient 7 (Two-order compensation K)
+F32,7282,Compensation Coefficient 8 (Two-order compensation B)
+F32,7284,Simulation Mass Flow Rate for Compensation
+A8,7296,NE-53 Revision (Hardware)
+U16,7300,current filtered count  - UP
+U16,7301,current filtered count - DOWN
+U16,7302,current filtered count - LEFT
+U16,7303,current filtered count - RIGHT
+U16,7304,current conversion LTA  - UP
+U16,7305,current conversion LTA  - DOWN
+U16,7306,current conversion LTA  - LEFT
+U16,7307,current conversion LTA  - RIGHT
+U16,7308,conversion count setting - UP    (MSP param - write coil 509 to commit to NVM)
+U16,7309,conversion count setting - DOWN    (MSP param - write coil 509 to commit to NVM)
+U16,7310,conversion count setting - LEFT    (MSP param - write coil 509 to commit to NVM)
+U16,7311,conversion count setting - RIGHT    (MSP param - write coil 509 to commit to NVM)
+U16,7312,conversion gain setting - UP    (MSP param - write coil 509 to commit to NVM)
+U16,7313,conversion gain setting - DOWN    (MSP param - write coil 509 to commit to NVM)
+U16,7314,conversion gain setting - LEFT    (MSP param - write coil 509 to commit to NVM)
+U16,7315,conversion gain setting - RIGHT    (MSP param - write coil 509 to commit to NVM)
+U16,7316,touch threshold n (as n/128 of LTA) - UP    (MSP param - write coil 509 to commit to NVM)
+U16,7317,touch threshold n (as n/128 of LTA) - DOWN    (MSP param - write coil 509 to commit to NVM)
+U16,7318,touch threshold n (as n/128 of LTA) - DOWN    (MSP param - write coil 509 to commit to NVM)
+U16,7319,touch threshold n (as n/128 of LTA) - RIGHT    (MSP param - write coil 509 to commit to NVM)
+U8,7320,"LCD software rotation [ 0=0°,   1=90°,    2=180°,   3=270° ]"
+U16,7330,bias current UP
+U16,7331,bias current DOWN
+U16,7332,bias current LEFT
+U16,7333,bias current RIGHT
+U16,7334,frequency divider UP
+U16,7335,frequency divider DOWN
+U16,7336,frequency divider LEFT
+U16,7337,frequency divider RIGHT
+U16,7338,display NVM slot 0
+U16,7339,display NVM slot 1
+U16,7340,display NVM slot 2
+U16,7341,display NVM slot 3
+U16,7342,logged number of press counts UP (write any value to clear to 0)
+U16,7343,logged number of press counts DOWN (write any value to clear to 0)
+U16,7344,logged number of press counts LEFT (write any value to clear to 0)
+U16,7345,logged number of press counts RIGHT (write any value to clear to 0)
+U16,7346,logged number of press counts ALL BUTTONS (write any value to clear to 0)
+U16,7350,Installation Verification Start
+A16,7351,Permanent License Key String
+A16,7361,Temporary License Key String
+U16,7371,ActionStartStop_CfgTot1
+U16,7372,ActionStartStop_CfgTot2
+U16,7373,ActionStartStop_CfgTot3
+U16,7374,ActionStartStop_CfgTot4
+U16,7375,ActionStartStop_CfgTot5
+U16,7376,ActionStartStop_CfgTot6
+U16,7377,ActionStartStop_CfgTot7
+U16,7378,ActionStartStop_CfgInv1
+U16,7379,ActionStartStop_CfgInv2
+U16,7380,ActionStartStop_CfgInv3
+U16,7381,ActionStartStop_CfgInv4
+U16,7382,ActionStartStop_CfgInv5
+U16,7383,ActionStartStop_CfgInv6
+U16,7384,ActionStartStop_CfgInv7
+U16,7385,WiFi Module Initialization State
+U16,7386,WiFi Module Bootup Count
+A32,7387,WiFi SSID
+A32,7403,WiFi Pre-shared Key
+U16,7419,WiFi Module Init Retries
+U16,7420,Role Based Inactivity Timeout
+A18,7423,WiFi Module Mac ID
+U16,7432,WiFi IP Address Octet 1 - MSB
+U16,7433,WiFi IP Address Octet 2
+U16,7434,WiFi IP Address Octet 3
+U16,7435,WiFi IP Address Octet 4 - LSB
+U16,7436,WiFi communication timeout time(minutes)
+U16,7437,"Display Type(0= No Display, 1= OIML Display, 2= Wi-Fi Display)"
+U16,7438,Wi- Fi Channel
+U16,7439,Antenna Value
+U16,7440,Antenna Gain
+U16,7441,Antenna Path
+U16,7442,Antenna Type
+U16,7443,Wi-Fi module boot loader version
+U16,7444,WIFI Session Status
+U16,7445,WIFI Login Status
+A14,7466,"Temp Password, used for login purposes "
+A14,7473,"Temp Role, used for login purposes "
+A20,7480,Wi-Fi Redpine Firmware Version
+U16,7517,NOC saved archive well number for well test
+U16,7518,"Select mode for low flow cutoff based on PO amplitude (ETO36370) 0 = Average of RPO and LPO, 1 = PO with Minimum Amplitude"
+U16,7581,Slot 32 Configuration Index
+U16,7582,Slot 33 Configuration Index
+U16,7583,Slot 34 Configuration Index
+U16,7584,Slot 35 Configuration Index
+U16,7585,Slot 36 Configuration Index
+U16,7586,Slot 37 Configuration Index
+U16,7587,Slot 38 Configuration Index
+U16,7588,Slot 39 Configuration Index
+U16,7589,Slot 40 Configuration Index
+U16,7590,Slot 41 Configuration Index
+U16,7591,Slot 42 Configuration Index
+U16,7592,Slot 43 Configuration Index
+U16,7593,Slot 44 Configuration Index
+U16,7594,Slot 45 Configuration Index
+U16,7595,Slot 46 Configuration Index
+U16,7596,Slot 47 Configuration Index
+U16,7597,Slot 48 Configuration Index
+U16,7598,Slot 49 Configuration Index
+U16,7599,Slot 50 Configuration Index
+U16,7600,Slot 51 Configuration Index
+U16,7601,Slot 52 Configuration Index
+U16,7602,Slot 53 Configuration Index
+U16,7603,Slot 54 Configuration Index
+U16,7604,Slot 55 Configuration Index
+U16,7605,Slot 56 Configuration Index
+U16,7606,Slot 57 Configuration Index
+U16,7607,Slot 58 Configuration Index
+U16,7608,Slot 59 Configuration Index
+U16,7609,Slot 60 Configuration Index
+U16,7610,Slot 61 Configuration Index
+U16,7611,Slot 62 Configuration Index
+U16,7612,Slot 63 Configuration Index
+U16,7677,Slot 32 Configuration Array Dim1 Index
+U16,7678,Slot 33 Configuration Array Dim1 Index
+U16,7679,Slot 34 Configuration Array Dim1 Index
+U16,7680,Slot 35 Configuration Array Dim1 Index
+U16,7681,Slot 36 Configuration Array Dim1 Index
+U16,7682,Slot 37 Configuration Array Dim1 Index
+U16,7683,Slot 38 Configuration Array Dim1 Index
+U16,7684,Slot 39 Configuration Array Dim1 Index
+U16,7685,Slot 40 Configuration Array Dim1 Index
+U16,7686,Slot 41 Configuration Array Dim1 Index
+U16,7687,Slot 42 Configuration Array Dim1 Index
+U16,7688,Slot 43 Configuration Array Dim1 Index
+U16,7689,Slot 44 Configuration Array Dim1 Index
+U16,7690,Slot 45 Configuration Array Dim1 Index
+U16,7691,Slot 46 Configuration Array Dim1 Index
+U16,7692,Slot 47 Configuration Array Dim1 Index
+U16,7693,Slot 48 Configuration Array Dim1 Index
+U16,7694,Slot 49 Configuration Array Dim1 Index
+U16,7695,Slot 50 Configuration Array Dim1 Index
+U16,7696,Slot 51 Configuration Array Dim1 Index
+U16,7697,Slot 52 Configuration Array Dim1 Index
+U16,7698,Slot 53 Configuration Array Dim1 Index
+U16,7699,Slot 54 Configuration Array Dim1 Index
+U16,7700,Slot 55 Configuration Array Dim1 Index
+U16,7701,Slot 56 Configuration Array Dim1 Index
+U16,7702,Slot 57 Configuration Array Dim1 Index
+U16,7703,Slot 58 Configuration Array Dim1 Index
+U16,7704,Slot 59 Configuration Array Dim1 Index
+U16,7705,Slot 60 Configuration Array Dim1 Index
+U16,7706,Slot 61 Configuration Array Dim1 Index
+U16,7707,Slot 62 Configuration Array Dim1 Index
+U16,7708,Slot 63 Configuration Array Dim1 Index
+F32,7709,Density Threshold for FDM autoswitching for ultra low viscosity hydrocarbons
+F32,7711,Hysteresis for FDM autoswitching for ultra low viscosity hydrocarbons
+U16,7713,"FDM ultra low viscosity hydrocarbon autoswitching mode (0=Off, 1=Auto, 2=Force to ultra low viscosity mode)"
+U16,7715,External Pressure Option A
+U16,7716,External Pressure Option B
+U16,7717,ActionStartStop_External Pressure SW A
+U16,7718,ActionStartStop_External Pressure SW B
+F32,7719,External Pressure Input Fixed
+F32,7721,External Pressure Input MAInput
+F32,7723,External Pressure Input Poll
+U16,7725,Ethernet PHY Physical Layer Compliance Mode
+F32,7726,Input Flow Rate
+F32,7728,Combined Flow Rate
+F32,7730,4700 12V Input Voltage Measurement
+U16,7732,"PHAT_RunDiskCmd (7070=format, 0=checkdisk, 7071=eraselog).  Reads back 0xFFFF until complete"
+U16,7733,PHAT_DiskCmdResult
+U16,7734,PHAT Log:  most recent index #
+U16,7735,PHAT_MBIndex - Index for the PHAT log registers
+U16,7736,PHAT Log: EventType
+U32,7737,PHAT Log: Event Time
+U32,7739,PHAT Log: Event Info 1
+U32,7741,PHAT Log: Event Info 2
+U16,7743,Bootloader Error Code
+U32,7744,UI damped mass flow rate (ETO 41544)

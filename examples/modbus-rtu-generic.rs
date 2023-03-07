@@ -1,5 +1,6 @@
 use coriolis::core::modbus::FW_REG_COUNT;
-
+use std::collections::HashMap;
+use tokio_modbus::slave;
 //#[cfg(feature = "modbus-rtu")]
 pub fn main() {
     use chrono::{DateTime, Utc};
@@ -11,7 +12,7 @@ pub fn main() {
     use tokio_core::reactor::{Core, Handle};
     use tokio_modbus::prelude::{client::util::*, *};
 
-    use coriolis::{modbus, *};
+    use coriolis::{buildmap::build_hashmap, modbus, *};
 
     use csv::{Reader, Writer, WriterBuilder};
 
@@ -19,6 +20,9 @@ pub fn main() {
     use std::fs::OpenOptions;
     // Open a file to write the CSV data to
     let file = File::create("data.csv").expect("hay problemo");
+    // Build the HashMap from CSV
+    let path = String::from("ModbusMap.csv");
+    //let my_hmap: HashMap<u16, String> = build_hashmap(&path);
 
     let mut logger_builder = LoggerBuilder::new();
     logger_builder.filter_level(log::LevelFilter::Info);
@@ -49,11 +53,17 @@ pub fn main() {
         cycle_time: Duration,
         timeout: Duration,
         read_index: usize,
-        regs: [u16;2], //nn to make this a vec for growable
+        regs: Vec<u16>,
+        hmap: HashMap<u16, String>,
     }
     impl SlaveConfig {
         fn next(&mut self) {
             self.read_index = (self.read_index + 1) % self.regs.len();
+        }
+        fn add_regs(&mut self, regs: Vec<u16>) {
+            for reg in regs {
+                self.regs.push(reg);
+            }
         }
     }
     // TODO: Parse parameters and options from command-line arguments
@@ -62,13 +72,17 @@ pub fn main() {
         //tty_path: "/dev/ttyACM0".to_owned(),
         tty_path: "COM9".to_owned(),
     };
-    let slave_config = SlaveConfig {
+    let mut slave_config = SlaveConfig {
         slave: Slave::min_device(),
         cycle_time: Duration::from_millis(1000),
         timeout: Duration::from_millis(500),
         read_index: 0,
-        regs: [103, 95],
+        regs: Vec::new(),
+        hmap: build_hashmap(&path),
     };
+    // TODO: Get these regs from user input
+    let regs: Vec<u16> = vec![103, 95];
+    slave_config.add_regs(regs);
 
     #[derive(Debug, Clone, Copy, PartialEq, Eq)]
     struct Measurement<T> {
@@ -90,7 +104,6 @@ pub fn main() {
     struct Measurements {
         temperature: Option<Measurement<Temperature>>,
         generic: Option<Measurement<Generic>>,
-
     }
 
     // Only a single slave sensor is used for demonstration purposes here.
@@ -154,13 +167,22 @@ pub fn main() {
         pub fn measure_any(mut self) -> impl Future<Item = Self, Error = (Error, Self)> {
             //use self.config.read_index to return reg_start and reg_count
             let reg_start = self.config.regs[self.config.read_index];
-            let reg_count = 12;
+            let plus_one = reg_start + 1;
+            //use HashMap lookup to get reg_count and reg_type
+println!("reg_start: {:?}", reg_start);
+            //let map_value = String::from(self.config.hmap.get(&reg_start).unwrap());
+            let map_value = self.config.hmap.get(&plus_one).unwrap().as_str();
+            println!("map_value: {:?}", map_value);
+            let reg_type: char = map_value.chars().nth(0).unwrap();
+            println!("char: {:?}", reg_type);
+            let reg_count = map_value[1..].parse::<u16>().unwrap();
+            
+            println!("count: {:?}", reg_count);
             self.proxy
-                .read_any(Some(self.config.timeout), reg_start, reg_count)
+                .read_any(Some(self.config.timeout), reg_start, reg_count, reg_type)
                 .then(move |res| match res {
                     Ok(val) => {
                         self.measurements.generic = Some(Measurement::new(val));
-
                         Ok(self)
                     }
                     Err(err) => Err((err, self)),
@@ -212,7 +234,7 @@ pub fn main() {
 
         wtr.flush()?;
         Ok(())
-    } 
+    }
 
     let (_trigger, tripwire) = Tripwire::new();
     let cycle_interval = Interval::new_interval(ctrl_loop.config.cycle_time);
@@ -241,7 +263,7 @@ pub fn main() {
                     }
                 })
         });
-    
+
     core.run(ctrl_loop_task).unwrap();
 }
 

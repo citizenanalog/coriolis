@@ -84,6 +84,7 @@ pub fn decode_f32_reg(read_bytes: Vec<u16>) -> DecodeResult<Temperature> {
 pub fn decode_generic_reg(read_bytes: Vec<u16>) -> DecodeResult<Generic> {
     //setup the new u8 vec
     //go to len x2 and split string at '\0L'
+    //this only valid up to len 38 (or A18)
     let mut vec_u8: Vec<u8> = Vec::with_capacity(read_bytes.len() * 2);
     read_bytes.into_iter().for_each(|val| {
         vec_u8.extend(&val.to_be_bytes());
