@@ -24,6 +24,48 @@ impl fmt::Display for Temperature {
         write!(f, "{} °C", self.to_degree_celsius())
     }
 }
+
+/// Float
+#[derive(Clone, Copy, Debug, PartialEq, PartialOrd)]
+#[repr(transparent)]
+pub struct Float(f32);
+
+impl Float {
+    pub const fn from_string(read_val: f32) -> Self {
+        Self(read_val)
+    }
+
+}
+
+impl fmt::Display for Float {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}", self.to_string())
+    }
+}
+
+/// Register
+#[derive(Clone, Debug, PartialEq, PartialOrd)]
+#[repr(transparent)]
+pub struct Register(Vec<u16>);
+
+impl Register {
+    pub const fn from_byte(word: Vec<u16>) -> Self {
+        Self(word)
+    }
+
+    //nn method for decimal output instead of bytes
+
+    pub fn to_display(self) -> Vec<u16> {
+        self.0
+    }
+}
+
+impl fmt::Display for Register {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{:?}", self.clone().to_display())
+    }
+}
+
 /// (Ascii Strings).
 #[derive(Clone, Debug, PartialEq, PartialOrd)]
 #[repr(transparent)]

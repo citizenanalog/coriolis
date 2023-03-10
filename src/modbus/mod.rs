@@ -96,28 +96,28 @@ pub fn read_temperature_with_timeout(
 
 //generics
 // give it a u16 reg start and reg count argument
-pub fn read_generic(context: &mut client::Context) -> impl Future<Item = Generic, Error = Error> {
+pub fn read_generic(context: &mut client::Context,
+    reg_start: u16,
+    reg_count: u16,
+    reg_type: char,) -> impl Future<Item = Generic, Error = Error> {
     context
-        .read_holding_registers(USER_MSG_REG_START, USER_MSG_REG_COUNT)
-        .and_then(|rsp| {
-            // decode all the types here
-            //
-            if let raw = rsp {
-                decode_generic_reg(raw).map_err(Into::into)
-            } else {
-                Err(Error::new(
-                    ErrorKind::InvalidData,
-                    format!("unexpected generic data: {:?}", rsp),
-                ))
-            }
+    // match on reg_type and decode accordingly
+        .read_holding_registers(reg_start, reg_count)
+        .and_then(move |rsp| match reg_type {
+            'A' => decode_generic_reg(rsp).map_err(Into::into),
+            _ => (Err(Error::new(
+                ErrorKind::InvalidData,
+                format!("unexpected any data: {:?}", rsp)),
+            )),
         })
 }
 
-pub fn read_generic_with_timeout(
-    context: &mut client::Context,
+pub fn read_generic_with_timeout(context: &mut client::Context,
     timeout: Duration,
-) -> impl Future<Item = Generic, Error = Error> {
-    read_generic(context).timeout(timeout).map_err(move |err| {
+    reg_start: u16,
+    reg_count: u16,
+    reg_type: char,) -> impl Future<Item = Generic, Error = Error> {
+    read_generic(context, reg_start, reg_count, reg_type).timeout(timeout).map_err(move |err| {
         err.into_inner().unwrap_or_else(|| {
             Error::new(
                 ErrorKind::TimedOut,
@@ -128,19 +128,19 @@ pub fn read_generic_with_timeout(
 }
 
 //generics
-pub fn read_any(
+pub fn read_reg(
     context: &mut client::Context,
     reg_start: u16,
     reg_count: u16,
     reg_type: char,
-) -> impl Future<Item = Generic, Error = Error> {
+) -> impl Future<Item = Register, Error = Error> {
     // match on reg_type and decode accordingly
     context
         .read_holding_registers(reg_start, reg_count)
         .and_then(move |rsp| match reg_type {
-            'A' => decode_generic_reg(rsp).map_err(Into::into),
+            //'A' => decode_generic_reg(rsp).map_err(Into::into),
             'U' => decode_u_reg(rsp).map_err(Into::into),
-            'F' => decode_f_reg(rsp).map_err(Into::into),
+            //'F' => decode_f_reg(rsp).map_err(Into::into),
             _ => Err(Error::new(
                 ErrorKind::InvalidData,
                 format!("unexpected any data: {:?}", rsp),
@@ -148,18 +148,53 @@ pub fn read_any(
         })
 }
 
-pub fn read_any_with_timeout(
+pub fn read_reg_with_timeout(
     context: &mut client::Context,
     timeout: Duration,
     reg_start: u16,
     reg_count: u16,
     reg_type: char,
-) -> impl Future<Item = Generic, Error = Error> {
-    read_any(context, reg_start, reg_count, reg_type)
+) -> impl Future<Item = Register, Error = Error> {
+    read_reg(context, reg_start, reg_count, reg_type)
         .timeout(timeout)
         .map_err(move |err| {
             err.into_inner().unwrap_or_else(|| {
                 Error::new(ErrorKind::TimedOut, String::from("reading any timed out"))
+            })
+        })
+}
+
+//generics
+pub fn read_float(
+    context: &mut client::Context,
+    reg_start: u16,
+    reg_count: u16,
+    reg_type: char,
+) -> impl Future<Item = Float, Error = Error> {
+    // match on reg_type and decode accordingly
+    context
+        .read_holding_registers(reg_start, reg_count)
+        .and_then(move |rsp| match reg_type {
+            'F' => decode_f_reg(rsp).map_err(Into::into),
+            _ => Err(Error::new(
+                ErrorKind::InvalidData,
+                format!("unexpected float data: {:?}", rsp),
+            )),
+        })
+}
+
+pub fn read_float_with_timeout(
+    context: &mut client::Context,
+    timeout: Duration,
+    reg_start: u16,
+    reg_count: u16,
+    reg_type: char,
+) -> impl Future<Item = Float, Error = Error> {
+    read_float(context, reg_start, reg_count, reg_type)
+        .timeout(timeout)
+        .map_err(move |err| {
+            err.into_inner().unwrap_or_else(|| {
+                Error::new(ErrorKind::TimedOut, String::from("reading float timed out"))
             })
         })
 }
@@ -325,24 +360,6 @@ impl SlaveProxy {
     pub fn read_generic(
         &self,
         timeout: Option<Duration>,
-    ) -> impl Future<Item = Generic, Error = Error> {
-        match self.shared_context() {
-            Ok(shared_context) => {
-                let mut context = shared_context.borrow_mut();
-                context.set_slave(self.slave);
-                future::Either::A(if let Some(timeout) = timeout {
-                    future::Either::A(read_generic_with_timeout(&mut context, timeout))
-                } else {
-                    future::Either::B(read_generic(&mut context))
-                })
-            }
-            Err(err) => future::Either::B(future::err(err)),
-        }
-    }
-
-    pub fn read_any(
-        &self,
-        timeout: Option<Duration>,
         reg_start: u16,
         reg_count: u16,
         reg_type: char,
@@ -352,7 +369,32 @@ impl SlaveProxy {
                 let mut context = shared_context.borrow_mut();
                 context.set_slave(self.slave);
                 future::Either::A(if let Some(timeout) = timeout {
-                    future::Either::A(read_any_with_timeout(
+                    future::Either::A(read_generic_with_timeout(&mut context, timeout,reg_start,
+                        reg_count,
+                        reg_type,))
+                } else {
+                    future::Either::B(read_generic(&mut context,reg_start,
+                        reg_count,
+                        reg_type,))
+                })
+            }
+            Err(err) => future::Either::B(future::err(err)),
+        }
+    }
+
+    pub fn read_register(
+        &self,
+        timeout: Option<Duration>,
+        reg_start: u16,
+        reg_count: u16,
+        reg_type: char,
+    ) -> impl Future<Item = Register, Error = Error> {
+        match self.shared_context() {
+            Ok(shared_context) => {
+                let mut context = shared_context.borrow_mut();
+                context.set_slave(self.slave);
+                future::Either::A(if let Some(timeout) = timeout {
+                    future::Either::A(read_reg_with_timeout(
                         &mut context,
                         timeout,
                         reg_start,
@@ -360,7 +402,34 @@ impl SlaveProxy {
                         reg_type,
                     ))
                 } else {
-                    future::Either::B(read_any(&mut context, reg_start, reg_count, reg_type))
+                    future::Either::B(read_reg(&mut context, reg_start, reg_count, reg_type))
+                })
+            }
+            Err(err) => future::Either::B(future::err(err)),
+        }
+    }
+
+    pub fn read_float(
+        &self,
+        timeout: Option<Duration>,
+        reg_start: u16,
+        reg_count: u16,
+        reg_type: char,
+    ) -> impl Future<Item = Float, Error = Error> {
+        match self.shared_context() {
+            Ok(shared_context) => {
+                let mut context = shared_context.borrow_mut();
+                context.set_slave(self.slave);
+                future::Either::A(if let Some(timeout) = timeout {
+                    future::Either::A(read_float_with_timeout(
+                        &mut context,
+                        timeout,
+                        reg_start,
+                        reg_count,
+                        reg_type,
+                    ))
+                } else {
+                    future::Either::B(read_float(&mut context, reg_start, reg_count, reg_type))
                 })
             }
             Err(err) => future::Either::B(future::err(err)),

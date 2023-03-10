@@ -96,7 +96,7 @@ pub fn decode_generic_reg(read_bytes: Vec<u16>) -> DecodeResult<Generic> {
     Ok(Generic::from_generic(s[0].to_string()))
 }
 
-pub fn decode_f_reg(read_bytes: Vec<u16>) -> DecodeResult<Generic> {
+pub fn decode_f_reg(read_bytes: Vec<u16>) -> DecodeResult<Float> {
     let msb_word: u16 = read_bytes[0];
     let first_byte: u8 = (msb_word >> 8) as u8;
     let second_byte: u8 = msb_word as u8;
@@ -108,25 +108,25 @@ pub fn decode_f_reg(read_bytes: Vec<u16>) -> DecodeResult<Generic> {
     //convert be_bytes to float
     let float_value: f32 = f32::from_be_bytes(new_bytes);
     //TODO: this is ugly
-    Ok(Generic::from_generic(float_value.to_string()))
+    Ok(Float::from_string(float_value))
 }
 //u8 to u32
-pub fn decode_u_reg(read_bytes: Vec<u16>) -> DecodeResult<Generic> {
+pub fn decode_u_reg(read_bytes: Vec<u16>) -> DecodeResult<Register> {
     println!("read_bytes.len(): {:?}",read_bytes.len());
-    // change this to a if len <= 8
     match read_bytes.len() {
         8 => {
             let msb_word: u16 = read_bytes[0];
-            let first_byte: u8 = (msb_word >> 8) as u8;
-            let second_byte: u8 = msb_word as u8;
-
-            //swap bytes 1-2
-            let new_bytes: [u8; 2] = [second_byte, first_byte];
-            let string_val = str::from_utf8(&new_bytes).unwrap().to_string();
-            Ok(Generic::from_generic(string_val))
+            let byte1: u8 = (msb_word >> 8) as u8;
+            let byte2: u8 = msb_word as u8;
+            //don't swap u8's!
+            let u16_word: u16 = (byte1 as u16) << 8 | byte2 as u16;
+            println!("new_bytes: {:?}", u16_word);
+            let new_bytes = vec!(u16_word);
+            
+            Ok(Register::from_byte(new_bytes))
         }
         _ => {
-            //this works for len 2
+            //this works for len 2 or up to u16, not implementing u64 at this time, rarely used
             let msb_word: u16 = read_bytes[0];
             let first_byte: u8 = (msb_word >> 8) as u8;
             let second_byte: u8 = msb_word as u8;
@@ -134,9 +134,8 @@ pub fn decode_u_reg(read_bytes: Vec<u16>) -> DecodeResult<Generic> {
             let third_byte: u8 = (lsb_word >> 8) as u8;
             let fourth_byte: u8 = lsb_word as u8;
             //byte order is (3-4-1-2)
-            let new_bytes: [u8; 4] = [third_byte, fourth_byte, first_byte, second_byte];
-            let string_val = str::from_utf8(&new_bytes).unwrap().to_string();
-            Ok(Generic::from_generic(string_val))
+            let new_bytes = vec![(third_byte as u16) << 8 | fourth_byte as u16, (first_byte as u16) << 8 | second_byte as u16];
+            Ok(Register::from_byte(new_bytes))
         }
     }
 }

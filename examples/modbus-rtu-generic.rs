@@ -82,6 +82,7 @@ pub fn main() {
     };
     // TODO: Get these regs from user input
     let regs: Vec<u16> = vec![103, 95, 154, 119];
+    //let regs: Vec<u16> = vec![5523, 119, 121, 126];
     slave_config.add_regs(regs);
 
     #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -104,8 +105,10 @@ pub fn main() {
     struct Measurements {
         temperature: Option<Measurement<Temperature>>,
         generic: Option<Measurement<Generic>>,
+        register: Option<Measurement<Register>>,
+        float: Option<Measurement<Float>>,
     }
-
+    
     // Only a single slave sensor is used for demonstration purposes here.
     // A typical application will use multiple slaves that all share
     // the same Modbus environment, RTU client context and bus wiring,
@@ -151,19 +154,7 @@ pub fn main() {
                 })
         }
 
-        pub fn measure_generic(mut self) -> impl Future<Item = Self, Error = (Error, Self)> {
-            self.proxy
-                .read_generic(Some(self.config.timeout))
-                .then(move |res| match res {
-                    Ok(val) => {
-                        self.measurements.generic = Some(Measurement::new(val));
-
-                        Ok(self)
-                    }
-                    Err(err) => Err((err, self)),
-                })
-        }
-
+        //nn to have measure_any, measure_float, measure_reg
         pub fn measure_any(mut self) -> impl Future<Item = Self, Error = (Error, Self)> {
             let reg_start = self.config.regs[self.config.read_index];
             let plus_one = reg_start + 1; //reg offset by 1
@@ -171,16 +162,97 @@ pub fn main() {
             let map_value = self.config.hmap.get(&plus_one).unwrap().as_str();
             let reg_type: char = map_value.chars().nth(0).unwrap();
             let reg_count = map_value[1..].parse::<u16>().unwrap();
-            self.proxy
-                .read_any(Some(self.config.timeout), reg_start, reg_count, reg_type)
+            //match on reg_type to call corrected associated type (Register/Long/Float/Generic)
+                    self.proxy
+                .read_generic(Some(self.config.timeout), reg_start, reg_count, reg_type)
                 .then(move |res| match res {
                     Ok(val) => {
-                        self.measurements.generic = Some(Measurement::new(val));
-                        Ok(self)
+                        if reg_type == 'A' {
+                            //println!("got a 'A'");
+                            self.measurements.generic = Some(Measurement::new(val));
+                            Ok(self)
+                        } else {
+                            //println!("got a 'something else'");
+                            self.measurements.generic = None;
+                            Ok(self)
+                        }
+                        
                     }
-                    Err(err) => Err((err, self)),
+                    Err(_err) => {
+                        //println!("got a 'something else'");
+                        self.measurements.generic = None;
+                        Ok(self)
+                        //Err((err, self))
+                    }
                 })
-        }
+            
+                
+            }
+            pub fn measure_float(mut self) -> impl Future<Item = Self, Error = (Error, Self)> {
+                let reg_start = self.config.regs[self.config.read_index];
+                let plus_one = reg_start + 1; //reg offset by 1
+                                              //use HashMap lookup to get reg_count and reg_type
+                let map_value = self.config.hmap.get(&plus_one).unwrap().as_str();
+                let reg_type: char = map_value.chars().nth(0).unwrap();
+                let reg_count = map_value[1..].parse::<u16>().unwrap();
+                //match on reg_type to call corrected associated type (Register/Long/Float/Generic)
+                        self.proxy
+                    .read_float(Some(self.config.timeout), reg_start, reg_count, reg_type)
+                    .then(move |res| match res {
+                        Ok(val) => {
+                            if reg_type == 'F' {
+                               // println!("got a 'F'");
+                                self.measurements.float = Some(Measurement::new(val));
+                                Ok(self)
+                            } else {
+                                //println!("got a 'something else'");
+                                self.measurements.float = None;
+                                Ok(self)
+                            }
+                        }
+                        Err(_err) => {
+                            //println!("got a 'something else'");
+                                self.measurements.float = None;
+                                Ok(self)
+                        }
+                    })
+                
+                    
+                }
+
+                pub fn measure_reg(mut self) -> impl Future<Item = Self, Error = (Error, Self)> {
+                    let reg_start = self.config.regs[self.config.read_index];
+                    let plus_one = reg_start + 1; //reg offset by 1
+                                                  //use HashMap lookup to get reg_count and reg_type
+                    let map_value = self.config.hmap.get(&plus_one).unwrap().as_str();
+                    let reg_type: char = map_value.chars().nth(0).unwrap();
+                    let reg_count = map_value[1..].parse::<u16>().unwrap();
+                    //match on reg_type to call corrected associated type (Register/Long/Float/Generic)
+                            self.proxy
+                        .read_register(Some(self.config.timeout), reg_start, reg_count, reg_type)
+                        .then(move |res| match res {
+                            Ok(val) => {
+                        if reg_type == 'U' {
+                            //println!("got a 'U'");
+                            self.measurements.register = Some(Measurement::new(val));
+                            Ok(self)
+                        } else {
+                            //println!("got a 'something else'");
+                            self.measurements.register = None;
+                            Ok(self)
+                        }
+                            }
+                            Err(_err) => {
+                                //println!("got a 'something else'");
+                            self.measurements.register = None;
+                            Ok(self)
+                            }
+                        })
+                    
+                        
+                    }
+            
+        
 
         pub fn recover_after_error(&self, err: &Error) -> impl Future<Item = (), Error = ()> {
             log::warn!("Reconnecting after error: {}", err);
@@ -219,11 +291,11 @@ pub fn main() {
             .has_headers(true)
             .from_writer(file);
         //nn to modify for all measurement types
-        let temp = vec![
+        let generic = vec![
             data.generic.as_ref().unwrap().ts.to_string(),
             data.generic.as_ref().unwrap().val.to_string(),
         ];
-        wtr.write_record(temp)?;
+        wtr.write_record(generic)?;
 
         wtr.flush()?;
         Ok(())
@@ -240,17 +312,23 @@ pub fn main() {
             // Asynchronous chain of measurements. The control loop
             // is consumed and returned upon each step to update the
             // measurement after reading a new value asynchronously.
+            // get the reg type here?
             futures::future::ok(ctrl_loop)
                 .and_then(ControlLoop::measure_any)
+                .and_then(ControlLoop::measure_float)
+                .and_then(ControlLoop::measure_reg)
                 .then(|res| match res {
                     Ok(mut ctrl_loop) => {
                         //write_to_csv(ctrl_loop.measurements.clone());
-                        log::info!("{:?}", ctrl_loop.measurements.generic.clone());
-                        ctrl_loop.config.next();
+                        //for Some(measurement)
+                        
+                        println!("Some {:?}", ctrl_loop.measurements);
+                        log::info!("{:?}", ctrl_loop.measurements.clone());
+                        ctrl_loop.config.next(); //increment the modbus reg read index
                         Either::A(futures::future::ok(ctrl_loop))
                     }
                     Err((err, mut ctrl_loop)) => {
-                        log::info!("{:?}", ctrl_loop.measurements.generic.clone());
+                        log::info!("{:?}", ctrl_loop.measurements.clone());
                         ctrl_loop.config.next();
                         Either::B(ctrl_loop.recover_after_error(&err).map(|()| ctrl_loop))
                     }
