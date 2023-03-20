@@ -53,16 +53,12 @@ fn decode_be_u32_from_bytes(input: &[u8]) -> DecodeResult<(u32, &[u8])> {
     }
 }
 
-pub const TEMPERATURE_REG_START: u16 = 0x017E; //d382
-pub const TEMPERATURE_REG_COUNT: u16 = 0x0002;
-/*
-pub fn decode_temperature_from_u16(input: u16) -> DecodeResult<Temperature> {
-    let degree_celsius = f64::from(i32::from(input) - 10000i32) / 100f64;
-    Ok(Temperature::from_degree_celsius(degree_celsius))
+pub fn count_calc(c: &char, n: u16) -> u16 {
+    match c {
+        'A' => { n/2 }
+        _ => { n }
+    }
 }
-pub fn decode_temperature_from_bytes(input: &[u8]) -> DecodeResult<(Temperature, &[u8])> {
-    decode_be_u16_from_bytes(input).and_then(|(val, rest)| Ok((decode_temperature_from_u16(val)?, rest)))
-}*/
 
 //convert u16 words from xmttr to float
 // TODO: extend this for all types of reads (anything > 16 ) this fn Byte Order 3-4-1-2
@@ -83,16 +79,14 @@ pub fn decode_f32_reg(read_bytes: Vec<u16>) -> DecodeResult<Temperature> {
 /// decode Generic register
 pub fn decode_generic_reg(read_bytes: Vec<u16>) -> DecodeResult<Generic> {
     //setup the new u8 vec
-    //go to len x2 and split string at '\0L'
-    //this only valid up to len 38 (or A18)
-    let mut vec_u8: Vec<u8> = Vec::with_capacity(read_bytes.len() * 2);
+    //go to len /2 and split string at '\0L'
+    let mut vec_u8: Vec<u8> = Vec::with_capacity(read_bytes.len() / 2);
     read_bytes.into_iter().for_each(|val| {
         vec_u8.extend(&val.to_be_bytes());
     });
     // TODO: refactor, exception panics here
     let split_string = String::from_utf8(vec_u8).expect("invalid utf-8 seq");
     let s: Vec<&str> = split_string.split("\0L").collect();
-
     Ok(Generic::from_generic(s[0].to_string()))
 }
 
@@ -112,7 +106,7 @@ pub fn decode_f_reg(read_bytes: Vec<u16>) -> DecodeResult<Float> {
 }
 //u8 to u32
 pub fn decode_u_reg(read_bytes: Vec<u16>) -> DecodeResult<Register> {
-    println!("read_bytes.len(): {:?}",read_bytes.len());
+    //println!("read_bytes.len(): {:?}",read_bytes.len());
     match read_bytes.len() {
         8 => {
             let msb_word: u16 = read_bytes[0];
@@ -140,27 +134,7 @@ pub fn decode_u_reg(read_bytes: Vec<u16>) -> DecodeResult<Register> {
     }
 }
 
-/// decode Any register
-pub fn decode_any_reg(read_bytes: Vec<u16>) -> DecodeResult<Generic> {
-    //setup the new u8 vec
-    //go to len x2 and split string at '\0L'
-    let mut vec_u8: Vec<u8> = Vec::with_capacity(read_bytes.len() * 2);
-    read_bytes.into_iter().for_each(|val| {
-        vec_u8.extend(&val.to_be_bytes());
-    });
-    // TODO: refactor, exception panics here
-    let split_string = String::from_utf8(vec_u8).expect("invalid utf-8 seq");
-    let s: Vec<&str> = split_string.split("\0L").collect();
 
-    Ok(Generic::from_generic(s[0].to_string()))
-}
-
-pub const USER_MSG_REG_START: u16 = 0x67; //d103
-pub const USER_MSG_REG_COUNT: u16 = 0x12; //Ascii len /2 i.e. A24 -> 12
-
-pub const FW_REG_START: u16 = 0x04AF; //d1199
-pub const FW_REG_COUNT: u16 = 0x0001;
-//cast the bytes read from 'read input regs' to string
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct VolumetricWaterContentRaw(pub u16);

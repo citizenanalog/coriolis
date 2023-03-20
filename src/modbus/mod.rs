@@ -47,76 +47,24 @@ pub fn broadcast_slave(
     context.write_single_register(BROADCAST_REG_ADDR, u16::from(slave_id))
 }
 
-pub fn read_with_timeout(
-    context: &mut client::Context,
-    timeout: Duration,
-) -> impl Future<Item = Temperature, Error = Error> {
-    read_temperature(context)
-        .timeout(timeout)
-        .map_err(move |err| {
-            err.into_inner().unwrap_or_else(|| {
-                Error::new(ErrorKind::TimedOut, String::from("reading timed out"))
-            })
-        })
-}
-
-pub fn read_temperature(
-    context: &mut client::Context,
-) -> impl Future<Item = Temperature, Error = Error> {
-    context
-        .read_holding_registers(TEMPERATURE_REG_START, TEMPERATURE_REG_COUNT)
-        .and_then(|rsp| {
-            //if let [raw] = rsp[..] {
-            if let raw = rsp {
-                decode_f32_reg(raw).map_err(Into::into)
-            } else {
-                Err(Error::new(
-                    ErrorKind::InvalidData,
-                    format!("unexpected temperature data: {:?}", rsp),
-                ))
-            }
-        })
-}
-
-pub fn read_temperature_with_timeout(
-    context: &mut client::Context,
-    timeout: Duration,
-) -> impl Future<Item = Temperature, Error = Error> {
-    read_temperature(context)
-        .timeout(timeout)
-        .map_err(move |err| {
-            err.into_inner().unwrap_or_else(|| {
-                Error::new(
-                    ErrorKind::TimedOut,
-                    String::from("reading temperature timed out"),
-                )
-            })
-        })
-}
 
 //generics
 // give it a u16 reg start and reg count argument
 pub fn read_generic(context: &mut client::Context,
     reg_start: u16,
     reg_count: u16,
-    reg_type: char,) -> impl Future<Item = Generic, Error = Error> {
+    reg_type: char,) -> impl Future<Item = Vec<u16>, Error = Error> {
     context
     // match on reg_type and decode accordingly
         .read_holding_registers(reg_start, reg_count)
-        .and_then(move |rsp| match reg_type {
-            'A' => decode_generic_reg(rsp).map_err(Into::into),
-            _ => (Err(Error::new(
-                ErrorKind::InvalidData,
-                format!("unexpected any data: {:?}", rsp)),
-            )),
-        })
+        
 }
 
 pub fn read_generic_with_timeout(context: &mut client::Context,
     timeout: Duration,
     reg_start: u16,
     reg_count: u16,
-    reg_type: char,) -> impl Future<Item = Generic, Error = Error> {
+    reg_type: char,) -> impl Future<Item = Vec<u16>, Error = Error> {
     read_generic(context, reg_start, reg_count, reg_type).timeout(timeout).map_err(move |err| {
         err.into_inner().unwrap_or_else(|| {
             Error::new(
@@ -127,176 +75,9 @@ pub fn read_generic_with_timeout(context: &mut client::Context,
     })
 }
 
-//generics
-pub fn read_reg(
-    context: &mut client::Context,
-    reg_start: u16,
-    reg_count: u16,
-    reg_type: char,
-) -> impl Future<Item = Register, Error = Error> {
-    // match on reg_type and decode accordingly
-    context
-        .read_holding_registers(reg_start, reg_count)
-        .and_then(move |rsp| match reg_type {
-            //'A' => decode_generic_reg(rsp).map_err(Into::into),
-            'U' => decode_u_reg(rsp).map_err(Into::into),
-            //'F' => decode_f_reg(rsp).map_err(Into::into),
-            _ => Err(Error::new(
-                ErrorKind::InvalidData,
-                format!("unexpected any data: {:?}", rsp),
-            )),
-        })
-}
 
-pub fn read_reg_with_timeout(
-    context: &mut client::Context,
-    timeout: Duration,
-    reg_start: u16,
-    reg_count: u16,
-    reg_type: char,
-) -> impl Future<Item = Register, Error = Error> {
-    read_reg(context, reg_start, reg_count, reg_type)
-        .timeout(timeout)
-        .map_err(move |err| {
-            err.into_inner().unwrap_or_else(|| {
-                Error::new(ErrorKind::TimedOut, String::from("reading any timed out"))
-            })
-        })
-}
 
-//generics
-pub fn read_float(
-    context: &mut client::Context,
-    reg_start: u16,
-    reg_count: u16,
-    reg_type: char,
-) -> impl Future<Item = Float, Error = Error> {
-    // match on reg_type and decode accordingly
-    context
-        .read_holding_registers(reg_start, reg_count)
-        .and_then(move |rsp| match reg_type {
-            'F' => decode_f_reg(rsp).map_err(Into::into),
-            _ => Err(Error::new(
-                ErrorKind::InvalidData,
-                format!("unexpected float data: {:?}", rsp),
-            )),
-        })
-}
 
-pub fn read_float_with_timeout(
-    context: &mut client::Context,
-    timeout: Duration,
-    reg_start: u16,
-    reg_count: u16,
-    reg_type: char,
-) -> impl Future<Item = Float, Error = Error> {
-    read_float(context, reg_start, reg_count, reg_type)
-        .timeout(timeout)
-        .map_err(move |err| {
-            err.into_inner().unwrap_or_else(|| {
-                Error::new(ErrorKind::TimedOut, String::from("reading float timed out"))
-            })
-        })
-}
-
-pub fn read_water_content(
-    context: &mut client::Context,
-) -> impl Future<Item = VolumetricWaterContent, Error = Error> {
-    context
-        .read_holding_registers(WATER_CONTENT_REG_START, WATER_CONTENT_REG_COUNT)
-        .and_then(|rsp| {
-            if let [reg] = rsp[..] {
-                decode_water_content_from_u16(reg).map_err(Into::into)
-            } else {
-                Err(Error::new(
-                    ErrorKind::InvalidData,
-                    format!("unexpected water content data: {:?}", rsp),
-                ))
-            }
-        })
-}
-
-pub fn read_water_content_with_timeout(
-    context: &mut client::Context,
-    timeout: Duration,
-) -> impl Future<Item = VolumetricWaterContent, Error = Error> {
-    read_water_content(context)
-        .timeout(timeout)
-        .map_err(move |err| {
-            err.into_inner().unwrap_or_else(|| {
-                Error::new(
-                    ErrorKind::TimedOut,
-                    String::from("reading water content timed out"),
-                )
-            })
-        })
-}
-
-pub fn read_permittivity(
-    context: &mut client::Context,
-) -> impl Future<Item = RelativePermittivity, Error = Error> {
-    context
-        .read_holding_registers(PERMITTIVITY_REG_START, PERMITTIVITY_REG_COUNT)
-        .and_then(|rsp| {
-            if let [reg] = rsp[..] {
-                decode_permittivity_from_u16(reg).map_err(Into::into)
-            } else {
-                Err(Error::new(
-                    ErrorKind::InvalidData,
-                    format!("unexpected permittivity data: {:?}", rsp),
-                ))
-            }
-        })
-}
-
-pub fn read_permittivity_with_timeout(
-    context: &mut client::Context,
-    timeout: Duration,
-) -> impl Future<Item = RelativePermittivity, Error = Error> {
-    read_permittivity(context)
-        .timeout(timeout)
-        .map_err(move |err| {
-            err.into_inner().unwrap_or_else(|| {
-                Error::new(
-                    ErrorKind::TimedOut,
-                    String::from("reading permittivity timed out"),
-                )
-            })
-        })
-}
-
-pub fn read_raw_counts(
-    context: &mut client::Context,
-) -> impl Future<Item = RawCounts, Error = Error> {
-    context
-        .read_holding_registers(RAW_COUNTS_REG_START, RAW_COUNTS_REG_COUNT)
-        .and_then(|rsp| {
-            if let [reg] = rsp[..] {
-                decode_raw_counts_from_u16(reg).map_err(Into::into)
-            } else {
-                Err(Error::new(
-                    ErrorKind::InvalidData,
-                    format!("unexpected raw counts data: {:?}", rsp),
-                ))
-            }
-        })
-}
-
-pub fn read_raw_counts_with_timeout(
-    context: &mut client::Context,
-    timeout: Duration,
-) -> impl Future<Item = RawCounts, Error = Error> {
-    read_raw_counts(context)
-        .timeout(timeout)
-        .map_err(move |err| {
-            err.into_inner().unwrap_or_else(|| {
-                Error::new(
-                    ErrorKind::TimedOut,
-                    String::from("reading raw counts timed out"),
-                )
-            })
-        })
-}
 
 pub struct SlaveProxy {
     slave: Slave,
@@ -339,23 +120,6 @@ impl SlaveProxy {
         }
     }
 
-    pub fn read_temperature(
-        &self,
-        timeout: Option<Duration>,
-    ) -> impl Future<Item = Temperature, Error = Error> {
-        match self.shared_context() {
-            Ok(shared_context) => {
-                let mut context = shared_context.borrow_mut();
-                context.set_slave(self.slave);
-                future::Either::A(if let Some(timeout) = timeout {
-                    future::Either::A(read_temperature_with_timeout(&mut context, timeout))
-                } else {
-                    future::Either::B(read_temperature(&mut context))
-                })
-            }
-            Err(err) => future::Either::B(future::err(err)),
-        }
-    }
 
     pub fn read_generic(
         &self,
@@ -363,11 +127,12 @@ impl SlaveProxy {
         reg_start: u16,
         reg_count: u16,
         reg_type: char,
-    ) -> impl Future<Item = Generic, Error = Error> {
+    ) -> impl Future<Item = Vec<u16>, Error = Error> {
         match self.shared_context() {
             Ok(shared_context) => {
                 let mut context = shared_context.borrow_mut();
-                context.set_slave(self.slave);
+                //context.set_slave(self.slave);
+                
                 future::Either::A(if let Some(timeout) = timeout {
                     future::Either::A(read_generic_with_timeout(&mut context, timeout,reg_start,
                         reg_count,
@@ -382,116 +147,10 @@ impl SlaveProxy {
         }
     }
 
-    pub fn read_register(
-        &self,
-        timeout: Option<Duration>,
-        reg_start: u16,
-        reg_count: u16,
-        reg_type: char,
-    ) -> impl Future<Item = Register, Error = Error> {
-        match self.shared_context() {
-            Ok(shared_context) => {
-                let mut context = shared_context.borrow_mut();
-                context.set_slave(self.slave);
-                future::Either::A(if let Some(timeout) = timeout {
-                    future::Either::A(read_reg_with_timeout(
-                        &mut context,
-                        timeout,
-                        reg_start,
-                        reg_count,
-                        reg_type,
-                    ))
-                } else {
-                    future::Either::B(read_reg(&mut context, reg_start, reg_count, reg_type))
-                })
-            }
-            Err(err) => future::Either::B(future::err(err)),
-        }
-    }
 
-    pub fn read_float(
-        &self,
-        timeout: Option<Duration>,
-        reg_start: u16,
-        reg_count: u16,
-        reg_type: char,
-    ) -> impl Future<Item = Float, Error = Error> {
-        match self.shared_context() {
-            Ok(shared_context) => {
-                let mut context = shared_context.borrow_mut();
-                context.set_slave(self.slave);
-                future::Either::A(if let Some(timeout) = timeout {
-                    future::Either::A(read_float_with_timeout(
-                        &mut context,
-                        timeout,
-                        reg_start,
-                        reg_count,
-                        reg_type,
-                    ))
-                } else {
-                    future::Either::B(read_float(&mut context, reg_start, reg_count, reg_type))
-                })
-            }
-            Err(err) => future::Either::B(future::err(err)),
-        }
-    }
-
-    pub fn read_water_content(
-        &self,
-        timeout: Option<Duration>,
-    ) -> impl Future<Item = VolumetricWaterContent, Error = Error> {
-        match self.shared_context() {
-            Ok(shared_context) => {
-                let mut context = shared_context.borrow_mut();
-                context.set_slave(self.slave);
-                future::Either::A(if let Some(timeout) = timeout {
-                    future::Either::A(read_water_content_with_timeout(&mut context, timeout))
-                } else {
-                    future::Either::B(read_water_content(&mut context))
-                })
-            }
-            Err(err) => future::Either::B(future::err(err)),
-        }
-    }
-
-    pub fn read_permittivity(
-        &self,
-        timeout: Option<Duration>,
-    ) -> impl Future<Item = RelativePermittivity, Error = Error> {
-        match self.shared_context() {
-            Ok(shared_context) => {
-                let mut context = shared_context.borrow_mut();
-                context.set_slave(self.slave);
-                future::Either::A(if let Some(timeout) = timeout {
-                    future::Either::A(read_permittivity_with_timeout(&mut context, timeout))
-                } else {
-                    future::Either::B(read_permittivity(&mut context))
-                })
-            }
-            Err(err) => future::Either::B(future::err(err)),
-        }
-    }
-
-    pub fn read_raw_counts(
-        &self,
-        timeout: Option<Duration>,
-    ) -> impl Future<Item = RawCounts, Error = Error> {
-        match self.shared_context() {
-            Ok(shared_context) => {
-                let mut context = shared_context.borrow_mut();
-                context.set_slave(self.slave);
-                future::Either::A(if let Some(timeout) = timeout {
-                    future::Either::A(read_raw_counts_with_timeout(&mut context, timeout))
-                } else {
-                    future::Either::B(read_raw_counts(&mut context))
-                })
-            }
-            Err(err) => future::Either::B(future::err(err)),
-        }
-    }
 }
 
-impl Capabilities for SlaveProxy {
+/*impl Capabilities for SlaveProxy {
     fn read_temperature(
         &self,
         timeout: Option<Duration>,
@@ -519,4 +178,4 @@ impl Capabilities for SlaveProxy {
     ) -> Box<dyn Future<Item = RawCounts, Error = Error>> {
         Box::new(self.read_raw_counts(timeout))
     }
-}
+}*/

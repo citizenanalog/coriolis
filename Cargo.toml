@@ -21,7 +21,7 @@ serialport = { version = "3", default-features = false, optional = true }
 tokio = { version = "0.1", optional = true }
 tokio-core = { version = "0.1", optional = true }
 tokio-io = { version = "0.1", optional = true }
-tokio-modbus = { version = "~0.3.2", default-features = false, features = ["rtu"], optional = true }
+tokio-modbus = {version = "~0.3.2", optional = true }
 tokio-serial = { version = "3", default-features = false, optional = true }
 
 [dev-dependencies]

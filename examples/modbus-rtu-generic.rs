@@ -1,4 +1,5 @@
-use coriolis::core::modbus::FW_REG_COUNT;
+use coriolis::core::modbus::*;
+//{FW_REG_COUNT, decode_any_reg, decode_generic_reg};
 use std::collections::HashMap;
 use tokio_modbus::slave;
 //#[cfg(feature = "modbus-rtu")]
@@ -43,10 +44,11 @@ pub fn main() {
 
     impl NewContext for ContextConfig {
         fn new_context(&self) -> Box<dyn Future<Item = client::Context, Error = Error>> {
+            
             Box::new(modbus::rtu::connect_path(&self.handle, &self.tty_path))
         }
     }
-
+    
     #[derive(Debug, Clone)]
     struct SlaveConfig {
         slave: Slave,
@@ -69,8 +71,8 @@ pub fn main() {
     // TODO: Parse parameters and options from command-line arguments
     let context_config = ContextConfig {
         handle: core.handle(),
-        //tty_path: "/dev/ttyACM0".to_owned(),
-        tty_path: "COM9".to_owned(),
+        tty_path: "/dev/ttyACM1".to_owned(),
+        //tty_path: "COM9".to_owned(),
     };
     let mut slave_config = SlaveConfig {
         slave: Slave::min_device(),
@@ -84,6 +86,7 @@ pub fn main() {
     let regs: Vec<u16> = vec![103, 95, 154, 119];
     //let regs: Vec<u16> = vec![5523, 119, 121, 126];
     slave_config.add_regs(regs);
+    
 
     #[derive(Debug, Clone, Copy, PartialEq, Eq)]
     struct Measurement<T> {
@@ -103,7 +106,6 @@ pub fn main() {
     //should these be reg names? or reg types? (Coil/Reg/Long/Float/Ascii)
     #[derive(Debug, Default, Clone, PartialEq)]
     struct Measurements {
-        temperature: Option<Measurement<Temperature>>,
         generic: Option<Measurement<Generic>>,
         register: Option<Measurement<Register>>,
         float: Option<Measurement<Float>>,
@@ -119,7 +121,6 @@ pub fn main() {
         // control loop. Just to demonstrate how to share the Modbus context
         // and how to recover from communication errors by reconnecting.
         _shared_context: Rc<RefCell<SharedContext>>,
-
         config: SlaveConfig,
         proxy: modbus::SlaveProxy,
         measurements: Measurements,
@@ -140,119 +141,67 @@ pub fn main() {
         fn reconnect(&self) -> impl Future<Item = (), Error = Error> {
             self.proxy.reconnect()
         }
+        
 
-        pub fn measure_temperature(mut self) -> impl Future<Item = Self, Error = (Error, Self)> {
-            self.proxy
-                .read_temperature(Some(self.config.timeout))
-                .then(move |res| match res {
-                    Ok(val) => {
-                        self.measurements.temperature = Some(Measurement::new(val));
-
-                        Ok(self)
-                    }
-                    Err(err) => Err((err, self)),
-                })
-        }
-
-        //nn to have measure_any, measure_float, measure_reg
+        //lets make this handle any reg type
         pub fn measure_any(mut self) -> impl Future<Item = Self, Error = (Error, Self)> {
             let reg_start = self.config.regs[self.config.read_index];
             let plus_one = reg_start + 1; //reg offset by 1
-                                          //use HashMap lookup to get reg_count and reg_type
+            //use HashMap lookup to get reg_count and reg_type
             let map_value = self.config.hmap.get(&plus_one).unwrap().as_str();
             let reg_type: char = map_value.chars().nth(0).unwrap();
-            let reg_count = map_value[1..].parse::<u16>().unwrap();
-            //match on reg_type to call corrected associated type (Register/Long/Float/Generic)
+            //cut reg_count/2 if reg_type == 'A'
+            let reg_count = count_calc(&reg_type, map_value[1..].parse::<u16>().unwrap());
+            
                     self.proxy
                 .read_generic(Some(self.config.timeout), reg_start, reg_count, reg_type)
+                //move into closure and do the decode for each type
                 .then(move |res| match res {
                     Ok(val) => {
                         if reg_type == 'A' {
-                            //println!("got a 'A'");
-                            self.measurements.generic = Some(Measurement::new(val));
+                            println!("got a 'A'");
+                            let d = decode_generic_reg(val);
+                            match d  {
+                                Ok(res) => { self.measurements.generic = Some(Measurement::new(res)) }
+                                Err(e) => println!("decode error {:?}", e)
+                            }
+                            Ok(self)
+                        } else if reg_type == 'U' {
+                            println!("got a 'U'");
+                            let d = decode_u_reg(val);
+                            match d  {
+                                Ok(res) => { self.measurements.register = Some(Measurement::new(res)) }
+                                Err(e) => println!("decode error {:?}", e)
+                            }
+                            Ok(self)
+                        } else if reg_type == 'F' {
+                            println!("got a 'F'");
+                            let d = decode_f_reg(val);
+                            match d  {
+                                Ok(res) => { self.measurements.float = Some(Measurement::new(res)) }
+                                Err(e) => println!("decode error {:?}", e)
+                            }
                             Ok(self)
                         } else {
-                            //println!("got a 'something else'");
-                            self.measurements.generic = None;
+                            println!("got a 'something else'");
+                            //self.measurements.vec = None;
                             Ok(self)
                         }
                         
                     }
-                    Err(_err) => {
-                        //println!("got a 'something else'");
-                        self.measurements.generic = None;
-                        Ok(self)
-                        //Err((err, self))
+                    Err(err) => {
+                        println!("error in read_generic");
+                        //self.measurements.vec = None;
+                        //Ok(self)
+                        Err((err, self))
                     }
                 })
             
                 
             }
-            pub fn measure_float(mut self) -> impl Future<Item = Self, Error = (Error, Self)> {
-                let reg_start = self.config.regs[self.config.read_index];
-                let plus_one = reg_start + 1; //reg offset by 1
-                                              //use HashMap lookup to get reg_count and reg_type
-                let map_value = self.config.hmap.get(&plus_one).unwrap().as_str();
-                let reg_type: char = map_value.chars().nth(0).unwrap();
-                let reg_count = map_value[1..].parse::<u16>().unwrap();
-                //match on reg_type to call corrected associated type (Register/Long/Float/Generic)
-                        self.proxy
-                    .read_float(Some(self.config.timeout), reg_start, reg_count, reg_type)
-                    .then(move |res| match res {
-                        Ok(val) => {
-                            if reg_type == 'F' {
-                               // println!("got a 'F'");
-                                self.measurements.float = Some(Measurement::new(val));
-                                Ok(self)
-                            } else {
-                                //println!("got a 'something else'");
-                                self.measurements.float = None;
-                                Ok(self)
-                            }
-                        }
-                        Err(_err) => {
-                            //println!("got a 'something else'");
-                                self.measurements.float = None;
-                                Ok(self)
-                        }
-                    })
-                
-                    
-                }
-
-                pub fn measure_reg(mut self) -> impl Future<Item = Self, Error = (Error, Self)> {
-                    let reg_start = self.config.regs[self.config.read_index];
-                    let plus_one = reg_start + 1; //reg offset by 1
-                                                  //use HashMap lookup to get reg_count and reg_type
-                    let map_value = self.config.hmap.get(&plus_one).unwrap().as_str();
-                    let reg_type: char = map_value.chars().nth(0).unwrap();
-                    let reg_count = map_value[1..].parse::<u16>().unwrap();
-                    //match on reg_type to call corrected associated type (Register/Long/Float/Generic)
-                            self.proxy
-                        .read_register(Some(self.config.timeout), reg_start, reg_count, reg_type)
-                        .then(move |res| match res {
-                            Ok(val) => {
-                        if reg_type == 'U' {
-                            //println!("got a 'U'");
-                            self.measurements.register = Some(Measurement::new(val));
-                            Ok(self)
-                        } else {
-                            //println!("got a 'something else'");
-                            self.measurements.register = None;
-                            Ok(self)
-                        }
-                            }
-                            Err(_err) => {
-                                //println!("got a 'something else'");
-                            self.measurements.register = None;
-                            Ok(self)
-                            }
-                        })
-                    
-                        
-                    }
             
-        
+
+            
 
         pub fn recover_after_error(&self, err: &Error) -> impl Future<Item = (), Error = ()> {
             log::warn!("Reconnecting after error: {}", err);
@@ -269,7 +218,9 @@ pub fn main() {
     }
 
     log::info!("Connecting: {:?}", context_config);
-    let mut ctrl_loop = ControlLoop::new(slave_config, Box::new(context_config));
+    //maybe here? turn context_config into ctx
+    let ctrl_loop = ControlLoop::new(slave_config, Box::new(context_config));
+    
     //ctrl_loop.config.reg_start = 0xf6;
     //ctrl_loop.config.reg_count = 0x02;
     core.run(ctrl_loop.reconnect()).unwrap();
@@ -315,15 +266,13 @@ pub fn main() {
             // get the reg type here?
             futures::future::ok(ctrl_loop)
                 .and_then(ControlLoop::measure_any)
-                .and_then(ControlLoop::measure_float)
-                .and_then(ControlLoop::measure_reg)
                 .then(|res| match res {
                     Ok(mut ctrl_loop) => {
                         //write_to_csv(ctrl_loop.measurements.clone());
                         //for Some(measurement)
                         
-                        println!("Some {:?}", ctrl_loop.measurements);
-                        log::info!("{:?}", ctrl_loop.measurements.clone());
+                        //println!("Some {:?}", ctrl_loop.measurements);
+                        log::info!("{:?}", ctrl_loop.measurements);
                         ctrl_loop.config.next(); //increment the modbus reg read index
                         Either::A(futures::future::ok(ctrl_loop))
                     }
