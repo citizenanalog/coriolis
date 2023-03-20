@@ -42,42 +42,42 @@ pub fn broadcast_slave(
     context: &mut client::Context,
     slave: Slave,
 ) -> impl Future<Item = (), Error = Error> {
-    context.set_slave(BROADCAST_SLAVE);
+    context.set_slave(slave);
     let slave_id: SlaveId = slave.into();
     context.write_single_register(BROADCAST_REG_ADDR, u16::from(slave_id))
 }
 
-
 //generics
 // give it a u16 reg start and reg count argument
-pub fn read_generic(context: &mut client::Context,
+pub fn read_generic(
+    context: &mut client::Context,
     reg_start: u16,
     reg_count: u16,
-    reg_type: char,) -> impl Future<Item = Vec<u16>, Error = Error> {
+    reg_type: char,
+) -> impl Future<Item = Vec<u16>, Error = Error> {
     context
-    // match on reg_type and decode accordingly
+        // match on reg_type and decode accordingly
         .read_holding_registers(reg_start, reg_count)
-        
 }
 
-pub fn read_generic_with_timeout(context: &mut client::Context,
+pub fn read_generic_with_timeout(
+    context: &mut client::Context,
     timeout: Duration,
     reg_start: u16,
     reg_count: u16,
-    reg_type: char,) -> impl Future<Item = Vec<u16>, Error = Error> {
-    read_generic(context, reg_start, reg_count, reg_type).timeout(timeout).map_err(move |err| {
-        err.into_inner().unwrap_or_else(|| {
-            Error::new(
-                ErrorKind::TimedOut,
-                String::from("reading generic timed out"),
-            )
+    reg_type: char,
+) -> impl Future<Item = Vec<u16>, Error = Error> {
+    read_generic(context, reg_start, reg_count, reg_type)
+        .timeout(timeout)
+        .map_err(move |err| {
+            err.into_inner().unwrap_or_else(|| {
+                Error::new(
+                    ErrorKind::TimedOut,
+                    String::from("reading generic timed out"),
+                )
+            })
         })
-    })
 }
-
-
-
-
 
 pub struct SlaveProxy {
     slave: Slave,
@@ -120,7 +120,6 @@ impl SlaveProxy {
         }
     }
 
-
     pub fn read_generic(
         &self,
         timeout: Option<Duration>,
@@ -132,22 +131,22 @@ impl SlaveProxy {
             Ok(shared_context) => {
                 let mut context = shared_context.borrow_mut();
                 //context.set_slave(self.slave);
-                
+
                 future::Either::A(if let Some(timeout) = timeout {
-                    future::Either::A(read_generic_with_timeout(&mut context, timeout,reg_start,
+                    future::Either::A(read_generic_with_timeout(
+                        &mut context,
+                        timeout,
+                        reg_start,
                         reg_count,
-                        reg_type,))
+                        reg_type,
+                    ))
                 } else {
-                    future::Either::B(read_generic(&mut context,reg_start,
-                        reg_count,
-                        reg_type,))
+                    future::Either::B(read_generic(&mut context, reg_start, reg_count, reg_type))
                 })
             }
             Err(err) => future::Either::B(future::err(err)),
         }
     }
-
-
 }
 
 /*impl Capabilities for SlaveProxy {

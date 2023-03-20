@@ -1,0 +1,17 @@
+ComPort: [COM9]
+ModbusAddress: 111
+# Modbus Registers to read (decimal representation)
+Regs:
+  - 1200
+  - 1137
+  - 315
+  - 247
+  - 367
+  - 285
+  - 401
+  - 383
+# Time interval for control loop (ms)
+cycle_time: 1000
+# Control loop timeout (ms)
+timeout: 500
+

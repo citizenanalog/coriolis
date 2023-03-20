@@ -1,8 +1,8 @@
 #![cfg_attr(not(feature = "std"), no_std)]
-
 pub mod buildmap;
 /// The no_std enclave
 pub mod core;
+pub mod setup;
 pub use self::core::*;
 
 #[cfg(feature = "tokio-modbus-rtu")]

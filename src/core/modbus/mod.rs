@@ -55,8 +55,10 @@ fn decode_be_u32_from_bytes(input: &[u8]) -> DecodeResult<(u32, &[u8])> {
 
 pub fn count_calc(c: &char, n: u16) -> u16 {
     match c {
-        'A' => { n/2 }
-        _ => { n }
+        'A' => n / 2,
+        'U' => n/ 2,
+        'F' => 2,
+        _ => n,
     }
 }
 
@@ -106,7 +108,7 @@ pub fn decode_f_reg(read_bytes: Vec<u16>) -> DecodeResult<Float> {
 }
 //u8 to u32
 pub fn decode_u_reg(read_bytes: Vec<u16>) -> DecodeResult<Register> {
-    //println!("read_bytes.len(): {:?}",read_bytes.len());
+    println!("read_bytes.len(): {:?}",read_bytes.len());
     match read_bytes.len() {
         8 => {
             let msb_word: u16 = read_bytes[0];
@@ -115,8 +117,8 @@ pub fn decode_u_reg(read_bytes: Vec<u16>) -> DecodeResult<Register> {
             //don't swap u8's!
             let u16_word: u16 = (byte1 as u16) << 8 | byte2 as u16;
             println!("new_bytes: {:?}", u16_word);
-            let new_bytes = vec!(u16_word);
-            
+            let new_bytes = vec![u16_word];
+
             Ok(Register::from_byte(new_bytes))
         }
         _ => {
@@ -128,13 +130,14 @@ pub fn decode_u_reg(read_bytes: Vec<u16>) -> DecodeResult<Register> {
             let third_byte: u8 = (lsb_word >> 8) as u8;
             let fourth_byte: u8 = lsb_word as u8;
             //byte order is (3-4-1-2)
-            let new_bytes = vec![(third_byte as u16) << 8 | fourth_byte as u16, (first_byte as u16) << 8 | second_byte as u16];
+            let new_bytes = vec![
+                (first_byte as u16) << 8 | second_byte as u16,
+                (third_byte as u16) << 8 | fourth_byte as u16,
+            ];
             Ok(Register::from_byte(new_bytes))
         }
     }
 }
-
-
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub struct VolumetricWaterContentRaw(pub u16);
