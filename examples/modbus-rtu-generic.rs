@@ -160,7 +160,7 @@ pub fn main() {
             let reg_type: char = map_value.chars().nth(0).unwrap();
             //cut reg_count/2 if reg_type == 'A'
             let reg_count = count_calc(&reg_type, map_value[1..].parse::<u16>().unwrap());
-            println!("reg: {:?}", &reg_start);
+            //println!("reg: {:?}", &reg_start);
             self.proxy
                 .read_generic(
                     Some(self.config.timeout),
@@ -172,7 +172,7 @@ pub fn main() {
                 .then(move |res| match res {
                     Ok(val) => {
                         if reg_type == 'A' {
-                            println!("got a 'A'");
+                            //println!("got a 'A'");
                             let d = decode_generic_reg(val);
                             match d {
                                 Ok(res) => self.measurements.generic = Some(Measurement::new(res, reg_start)),
@@ -180,7 +180,7 @@ pub fn main() {
                             }
                             Ok(self)
                         } else if reg_type == 'U' {
-                            println!("got a 'U'");
+                            //println!("got a 'U'");
                             let d = decode_u_reg(val);
                             match d {
                                 Ok(res) => self.measurements.register = Some(Measurement::new(res, reg_start)),
@@ -188,7 +188,7 @@ pub fn main() {
                             }
                             Ok(self)
                         } else if reg_type == 'F' {
-                            println!("got a 'F'");
+                            //println!("got a 'F'");
                             let d = decode_f_reg(val);
                             match d {
                                 Ok(res) => self.measurements.float = Some(Measurement::new(res, reg_start)),
@@ -278,9 +278,19 @@ pub fn main() {
                     Ok(mut ctrl_loop) => {
                         //write_to_csv(ctrl_loop.measurements.clone());
                         //for Some(measurement)
-
+                        if let Some(generic) = ctrl_loop.measurements.generic.take() {
+                            println!("Generic: {:?}", generic);
+                        }
+                        
+                        else if let Some(register) = ctrl_loop.measurements.register.take() {
+                            println!("Register: {:?}", register);
+                        }
+                        
+                        else if let Some(float) = ctrl_loop.measurements.float.take() {
+                            println!("Float: {:?}", float);
+                        }
                         //println!("Some {:?}", ctrl_loop.measurements);
-                        log::info!("{:?}", ctrl_loop.measurements);
+                        //log::info!("{:?}", ctrl_loop.measurements);
                         ctrl_loop.config.next(); //increment the modbus reg read index
                         Either::A(futures::future::ok(ctrl_loop))
                     }

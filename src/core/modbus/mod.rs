@@ -108,7 +108,7 @@ pub fn decode_f_reg(read_bytes: Vec<u16>) -> DecodeResult<Float> {
 }
 //u8 to u32
 pub fn decode_u_reg(read_bytes: Vec<u16>) -> DecodeResult<Register> {
-    println!("read_bytes.len(): {:?}",read_bytes.len());
+    //println!("read_bytes.len(): {:?}",read_bytes.len());
     match read_bytes.len() {
         8 => {
             let msb_word: u16 = read_bytes[0];
@@ -116,7 +116,7 @@ pub fn decode_u_reg(read_bytes: Vec<u16>) -> DecodeResult<Register> {
             let byte2: u8 = msb_word as u8;
             //don't swap u8's!
             let u16_word: u16 = (byte1 as u16) << 8 | byte2 as u16;
-            println!("new_bytes: {:?}", u16_word);
+            //println!("new_bytes: {:?}", u16_word);
             let new_bytes = vec![u16_word];
 
             Ok(Register::from_byte(new_bytes))
