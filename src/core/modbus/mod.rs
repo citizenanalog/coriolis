@@ -56,7 +56,13 @@ fn decode_be_u32_from_bytes(input: &[u8]) -> DecodeResult<(u32, &[u8])> {
 pub fn count_calc(c: &char, n: u16) -> u16 {
     match c {
         'A' => n / 2,
-        'U' => n/ 2,
+        'U' => {
+            if n <= 16 {
+                1
+            } else {
+                2
+            }
+        }
         'F' => 2,
         _ => n,
     }
@@ -110,7 +116,7 @@ pub fn decode_f_reg(read_bytes: Vec<u16>) -> DecodeResult<Float> {
 pub fn decode_u_reg(read_bytes: Vec<u16>) -> DecodeResult<Register> {
     //println!("read_bytes.len(): {:?}",read_bytes.len());
     match read_bytes.len() {
-        8 => {
+        1 => {
             let msb_word: u16 = read_bytes[0];
             let byte1: u8 = (msb_word >> 8) as u8;
             let byte2: u8 = msb_word as u8;
@@ -129,7 +135,7 @@ pub fn decode_u_reg(read_bytes: Vec<u16>) -> DecodeResult<Register> {
             let lsb_word: u16 = read_bytes[1];
             let third_byte: u8 = (lsb_word >> 8) as u8;
             let fourth_byte: u8 = lsb_word as u8;
-            //byte order is (3-4-1-2)
+            //byte order is not (3-4-1-2)
             let new_bytes = vec![
                 (first_byte as u16) << 8 | second_byte as u16,
                 (third_byte as u16) << 8 | fourth_byte as u16,

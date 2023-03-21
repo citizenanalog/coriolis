@@ -1,6 +1,7 @@
 use coriolis::core::modbus::*;
 //{FW_REG_COUNT, decode_any_reg, decode_generic_reg};
 use std::collections::HashMap;
+use std::time::Instant;
 use tokio_modbus::slave;
 //#[cfg(feature = "modbus-rtu")]
 pub fn main() {
@@ -267,7 +268,8 @@ pub fn main() {
         wtr.flush()?;
         Ok(())
     }
-
+    let start = Instant::now();
+    //let elapsed = start.elapsed();
     let (_trigger, tripwire) = Tripwire::new();
     let cycle_interval = Interval::new_interval(ctrl_loop.config.cycle_time);
     let ctrl_loop_task = cycle_interval
@@ -284,7 +286,11 @@ pub fn main() {
                 .then(|res| match res {
                     Ok(mut ctrl_loop) => {
                         //write_to_csv(ctrl_loop.measurements.clone());
-                        //for Some(measurement)
+
+                        //let elapsed = start.elapsed();
+
+                        //println!("Elapsed time: {:?}", elapsed);
+
                         if let Some(generic) = ctrl_loop.measurements.generic.take() {
                             println!("Generic: {:?}", generic);
                         } else if let Some(register) = ctrl_loop.measurements.register.take() {
